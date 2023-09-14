@@ -1,9 +1,8 @@
 /**
- * Title of Project
- * Author Name
+ * Alien activity
+ * Catherine Zaloshnja
  * 
- * This is a template. You must fill in the title, author, 
- * and this description to match your project!
+ * cute alien uwu
  */
 
 "use strict";
@@ -20,6 +19,20 @@ function preload() {
  * Description of setup
 */
 function setup() {
+    createCanvas(500, 500);
+
+    background(134, 53, 189);
+
+    point(250, 250);
+
+    rectMode(CENTER);
+    rect(250,250,100,100);
+
+    line(0,0,500,500);
+
+    line(500,0,0,500);
+
+    ellipse(250, 250, 100, 100);
 
 }
 
