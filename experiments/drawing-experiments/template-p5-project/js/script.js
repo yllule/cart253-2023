@@ -23,16 +23,16 @@ function setup() {
 
     background(134, 53, 189);
 
-    point(250, 250);
+    stroke(65, 0, 200);
 
-    rectMode(CENTER);
-    rect(250,250,100,100);
+    point(250, 250);
 
     line(0,0,500,500);
 
     line(500,0,0,500);
 
-    ellipse(250, 250, 100, 100);
+    fill(12,60,200,100);
+    ellipse(250, 250, 100);
 
 }
 
