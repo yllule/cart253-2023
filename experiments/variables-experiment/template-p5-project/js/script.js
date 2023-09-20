@@ -17,7 +17,7 @@ function preload() {
  * Description of setup
 */
 function setup() {
-    createCanvas(500, 500);
+    createCanvas(windowWidth, windowHeight);
 
 }
 
@@ -26,8 +26,8 @@ function setup() {
  * Description of draw()
 */
 function draw() {
-    background(mouseY, mouseX, 0);
+    background(250, 0, 100);
     rectMode(CENTER);
-    rect(250, 250, mouseX, mouseY);
+    rect(width / 2, height / 2, mouseX, mouseY);
 
 }
