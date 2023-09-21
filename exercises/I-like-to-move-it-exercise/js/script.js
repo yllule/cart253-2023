@@ -1,12 +1,11 @@
 /**
  * I like to move it exercise
  * POV the earth is crashing into the sun, save yourself!
+ * i'll be honest, i kind of just played around and did whatever so it's very possible there might be some things in here that don't make any sense
  * Catherine Zaloshnja
  */
 
 "use strict";
-
-//let bg = 0;
 
 let ground = {
     r: 0,
@@ -76,12 +75,9 @@ let triangle5 = {
 }
 
 let player = {
-    x1: 250,
-    x2: 270,
-    x3: 260,
-    r: 200,
-    g: 225,
-    b: 250
+    r: 150,
+    g: 0,
+    b: 200
 }
 
 /**
@@ -109,37 +105,22 @@ function draw() {
     noStroke();
 
     //sun
-    sun.x = constrain(sun.x, 0, width);
-
-    //sun.size = map(mouseY, 0 ,height, 50, 500);
+    sun.size = constrain(sun.size, 0, 1000);
     sun.size = sun.size + sun.speed;
     fill(sun.r, sun.g, sun.b);
     sun.g = sun.g -1;
     sun.b = sun.b -1;
-    //sun.g = map(mouseY, 0, height, 250, 0, true);
-    //sun.b = map(mouseY, 0, height, 250, 0, true);
-    //originally i was gonna make the person control the sun size
     ellipse(sun.x, sun.y, sun.size);
 
-    //player
-    fill(0, 0, 0);
-    triangle(player.x1, 405, player.x2, 405, player.x3, 380);
-    player.x1 = map(mouseX, 0, width, 500, width, true);
-    player.x2 = map(mouseX, 0, width, 500, width, true);
-    player.x3 = map(mouseX, 0, width, 500, width, true);
-    //player.x2 = player.x2 + player.speed;
-    //player.x3 = player.x3 + player.speed;
 
     //ground
     fill(ground.r, ground.g, ground.b);
     ground.r = ground.r +1;
     ground.g = ground.g -1;
     ground.b = ground.b -1;
-    //ground.r = map(mouseY, 250, height, 0, 500);
     rect(0, 400, 500, 100);
-    //the ground color doesn't match the sun color but shhh
+    //the ground color doesn't match the sun color but shhh close enough
 
-    
 
     //triangles moving to the right
     fill(ground.r, ground.g, ground.b);
@@ -170,15 +151,11 @@ function draw() {
     triangle5.x2 = triangle5.x2 + triangle5.speed;
     triangle5.x3 = triangle5.x3 + triangle5.speed;
 
-    //background(backgroundShade);
-
-    //circle.x = circle.x + circle.speed;
-
-    //circle.speed = random(-5, 5);
-    //circle.fill = random(0,255);
-
-
-
-    
-
+    //player
+    let x2 = map(mouseX, 0, width, 0, 500);
+    fill(player.r, player.g, player.b);
+    player.r = player.r + 1;
+    player.g = player.g -1;
+    player.b = player.b -1;
+    ellipse(x2, 395, 25);
 }
