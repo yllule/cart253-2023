@@ -8,20 +8,17 @@
 
 "use strict";
 
-let bgShade = 0;
 let circle = {
-    x: 0,
-    y: 250,
-    size: 100,
-    speed: 1
-}
-let displayCircle = false;
+    x: undefined,
+    y: undefined,
+    size : 100
+};
 
-let caterpillar = {
-    x: 100,
+let dangerZone = {
+    x: 250,
     y: 250,
-    segmentSize: 50
-}
+    size: 150
+};
 
 /**
  * Description of preload
@@ -36,8 +33,18 @@ function preload() {
 */
 function setup() {
     createCanvas(500,500);
-}
 
+    circle.x = random (0, width);
+    circle.y = random (0, height);
+
+    let d = dist(circle.x, circle.y, dangerZone.x, dangerZone.y);
+    while (d < circle.size/2 + dangerZone.size/2) {
+        circle.x = random(0, width);
+        circle.y = random(0, height);
+        d = dist(circle.x, circle.y, dangerZone.x, dangerZone.y);
+    }
+
+}
 
 /**
  * Description of draw()
@@ -45,98 +52,15 @@ function setup() {
 
 
 function draw() {
-//    if (mouseIsPressed === true) {
-//        background(255);
-//    }
-//    else {
-//        background(0);
-//    }
-
-    //loops, tell a computer to do smth multiple times. while loop and for loop
     background(0);
 
+    //danger zone
+    noFill();
+    stroke(255, 0, 0);
+    ellipse(dangerZone.x, dangerZone.y, dangerZone.size);
+
+    fill(255);
     noStroke();
-    fill(100, 200, 100);
-    //while loop
-    //let x = caterpillar.x; // x = caterpillar.x
-    //let numSegments = 5;
-    //let segmentsDrawn = 0;
-    //while (segmentsDrawn < numSegments) {
-    //    ellipse(x, caterpillar.y, caterpillar.segmentSize);
-    //    x = x + 40;
-    //    segmentsDrawn = segmentsDrawn + 1;
-    //}
-
-
-    //for loop, i = segmentsDrawn
-    let x = caterpillar.x;
-    let numSegments = 10;
-
-    for (let i = 0; i < numSegments; i++) {
-        ellipse(x, caterpillar.y, segmentSize)
-        x = x + 40;
-    }
-
-    //if (mouseIsPressed) {
-    //    displayCircle = true;
-    //}
-    //if (displayCircle) {
-    //    ellipse(250, 250, 100, 100);
-    //}
-
-    //circle.x = circle.x + circle.speed;
-
-    //if (circle.x > width) {
-    //    circle.speed = -circle.speed;
-    //}
-
-    //if (circle.x < 0) {
-    //    circle.speed = -circle.speed; //the same line as before because you're saying here that the negative speed from previous if will become the opposite, therefore positive
-    //}
-
-    //checking out else
-    //if (mouseX < width/2) {
-    //    fill(255, 0, 0);
-    //}
-    //else {
-    //    fill(0,255, 0);
-    //}
-
-    //else if, to create multiple plans. you can add multiple else ifs
-    //if (mouseX < width/3) {
-    //    fill(255, 0, 0);
-    //}
-    //else if (mouseX < 2 * width/3) {
-    //    fill(0, 255, 0);
-    //}
-    //else {
-    //    fill(0, 0, 255);
-
-    //nested if statements AND if + and (both need to be true for smth to happen)
-    //fill(255, 255, 255);
-    //if(circle.x > width/3); {
-    //    if(circle.x > 2* width/3) {
-    //        fill(255, 0, 0);
-    //    }
-    //}
-
-    //if + and (both need to be true for smth to happen) a better way of writing ^
-    //fill(255, 255, 255);
-    //if (circle.x > width/3 && circle.x < 2* width/3) {
-    //    fill(255, 0, 0);
-    //}
-
-    //or symbol
-    //fill(255, 255, 255);
-    //if (circle.x < width/3 || circle.x > 2* width/3) {
-    //    fill(255, 0, 0);
-    //}
-
-    //not condition (negation)
-    //fill(255, 255, 255);
-    //if (!circle.x > width/3) {
-    //    fill(255, 0, 0);
-    //}
-
-    //ellipse(circle.x, circle.y, circle.size);
+    ellipse(circle.x, circle.y, circle.size);
+    
 }
