@@ -13,7 +13,7 @@ let circle = {
     x: 0,
     y: 250,
     size: 100,
-    speed: 5
+    speed: 1
 }
 
 /**
@@ -40,20 +40,56 @@ function draw() {
 
     circle.x = circle.x + circle.speed;
 
-    if (circle.x > width) {
-        circle.speed = -circle.speed;
-    }
+    //if (circle.x > width) {
+    //    circle.speed = -circle.speed;
+    //}
 
-    if (circle.x < 0) {
-        circle.speed = -circle.speed; //the same line as before because you're saying here that the negative speed from previous if will become the opposite, therefore positive
-    }
+    //if (circle.x < 0) {
+    //    circle.speed = -circle.speed; //the same line as before because you're saying here that the negative speed from previous if will become the opposite, therefore positive
+    //}
 
-    if (mouseY < height/2) {
+    //checking out else
+    //if (mouseX < width/2) {
+    //    fill(255, 0, 0);
+    //}
+    //else {
+    //    fill(0,255, 0);
+    //}
+
+    //else if, to create multiple plans. you can add multiple else ifs
+    //if (mouseX < width/3) {
+    //    fill(255, 0, 0);
+    //}
+    //else if (mouseX < 2 * width/3) {
+    //    fill(0, 255, 0);
+    //}
+    //else {
+    //    fill(0, 0, 255);
+
+    //nested if statements AND if + and (both need to be true for smth to happen)
+    //fill(255, 255, 255);
+    //if(circle.x > width/3); {
+    //    if(circle.x > 2* width/3) {
+    //        fill(255, 0, 0);
+    //    }
+    //}
+
+    //if + and (both need to be true for smth to happen) a better way of writing ^
+    //fill(255, 255, 255);
+    //if (circle.x > width/3 && circle.x < 2* width/3) {
+    //    fill(255, 0, 0);
+    //}
+
+    //or symbol
+    //fill(255, 255, 255);
+    //if (circle.x < width/3 || circle.x > 2* width/3) {
+    //    fill(255, 0, 0);
+    //}
+
+    //not condition (negation)
+    fill(255, 255, 255);
+    if (!circle.x > width/3) {
         fill(255, 0, 0);
-    }
-
-    if(mouseY > height/2) {
-        fill(0, 0, 255);
     }
 
     ellipse(circle.x, circle.y, circle.size);
