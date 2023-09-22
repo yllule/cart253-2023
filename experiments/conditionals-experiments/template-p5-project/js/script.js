@@ -17,6 +17,12 @@ let circle = {
 }
 let displayCircle = false;
 
+let caterpillar = {
+    x: 100,
+    y: 250,
+    segmentSize: 50
+}
+
 /**
  * Description of preload
 */
@@ -46,15 +52,37 @@ function draw() {
 //        background(0);
 //    }
 
-
+    //loops, tell a computer to do smth multiple times. while loop and for loop
     background(0);
 
-    if (mouseIsPressed) {
-        displayCircle = true;
+    noStroke();
+    fill(100, 200, 100);
+    //while loop
+    //let x = caterpillar.x; // x = caterpillar.x
+    //let numSegments = 5;
+    //let segmentsDrawn = 0;
+    //while (segmentsDrawn < numSegments) {
+    //    ellipse(x, caterpillar.y, caterpillar.segmentSize);
+    //    x = x + 40;
+    //    segmentsDrawn = segmentsDrawn + 1;
+    //}
+
+
+    //for loop, i = segmentsDrawn
+    let x = caterpillar.x;
+    let numSegments = 10;
+
+    for (let i = 0; i < numSegments; i++) {
+        ellipse(x, caterpillar.y, segmentSize)
+        x = x + 40;
     }
-    if (displayCircle) {
-        ellipse(250, 250, 100, 100);
-    }
+
+    //if (mouseIsPressed) {
+    //    displayCircle = true;
+    //}
+    //if (displayCircle) {
+    //    ellipse(250, 250, 100, 100);
+    //}
 
     //circle.x = circle.x + circle.speed;
 
@@ -110,5 +138,5 @@ function draw() {
     //    fill(255, 0, 0);
     //}
 
-    ellipse(circle.x, circle.y, circle.size);
+    //ellipse(circle.x, circle.y, circle.size);
 }
