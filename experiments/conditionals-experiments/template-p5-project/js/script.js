@@ -15,6 +15,7 @@ let circle = {
     size: 100,
     speed: 1
 }
+let displayCircle = false;
 
 /**
  * Description of preload
@@ -35,10 +36,27 @@ function setup() {
 /**
  * Description of draw()
 */
-function draw() {
-    background(bgShade);
 
-    circle.x = circle.x + circle.speed;
+
+function draw() {
+//    if (mouseIsPressed === true) {
+//        background(255);
+//    }
+//    else {
+//        background(0);
+//    }
+
+
+    background(0);
+
+    if (mouseIsPressed) {
+        displayCircle = true;
+    }
+    if (displayCircle) {
+        ellipse(250, 250, 100, 100);
+    }
+
+    //circle.x = circle.x + circle.speed;
 
     //if (circle.x > width) {
     //    circle.speed = -circle.speed;
@@ -87,11 +105,10 @@ function draw() {
     //}
 
     //not condition (negation)
-    fill(255, 255, 255);
-    if (!circle.x > width/3) {
-        fill(255, 0, 0);
-    }
+    //fill(255, 255, 255);
+    //if (!circle.x > width/3) {
+    //    fill(255, 0, 0);
+    //}
 
     ellipse(circle.x, circle.y, circle.size);
-
 }
