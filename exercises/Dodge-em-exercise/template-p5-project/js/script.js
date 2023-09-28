@@ -1,5 +1,5 @@
 /**
- * Dodging Covid-19 activity
+ * Dodge-em exercise
  * Catherine Zaloshnja
  */
 
@@ -7,25 +7,19 @@
 
 let clownImage;
 
-let covid19 = {
+let cat = {
     x: 0,
     y: 250,
     size: 100,
-    vx : 0,
+    vx: 0,
     vy: 0,
-    speed: 5,
-    fill: {
-        r:255,
-        g:0,
-        b:0,
-    }
+    speed: 2
 };
 
 let user = {
     x: 250,
     y: 250,
     size: 100,
-    fill: 255
 };
 
 let numStatic = 500;
@@ -44,8 +38,8 @@ function preload() {
 function setup() {
     createCanvas(windowWidth, windowHeight);
 
-    covid19.y = random(0, height);
-    covid19.vx = covid19.speed;
+    cat.y = random(0, height);
+    cat.vx = cat.speed;
 
     noCursor();
 }
@@ -66,31 +60,45 @@ function draw() {
     }
 
 
-
-    //Covid19 movement
-    covid19.x = covid19.x + covid19.vx;
-    covid19.y = covid19.y + covid19.vy;
-
-    if(covid19.x > width) {
-        covid19.x = 0;
-        covid19.y = random(0, height);
+    //Cat movement, following the mouse
+    if (mouseX < cat.x) {
+        cat.vx = -cat.speed;
+    }
+    else {
+        cat.vx = cat.speed;
     }
 
+    if (mouseY < cat.y) {
+        cat.vy = -cat.speed;
+    }
+    else {
+        cat.vy = cat.speed;
+    }
+
+    cat.x = cat.x + cat.vx;
+    cat.y = cat.y + cat.vy;
+    
     //User movement
     user.x = mouseX;
     user.y = mouseY;
 
-    //Check for catching covid19
-    let d = dist(user.x, user.y, covid19.x, covid19.y);
-    if (d < covid19.size/2 + user.size/2) {
+    //Check for getting eaten by cat
+    let d = dist(user.x, user.y, cat.x, cat.y);
+    if (d < cat.size/2 + user.size/2) {
         noLoop();
     }
+    print("the cat ate you!");
 
-    //Display covid19
-    fill(covid19.fill.r, covid19.fill.g, covid19.fill.b);
-    ellipse(covid19.x, covid19.y, covid19.size);
+    //Display cat
+    image(clownImage, cat.x, cat.y, 100, 100);
 
     //Display user
     imageMode(CENTER);
-    image(clownImage, mouseX, mouseY, 100, 100);
+    if(mouseX < width/2) {
+        image(clownImage, mouseX, mouseY, 100, 100);
+        //else {
+        //
+        //}
+    }
+
 }
