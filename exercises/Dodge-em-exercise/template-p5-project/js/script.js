@@ -5,7 +5,12 @@
 
 "use strict";
 
-let clownImage;
+//the images are mine. i drew them during class specifically for this exercise
+//cath and mouseh are the cat and mouse images but horizontally flipped
+let catImage;
+let cathImage;
+let mouseImage;
+let mousehImage;
 
 let cat = {
     x: 0,
@@ -13,7 +18,7 @@ let cat = {
     size: 100,
     vx: 0,
     vy: 0,
-    speed: 2
+    speed: 10
 };
 
 let user = {
@@ -28,7 +33,10 @@ let numStatic = 500;
  * Description of preload
 */
 function preload() {
-    clownImage = loadImage("assets/images/clown.png");
+    catImage = loadImage("assets/images/cat.png");
+    cathImage = loadImage("assets/images/cath.png")
+    mouseImage = loadImage("assets/images/mouse.png");
+    mousehImage = loadImage("assets/images/mouseh.png");
 }
 
 
@@ -38,7 +46,8 @@ function preload() {
 function setup() {
     createCanvas(windowWidth, windowHeight);
 
-    cat.y = random(0, height);
+    cat.x = width/2;
+    cat.y = height;
     cat.vx = cat.speed;
 
     noCursor();
@@ -49,13 +58,13 @@ function setup() {
  * Description of draw()
 */
 function draw() {
-    background(0);
+    background(33, 78, 58);
 
     //Display static
     for (let i = 0; i < numStatic; i++) {
         let x = random(0, width);
         let y = random(0, height);
-        stroke(255);
+        stroke(12, 43, 27);
         point(x, y);
     }
 
@@ -89,16 +98,21 @@ function draw() {
     }
     print("the cat ate you!");
 
-    //Display cat
-    image(clownImage, cat.x, cat.y, 100, 100);
+    //Display cat, will turn around to face mouse
+    if(user.x < cat.x) {
+    image(catImage, cat.x, cat.y, 150, 100);
+    }
+        else {
+            image(cathImage, cat.x, cat.y, 150, 100);
+        }
 
-    //Display user
+    //Display user, will turn around depending on mouseX position
     imageMode(CENTER);
     if(mouseX < width/2) {
-        image(clownImage, mouseX, mouseY, 100, 100);
-        //else {
-        //
-        //}
+        image(mouseImage, mouseX, mouseY, 150, 100);
     }
+        else {
+        image(mousehImage, mouseX, mouseY, 150, 100);
+        }
 
 }
