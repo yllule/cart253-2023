@@ -27,7 +27,7 @@ let user = {
     size: 100,
 };
 
-let numStatic = 500;
+let numGrass = 5;
 
 /**
  * Description of preload
@@ -60,12 +60,13 @@ function setup() {
 function draw() {
     background(33, 78, 58);
 
-    //Display static
-    for (let i = 0; i < numStatic; i++) {
+    //Grass movement/movement lines
+    for (let i = 0; i < numGrass; i++) {
         let x = random(0, width);
         let y = random(0, height);
-        stroke(12, 43, 27);
-        point(x, y);
+        noStroke();
+        fill(12, 43, 27);
+        ellipse(x, y, 25, 12);
     }
 
 
@@ -86,33 +87,37 @@ function draw() {
 
     cat.x = cat.x + cat.vx;
     cat.y = cat.y + cat.vy;
+
     
     //User movement
     user.x = mouseX;
     user.y = mouseY;
 
+
     //Check for getting eaten by cat
     let d = dist(user.x, user.y, cat.x, cat.y);
     if (d < cat.size/2 + user.size/2) {
         noLoop();
+        textSize(50);
+        fill(255);
+        text('You became cat dinner!', width/2, height/2);
     }
-    print("the cat ate you!");
 
     //Display cat, will turn around to face mouse
     if(user.x < cat.x) {
     image(catImage, cat.x, cat.y, 150, 100);
     }
-        else {
-            image(cathImage, cat.x, cat.y, 150, 100);
-        }
+     else {
+        image(cathImage, cat.x, cat.y, 150, 100);
+    }
 
     //Display user, will turn around depending on mouseX position
     imageMode(CENTER);
     if(mouseX < width/2) {
         image(mouseImage, mouseX, mouseY, 150, 100);
     }
-        else {
-        image(mousehImage, mouseX, mouseY, 150, 100);
-        }
+    else {
+    image(mousehImage, mouseX, mouseY, 150, 100);
+    }
 
 }
