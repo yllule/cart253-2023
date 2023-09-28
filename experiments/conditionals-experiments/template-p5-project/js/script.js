@@ -8,13 +8,18 @@
 
 "use strict";
 
-let angle = 0;
+let clown = {
+    x: 250,
+    y: 250,
+    size: 100,
+    image: undefined
+};
 
 /**
  * Description of preload
 */
 function preload() {
-
+    clown.image = loadImage("assets/images/clown.png");
 }
 
 
@@ -32,16 +37,14 @@ function setup() {
 
 
 function draw() {
-    background(127);
-    
-    push();
-    fill(255, 0, 0);
-    rectMode(CENTER);
-    translate(width/2, height/2);
-    rotate(angle);
-    scale(2);
-    rect(0, 0, 100, 100);
-    pop();
+    background(0);
 
-    angle = angle + 0.01;
+    clown.x = mouseX;
+    clown.y = mouseY;
+    imageMode(CENTER);
+    image(clown.image, clown.x, clown.y, clown.size, clown.size);
+}
+
+function mousePressed() {
+    clown.size = clown.size + 50;
 }
