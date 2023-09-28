@@ -5,6 +5,8 @@
 
 "use strict";
 
+let clownImage;
+
 let covid19 = {
     x: 0,
     y: 250,
@@ -32,7 +34,7 @@ let numStatic = 500;
  * Description of preload
 */
 function preload() {
-
+    clownImage = loadImage("assets/images/clown.png");
 }
 
 
@@ -89,6 +91,6 @@ function draw() {
     ellipse(covid19.x, covid19.y, covid19.size);
 
     //Display user
-    fill(user.fill);
-    ellipse(user.x, user.y, user.size);
+    imageMode(CENTER);
+    image(clownImage, mouseX, mouseY, 100, 100);
 }
