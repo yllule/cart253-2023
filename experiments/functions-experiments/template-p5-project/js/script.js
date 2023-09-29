@@ -18,6 +18,12 @@ function preload() {
 */
 function setup() {
     createCanvas(500, 500);
+
+    let hotCelsius = toCelsius(100);
+    console.log(`100 degrees Fahrenheit is ${hotCelsius} degrees Celsius`);
+
+    let coldCelsius = toCelsius(10);
+    console.log(`10 degrees Fahrenheit is ${coldCelsius} degrees Celsius`);
 }
 
 
@@ -27,19 +33,9 @@ function setup() {
 function draw() {
     background(0);
 
-    parallels(100, 100, 50);
-    parallels(50, 50, 100);
-    parallels(300, 400, 5);
-    parallels(250, 250, 15);
-    parallels(275, 275, 20);
 }
 
-function parallels(x, y, numLines) {
-    for (let i = 0; i < numLines; i++) {
-        noStroke();
-        fill(255);
-        rectMode(CENTER);
-        rect(x, y, 2, 150);
-        x = x + 10;
-    }
+function toCelsius(f) {
+    let celsius = (f - 32) * 5/9;
+    return celsius;
 }
