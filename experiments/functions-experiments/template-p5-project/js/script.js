@@ -5,6 +5,7 @@
 
 "use strict";
 
+
 /**
  * Description of preload
 */
@@ -19,11 +20,6 @@ function preload() {
 function setup() {
     createCanvas(500, 500);
 
-    let hotCelsius = toCelsius(100);
-    console.log(`100 degrees Fahrenheit is ${hotCelsius} degrees Celsius`);
-
-    let coldCelsius = toCelsius(10);
-    console.log(`10 degrees Fahrenheit is ${coldCelsius} degrees Celsius`);
 }
 
 
@@ -31,11 +27,13 @@ function setup() {
  * Description of draw()
 */
 function draw() {
-    background(0);
+    background(127);
 
-}
-
-function toCelsius(f) {
-    let celsius = (f - 32) * 5/9;
-    return celsius;
+    textStyle(BOLD);
+    textSize(200);
+    textAlign(CENTER, CENTER);
+    fill(100, 40, 200);
+    stroke(50, 200, 200);
+    strokeWeight(3);
+    text(`Hello, world!`, 250, 250);
 }
