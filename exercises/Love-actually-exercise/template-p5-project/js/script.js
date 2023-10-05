@@ -1,6 +1,7 @@
 /**
  * Go get that flower!
  * Catherine Zaloshnja
+ * All images are from me, drawn in class
  */
 
 "use strict";
@@ -24,6 +25,7 @@ let user = {
   let flower1 = {
     x: 0,
     y: 0,
+    centerSize: 50,
     size: 150,
     vx: 0,
     vy: 0,
@@ -33,6 +35,7 @@ let user = {
   let flower2 = {
     x: 1500,
     y: 0,
+    centerSize: 60,
     size: 175,
     vx: 0,
     vy: 0,
@@ -44,9 +47,16 @@ let user = {
     y: 0,
     size: 100,
     speed: 1,
-    r: 255,
-    g: 255,
-    b: 255
+    r: 254,
+    g: 204,
+    b: 86
+  }
+
+  function preload() {
+    beeImage = loadImage("assets/images/bee.png");
+    flower1Image = loadImage("assets/images/flower1.png");
+    flower2Image = loadImage("assets/images/flower2.png");
+    bgImage = loadImage("assets/images/bgg.png");
   }
   
   function setup() {
@@ -63,7 +73,9 @@ let user = {
   }
   
   function draw() {
-    background(0);
+    background(168, 221, 255);
+
+
 
         if (state === `title`) {
         title();
@@ -183,8 +195,11 @@ function timer() {
     //the sun setting will act as a timer for the player. they have to pollinate a bee before the sun sets otherwise its game over
     sun.x = sun.x + sun.speed;
     sun.y = sun.y + sun.speed;
+    push();
+    noStroke();
     fill(sun.r, sun.g, sun.b);
     ellipse (sun.x, sun.y, sun.size);
+    pop();
 }
 
 function checkTimer() {
@@ -195,18 +210,36 @@ function checkTimer() {
 }
 
 function display() {
+
+    //adding the background flowers
+    imageMode(CENTER);
+    image(bgImage, width/2, height/2);
+
     //user display
-    ellipse(user.x, user.y, user.size);
+    imageMode(CENTER);
+    image(beeImage, user.x, user.y, user.size, user.size);
   
       
-     //display flower1
-    fill(255);
-    ellipse(flower1.x, flower1.y, flower1.size);
+    //display flower1
+    push();
+    imageMode(CENTER);
+    image(flower1Image, flower1.x, flower1.y, flower1.size, flower1.size);
+    noStroke();
+    //the center of the flower. idk why i decided to make it an ellipse instead of just drawing it on my asset image?? it probably would have looked better but i'm too lazy to change the asset now
+    fill(246, 241, 168);
+    ellipse(flower1.x, flower1.y, flower1.centerSize);
+    pop();
   
   
     //display flower2
-    fill(255);
-    ellipse(flower2.x, flower2.y, flower2.size);
+    push();
+    imageMode(CENTER);
+    image(flower2Image, flower2.x, flower2.y, flower2.size, flower2.size);
+    noStroke();
+    //the center of the flower
+    fill(255, 168, 204);
+    ellipse(flower2.x, flower2.y, flower2.centerSize);
+    pop();
 }
 
 function checkTouch() {
