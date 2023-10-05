@@ -7,6 +7,11 @@
 
 let state = `title`; //can be : title, simulation, pollination, flyaway, sunset
 
+let beeImage;
+let bgImage;
+let flower1Image;
+let flower2Image;
+
 let user = {
     x: 0,
     y: 0,
