@@ -13,6 +13,12 @@ let bgImage;
 let flower1Image;
 let flower2Image;
 
+let bg = {
+    r: 168,
+    g: 221,
+    b: 255
+}
+
 let user = {
     x: 0,
     y: 0,
@@ -43,7 +49,7 @@ let user = {
   }
 
   let sun = {
-    x: 1000,
+    x: 250,
     y: 0,
     size: 100,
     speed: 1,
@@ -73,7 +79,7 @@ let user = {
   }
   
   function draw() {
-    background(168, 221, 255);
+    background(bg.r, bg.g, bg.b);
 
 
 
@@ -195,11 +201,18 @@ function timer() {
     //the sun setting will act as a timer for the player. they have to pollinate a bee before the sun sets otherwise its game over
     sun.x = sun.x + sun.speed;
     sun.y = sun.y + sun.speed;
+
+    //sun display
     push();
     noStroke();
     fill(sun.r, sun.g, sun.b);
     ellipse (sun.x, sun.y, sun.size);
     pop();
+
+    //sky turns redder as the sun sets
+    if (sun.x = sun.x + sun.speed) {
+        bg.r = bg.r + 0.1;
+    }
 }
 
 function checkTimer() {
