@@ -5,6 +5,8 @@
 
 "use strict";
 
+let state = `title`; //can be : title, simulation, pollination, flyaway, sunset
+
 let user = {
     x: 250,
     y: 250,
@@ -31,6 +33,15 @@ let user = {
     vy: 0,
     speed: 10
   }
+
+  let sun = {
+    x: 0,
+    y: 0,
+    size: 100,
+    vx: 0,
+    vy: 0,
+    speed: 1
+  }
   
   function setup() {
     createCanvas(2000, 1000);
@@ -47,6 +58,22 @@ let user = {
   
   function draw() {
     background(0);
+
+        if (state === `title`) {
+        title();
+    }
+    else if (state === `simulation`) {
+        simulation();
+    }
+    else if (state === `pollination`) {
+        pollination();
+    }
+    else if (state === `flyaway`) {
+        flyaway();
+    }
+    else if (state === `sunset`) {
+        sunset();
+    }
 
     //user movement (make it a function later) (tweak the movement later)
     //horizontal movement of the user, user vx cannot be 0 so that the bee is always flying (also to make it a little harder to control)
@@ -121,7 +148,32 @@ let user = {
     fill(255);
     ellipse(flower2.x, flower2.y, flower2.size);
 
+    //check if the user touches any flowers
+    let d1 = dist(user.x, user.y, flower1.x, flower1.y);
+    if (d1 < user.size/2 + flower1.size/2) {
+        state = `pollination`;
+    }
+    let d2 = dist(user.x, user.y, flower2.x, flower2.y);
+    if (d2 < user.size/2 + flower2.size/2) {
+        state = `pollination`;
+    }
+
   }
+
+  function title() {
+    push();
+    textSize(64);
+    fill(255, 255, 255);
+    textAlign(CENTER, CENTER);
+    text(`Use the arrow keys to pollinate a flower! Careful, it's windy.`, width/2, height/2);
+    pop();
+}
+
+function mousePressed() {
+    if (state === `title`) {
+        state = `simulation`;
+    }
+}
 
 
 //let circle1 = {
