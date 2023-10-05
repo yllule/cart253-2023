@@ -11,19 +11,44 @@ let user = {
     vx: 0,
     vy: 0,
     speed: 4,
-    size: 100
+    size: 50
+  };
+
+  let flower1 = {
+    x: 0,
+    y: 0,
+    size: 150,
+    vx: 0,
+    vy: 0,
+    speed: 6
+  };
+
+  let flower2 = {
+    x: 0,
+    y: 0,
+    size: 200,
+    vx: 0,
+    vy: 0,
+    speed: 10
   }
   
   function setup() {
-    createCanvas(windowWidth, windowHeight);
+    createCanvas(2000, 1000);
     user.x = width/2
     user.y = height/2
+
+    flower1.y = random(0, height);
+    flower1.vx = flower1.speed;
+
+    flower2.y = random(0, height);
+    flower2.vx = flower2.speed;
+    flower2.x = width/2
   }
   
   function draw() {
     background(0);
 
-    //user movement (make it a function later)
+    //user movement (make it a function later) (tweak the movement later)
     //horizontal movement of the user, user vx cannot be 0 so that the bee is always flying (also to make it a little harder to control)
     if (keyIsDown(LEFT_ARROW)) {
       user.vx = -user.speed;
@@ -51,6 +76,51 @@ let user = {
   
     //user display
     ellipse(user.x, user.y, user.size);
+
+    //flower1 movement
+    flower1.x = flower1.x + flower1.vx;
+    flower1.y = flower1.y + flower1.vy;
+
+    //since it's windy, i want the y position of the flowers to randomly change (this also makes the game a little harder). i went with 0.03 cause it looked the most "naturally" windy
+    let change = random();
+    if (change < 0.03) {
+        flower1.vy = random(-flower1.speed, flower1.speed);
+    }
+
+    //flower1 will go offscreen for a bit before resetting
+    let reset = width+300;
+
+    if (flower1.x > reset) {
+        flower1.x = 0;
+        flower1.y = random(0, height);
+    }
+
+    //display flower1
+    fill(255);
+    ellipse(flower1.x, flower1.y, flower1.size);
+
+    //flower2 movement
+
+    flower2.x = flower2.x + flower1.vx;
+    flower2.y = flower2.y + flower2.vy;
+
+    //adding the windyness to flower2
+    if (change < 0.03) {
+        flower2.vy = random(-flower2.speed, flower2.speed);
+    }
+
+    //flower2 will have a different reset rate than flower1
+    let reset2 = width+200;
+
+    if (flower2.x > reset2) {
+        flower2.x = 0;
+        flower2.y = random(0, height);
+    }
+
+    //display flower2
+    fill(255);
+    ellipse(flower2.x, flower2.y, flower2.size);
+
   }
 
 
