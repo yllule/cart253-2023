@@ -9,19 +9,24 @@
 let state = `title`; //can be : title, simulation, pollination, flyaway, sunset
 
 let beeImage;
-let bgImage = {
-    x: 0,
-    y: 0,
-    vx: 1
-}
+let bgImage;
 let flower1Image;
 let flower2Image;
 
+//setting up variables to have the bg scroll
+let bgImg = {
+    x: 1000,
+    y: 500,
+    vx: 1
+}
+
+//setting up variables to have the bg change color as the sun sets
 let bg = {
     r: 168,
     g: 221,
     b: 255
 }
+
 
 let user = {
     x: 0,
@@ -50,7 +55,7 @@ let user = {
     vx: 0,
     vy: 0,
     speed: 10
-  }
+  };
 
   let sun = {
     x: 250,
@@ -60,7 +65,7 @@ let user = {
     r: 254,
     g: 227,
     b: 165
-  }
+  };
 
   function preload() {
     beeImage = loadImage("assets/images/bee.png");
@@ -71,6 +76,7 @@ let user = {
   
   function setup() {
     createCanvas(2000, 1000);
+
     user.x = width/2
     user.y = height/2
 
@@ -80,6 +86,7 @@ let user = {
 
     flower2.y = random(0, height);
     flower2.vx = flower2.speed;
+
   }
   
   function draw() {
@@ -136,7 +143,7 @@ function simulation() {
     checkOffscreen();
     checkTouch();
     checkTimer();
-    display(); 
+    display();
 }
 
 function move() {
@@ -185,6 +192,9 @@ function flowers() {
         flower2.x = 0;
         flower2.y = random(0, height);
     }
+
+    //bg flowers moving
+    bgImg.x = bgImg.x + bgImg.vx;
 }
 
 function timer() {
@@ -203,6 +213,7 @@ function timer() {
     if (sun.x = sun.x + sun.speed) {
         bg.r = bg.r + 0.1;
     }
+
 }
 
 function checkTimer() {
@@ -215,9 +226,7 @@ function checkTimer() {
 function display() {
 
     //image for the background flowers
-    imageMode(CENTER);
-    image(bgImage, width/2, height/2);
-
+    image(bgImage, bgImg.x, bgImg.y);
 
     //user display
     imageMode(CENTER);
