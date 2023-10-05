@@ -8,8 +8,8 @@
 let state = `title`; //can be : title, simulation, pollination, flyaway, sunset
 
 let user = {
-    x: 250,
-    y: 250,
+    x: 0,
+    y: 0,
     vx: 0,
     vy: 0,
     speed: 4,
@@ -26,21 +26,22 @@ let user = {
   };
 
   let flower2 = {
-    x: 0,
+    x: 1500,
     y: 0,
-    size: 200,
+    size: 175,
     vx: 0,
     vy: 0,
     speed: 10
   }
 
   let sun = {
-    x: 0,
+    x: 1000,
     y: 0,
     size: 100,
-    vx: 0,
-    vy: 0,
-    speed: 1
+    speed: 1,
+    r: 255,
+    g: 255,
+    b: 255
   }
   
   function setup() {
@@ -48,12 +49,12 @@ let user = {
     user.x = width/2
     user.y = height/2
 
+    //when the flower position resets, the y will be random on every reset
     flower1.y = random(0, height);
     flower1.vx = flower1.speed;
 
     flower2.y = random(0, height);
     flower2.vx = flower2.speed;
-    flower2.x = width/2
   }
   
   function draw() {
@@ -78,26 +79,33 @@ let user = {
     
   }
 
+  //i've ordered the functions chronologically, starting with the title, then all the simulation related functions, and the ending functions at the end
+
   function title() {
+    //title screen
     push();
     textSize(64);
     fill(255, 255, 255);
     textAlign(CENTER, CENTER);
-    text(`Use the arrow keys to pollinate a flower! Careful, it's windy.`, width/2, height/2);
+    text(`Use the arrow keys to land on a flower! Careful, it's windy. Click to start.`, width/2, height/2);
     pop();
 }
 
 function mousePressed() {
+    //press the mouse to start the game
     if (state === `title`) {
         state = `simulation`;
     }
 }
 
 function simulation() {
+    //everything that happens during the simulation
     move();
     flowers();
-    //checkOffScreen();
+    timer();
+    checkOffscreen();
     checkTouch();
+    checkTimer();
     display(); 
 }
 
@@ -166,6 +174,21 @@ function flowers() {
     }
 }
 
+function timer() {
+    //the sun setting will act as a timer for the player. they have to pollinate a bee before the sun sets otherwise its game over
+    sun.x = sun.x + sun.speed;
+    sun.y = sun.y + sun.speed;
+    fill(sun.r, sun.g, sun.b);
+    ellipse (sun.x, sun.y, sun.size);
+}
+
+function checkTimer() {
+    //checking if the sun has gone underneath the canvas, meaning that it has set
+    if (sun.y > height) {
+        state = `sunset`;
+    }
+}
+
 function display() {
     //user display
     ellipse(user.x, user.y, user.size);
@@ -192,7 +215,40 @@ function checkTouch() {
        state = `pollination`;
     }
 }
+
+function checkOffscreen() {
+    //check if the user have gone offscreen
+    if (user.x < 0 || user.x > width || user.y < 0 || user.y > height) {
+    state = `flyaway`;
+    }
+}
   
+function pollination() {
+    push();
+    textSize(64);
+    fill(255, 255, 255);
+    textAlign(CENTER, CENTER);
+    text(`Congratulations! You pollinated a flower.`, width/2, height/2);
+    pop();
+}
+
+function flyaway() {
+    push();
+    textSize(64);
+    fill(255, 255, 255);
+    textAlign(CENTER, CENTER);
+    text(`You flew away! :(`, width/2, height/2);
+    pop();
+}
+
+function sunset() {
+    push();
+    textSize(64);
+    fill(255, 255, 255);
+    textAlign(CENTER, CENTER);
+    text(`The sun set and you weren't able to pollinate a flower in time! :(`, width/2, height/2);
+    pop();
+}
 
 //let circle1 = {
 //    x: undefined,
