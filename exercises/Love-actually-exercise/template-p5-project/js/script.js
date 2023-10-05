@@ -110,7 +110,7 @@ function simulation() {
 }
 
 function move() {
-    //user movement (might tweak the movement later, which is why some code is commented)
+    //user movement (might tweak the movement later, which is why some code is commented) **currently the bee can only move vertically to make the game harder
     //horizontal movement of the user, user vx cannot be 0 so that the bee is always flying (also to make it a little harder to control)
     //if (keyIsDown(LEFT_ARROW)) {
     //    user.vx = -user.speed;
