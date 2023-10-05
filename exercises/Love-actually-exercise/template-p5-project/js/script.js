@@ -92,7 +92,7 @@ let user = {
   function draw() {
     background(bg.r, bg.g, bg.b);
 
-        if (state === `title`) {
+    if (state === `title`) {
         title();
     }
     else if (state === `simulation`) {
@@ -147,7 +147,7 @@ function simulation() {
 }
 
 function move() {
-      // vertical movement of the user, user keeps moving (mostly just to make this a little harder)
+      // vertical movement of the user
       if (keyIsDown(UP_ARROW)) {
         user.vy = -user.speed;
       }
