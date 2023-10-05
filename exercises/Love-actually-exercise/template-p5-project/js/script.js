@@ -75,89 +75,7 @@ let user = {
         sunset();
     }
 
-    //user movement (make it a function later) (tweak the movement later)
-    //horizontal movement of the user, user vx cannot be 0 so that the bee is always flying (also to make it a little harder to control)
-    if (keyIsDown(LEFT_ARROW)) {
-      user.vx = -user.speed;
-    }
-    else if (keyIsDown(RIGHT_ARROW)) {
-      user.vx = user.speed;
-    }
-    //else {
-    //  user.vx = 0;
-    //}
-  
-    // vertical movement of the user, same thing as with vx, user vy cannot be 0
-    if (keyIsDown(UP_ARROW)) {
-      user.vy = -user.speed;
-    }
-    else if (keyIsDown(DOWN_ARROW)) {
-      user.vy = user.speed;
-    }
-    //else {
-    //  user.vy = 0;
-    //}
-  
-    user.x = user.x + user.vx;
-    user.y = user.y + user.vy;
-  
-    //user display
-    ellipse(user.x, user.y, user.size);
-
-    //flower1 movement
-    flower1.x = flower1.x + flower1.vx;
-    flower1.y = flower1.y + flower1.vy;
-
-    //since it's windy, i want the y position of the flowers to randomly change (this also makes the game a little harder). i went with 0.03 cause it looked the most "naturally" windy
-    let change = random();
-    if (change < 0.03) {
-        flower1.vy = random(-flower1.speed, flower1.speed);
-    }
-
-    //flower1 will go offscreen for a bit before resetting
-    let reset = width+300;
-
-    if (flower1.x > reset) {
-        flower1.x = 0;
-        flower1.y = random(0, height);
-    }
-
-    //display flower1
-    fill(255);
-    ellipse(flower1.x, flower1.y, flower1.size);
-
-    //flower2 movement
-
-    flower2.x = flower2.x + flower1.vx;
-    flower2.y = flower2.y + flower2.vy;
-
-    //adding the windyness to flower2
-    if (change < 0.03) {
-        flower2.vy = random(-flower2.speed, flower2.speed);
-    }
-
-    //flower2 will have a different reset rate than flower1
-    let reset2 = width+200;
-
-    if (flower2.x > reset2) {
-        flower2.x = 0;
-        flower2.y = random(0, height);
-    }
-
-    //display flower2
-    fill(255);
-    ellipse(flower2.x, flower2.y, flower2.size);
-
-    //check if the user touches any flowers
-    let d1 = dist(user.x, user.y, flower1.x, flower1.y);
-    if (d1 < user.size/2 + flower1.size/2) {
-        state = `pollination`;
-    }
-    let d2 = dist(user.x, user.y, flower2.x, flower2.y);
-    if (d2 < user.size/2 + flower2.size/2) {
-        state = `pollination`;
-    }
-
+    
   }
 
   function title() {
@@ -175,6 +93,106 @@ function mousePressed() {
     }
 }
 
+function simulation() {
+    move();
+    flowers();
+    //checkOffScreen();
+    checkTouch();
+    display(); 
+}
+
+function move() {
+    //user movement (might tweak the movement later, which is why some code is commented)
+    //horizontal movement of the user, user vx cannot be 0 so that the bee is always flying (also to make it a little harder to control)
+    if (keyIsDown(LEFT_ARROW)) {
+        user.vx = -user.speed;
+      }
+      else if (keyIsDown(RIGHT_ARROW)) {
+        user.vx = user.speed;
+      }
+      //else {
+      //  user.vx = 0;
+      //}
+    
+      // vertical movement of the user, same thing as with vx, user vy cannot be 0
+      if (keyIsDown(UP_ARROW)) {
+        user.vy = -user.speed;
+      }
+      else if (keyIsDown(DOWN_ARROW)) {
+        user.vy = user.speed;
+      }
+      //else {
+      //  user.vy = 0;
+      //}
+    
+      user.x = user.x + user.vx;
+      user.y = user.y + user.vy;
+}
+
+function flowers() {
+    //flower1 movement
+    flower1.x = flower1.x + flower1.vx;
+    flower1.y = flower1.y + flower1.vy;
+
+    //since it's windy, i want the y position of the flowers to randomly change (this also makes the game a little harder). i went with 0.03 cause it looked the most "naturally" windy
+    let change = random();
+    if (change < 0.03) {
+        flower1.vy = random(-flower1.speed, flower1.speed);
+    }
+
+    //flower1 will go offscreen for a bit before resetting
+    let reset = width+300;
+
+    if (flower1.x > reset) {
+        flower1.x = 0;
+        flower1.y = random(0, height);
+    }
+    //flower2 movement
+  
+    flower2.x = flower2.x + flower1.vx;
+    flower2.y = flower2.y + flower2.vy;
+  
+    //adding the windyness to flower2
+    if (change < 0.03) {
+        flower2.vy = random(-flower2.speed, flower2.speed);
+    }
+  
+    //flower2 will have a different reset rate than flower1
+    let reset2 = width+200;
+  
+    if (flower2.x > reset2) {
+        flower2.x = 0;
+        flower2.y = random(0, height);
+    }
+}
+
+function display() {
+    //user display
+    ellipse(user.x, user.y, user.size);
+  
+      
+     //display flower1
+    fill(255);
+    ellipse(flower1.x, flower1.y, flower1.size);
+  
+  
+    //display flower2
+    fill(255);
+    ellipse(flower2.x, flower2.y, flower2.size);
+}
+
+function checkTouch() {
+    //check if the user touches any flowers
+    let d1 = dist(user.x, user.y, flower1.x, flower1.y);
+    if (d1 < user.size/2 + flower1.size/2) {
+       state = `pollination`;
+    }
+    let d2 = dist(user.x, user.y, flower2.x, flower2.y);
+    if (d2 < user.size/2 + flower2.size/2) {
+       state = `pollination`;
+    }
+}
+  
 
 //let circle1 = {
 //    x: undefined,
