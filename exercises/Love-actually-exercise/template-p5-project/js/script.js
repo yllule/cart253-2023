@@ -9,7 +9,11 @@
 let state = `title`; //can be : title, simulation, pollination, flyaway, sunset
 
 let beeImage;
-let bgImage;
+let bgImage = {
+    x: 0,
+    y: 0,
+    vx: 1
+}
 let flower1Image;
 let flower2Image;
 
@@ -54,8 +58,8 @@ let user = {
     size: 100,
     speed: 1,
     r: 254,
-    g: 204,
-    b: 86
+    g: 227,
+    b: 165
   }
 
   function preload() {
@@ -81,8 +85,6 @@ let user = {
   function draw() {
     background(bg.r, bg.g, bg.b);
 
-
-
         if (state === `title`) {
         title();
     }
@@ -107,10 +109,15 @@ let user = {
   function title() {
     //title screen
     push();
-    textSize(64);
-    fill(255, 255, 255);
+    textSize(55);
+    fill(78, 61, 158);
     textAlign(CENTER, CENTER);
-    text(`Use the arrow keys to land on a flower! Careful, it's windy. Click to start.`, width/2, height/2);
+    textFont('Georgia');
+    text(`Go get that flower! Careful, it's windy.`, width/2, height/2);
+    textSize(35);
+    text(`Use up and down arrow keys to fly. Click to start.`, width/2, height/2+75);
+    textSize(20);
+    text(`Good luck :-)`, width/2, height/2+125);
     pop();
 }
 
@@ -133,30 +140,13 @@ function simulation() {
 }
 
 function move() {
-    //user movement (might tweak the movement later, which is why some code is commented) **currently the bee can only move vertically to make the game harder
-    //horizontal movement of the user, user vx cannot be 0 so that the bee is always flying (also to make it a little harder to control)
-    //if (keyIsDown(LEFT_ARROW)) {
-    //    user.vx = -user.speed;
-    //  }
-    //  else if (keyIsDown(RIGHT_ARROW)) {
-    //    user.vx = user.speed;
-    //  }
-      //else {
-      //  user.vx = 0;
-      //}
-    
-      // vertical movement of the user, same thing as with vx, user vy cannot be 0
+      // vertical movement of the user, user keeps moving (mostly just to make this a little harder)
       if (keyIsDown(UP_ARROW)) {
         user.vy = -user.speed;
       }
       else if (keyIsDown(DOWN_ARROW)) {
         user.vy = user.speed;
       }
-      //else {
-      //  user.vy = 0;
-      //}
-    
-     // user.x = user.x + user.vx;
       user.y = user.y + user.vy;
 }
 
@@ -224,9 +214,10 @@ function checkTimer() {
 
 function display() {
 
-    //adding the background flowers
+    //image for the background flowers
     imageMode(CENTER);
     image(bgImage, width/2, height/2);
+
 
     //user display
     imageMode(CENTER);
@@ -276,27 +267,30 @@ function checkOffscreen() {
   
 function pollination() {
     push();
-    textSize(64);
-    fill(255, 255, 255);
+    textSize(55);
+    fill(78, 61, 158);
     textAlign(CENTER, CENTER);
+    textFont('Georgia');
     text(`Congratulations! You pollinated a flower.`, width/2, height/2);
     pop();
 }
 
 function flyaway() {
     push();
-    textSize(64);
-    fill(255, 255, 255);
+    textSize(55);
+    fill(78, 61, 158);
     textAlign(CENTER, CENTER);
+    textFont('Georgia');
     text(`You flew away! :(`, width/2, height/2);
     pop();
 }
 
 function sunset() {
     push();
-    textSize(64);
-    fill(255, 255, 255);
+    textSize(55);
+    fill(78, 61, 158);
     textAlign(CENTER, CENTER);
+    textFont('Georgia');
     text(`The sun set and you weren't able to pollinate a flower in time! :(`, width/2, height/2);
     pop();
 }
