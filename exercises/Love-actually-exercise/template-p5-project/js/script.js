@@ -112,12 +112,12 @@ function simulation() {
 function move() {
     //user movement (might tweak the movement later, which is why some code is commented)
     //horizontal movement of the user, user vx cannot be 0 so that the bee is always flying (also to make it a little harder to control)
-    if (keyIsDown(LEFT_ARROW)) {
-        user.vx = -user.speed;
-      }
-      else if (keyIsDown(RIGHT_ARROW)) {
-        user.vx = user.speed;
-      }
+    //if (keyIsDown(LEFT_ARROW)) {
+    //    user.vx = -user.speed;
+    //  }
+    //  else if (keyIsDown(RIGHT_ARROW)) {
+    //    user.vx = user.speed;
+    //  }
       //else {
       //  user.vx = 0;
       //}
@@ -133,7 +133,7 @@ function move() {
       //  user.vy = 0;
       //}
     
-      user.x = user.x + user.vx;
+     // user.x = user.x + user.vx;
       user.y = user.y + user.vy;
 }
 
