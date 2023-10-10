@@ -1,6 +1,7 @@
 /**
  * Go get that flower!
  * Catherine Zaloshnja
+ * All images are from me, drawn in class
  */
 
 "use strict";
@@ -11,6 +12,21 @@ let beeImage;
 let bgImage;
 let flower1Image;
 let flower2Image;
+
+//setting up variables to have the bg scroll
+let bgImg = {
+    x: 1000,
+    y: 500,
+    vx: 1
+}
+
+//setting up variables to have the bg change color as the sun sets
+let bg = {
+    r: 168,
+    g: 221,
+    b: 255
+}
+
 
 let user = {
     x: 0,
@@ -24,6 +40,7 @@ let user = {
   let flower1 = {
     x: 0,
     y: 0,
+    centerSize: 50,
     size: 150,
     vx: 0,
     vy: 0,
@@ -33,24 +50,33 @@ let user = {
   let flower2 = {
     x: 1500,
     y: 0,
+    centerSize: 60,
     size: 175,
     vx: 0,
     vy: 0,
     speed: 10
-  }
+  };
 
   let sun = {
-    x: 1000,
+    x: 250,
     y: 0,
     size: 100,
     speed: 1,
-    r: 255,
-    g: 255,
-    b: 255
+    r: 254,
+    g: 227,
+    b: 165
+  };
+
+  function preload() {
+    beeImage = loadImage("assets/images/bee.png");
+    flower1Image = loadImage("assets/images/flower1.png");
+    flower2Image = loadImage("assets/images/flower2.png");
+    bgImage = loadImage("assets/images/bgg.png");
   }
   
   function setup() {
     createCanvas(2000, 1000);
+
     user.x = width/2
     user.y = height/2
 
@@ -60,12 +86,13 @@ let user = {
 
     flower2.y = random(0, height);
     flower2.vx = flower2.speed;
+
   }
   
   function draw() {
-    background(0);
+    background(bg.r, bg.g, bg.b);
 
-        if (state === `title`) {
+    if (state === `title`) {
         title();
     }
     else if (state === `simulation`) {
@@ -89,10 +116,15 @@ let user = {
   function title() {
     //title screen
     push();
-    textSize(64);
-    fill(255, 255, 255);
+    textSize(55);
+    fill(78, 61, 158);
     textAlign(CENTER, CENTER);
-    text(`Use the arrow keys to land on a flower! Careful, it's windy. Click to start.`, width/2, height/2);
+    textFont('Georgia');
+    text(`Go get that flower! Careful, it's windy.`, width/2, height/2);
+    textSize(35);
+    text(`Use up and down arrow keys to fly. Click to start.`, width/2, height/2+75);
+    textSize(20);
+    text(`Good luck :-)`, width/2, height/2+125);
     pop();
 }
 
@@ -111,34 +143,17 @@ function simulation() {
     checkOffscreen();
     checkTouch();
     checkTimer();
-    display(); 
+    display();
 }
 
 function move() {
-    //user movement (might tweak the movement later, which is why some code is commented) **currently the bee can only move vertically to make the game harder
-    //horizontal movement of the user, user vx cannot be 0 so that the bee is always flying (also to make it a little harder to control)
-    //if (keyIsDown(LEFT_ARROW)) {
-    //    user.vx = -user.speed;
-    //  }
-    //  else if (keyIsDown(RIGHT_ARROW)) {
-    //    user.vx = user.speed;
-    //  }
-      //else {
-      //  user.vx = 0;
-      //}
-    
-      // vertical movement of the user, same thing as with vx, user vy cannot be 0
+      // vertical movement of the user
       if (keyIsDown(UP_ARROW)) {
         user.vy = -user.speed;
       }
       else if (keyIsDown(DOWN_ARROW)) {
         user.vy = user.speed;
       }
-      //else {
-      //  user.vy = 0;
-      //}
-    
-     // user.x = user.x + user.vx;
       user.y = user.y + user.vy;
 }
 
@@ -177,14 +192,28 @@ function flowers() {
         flower2.x = 0;
         flower2.y = random(0, height);
     }
+
+    //bg flowers moving
+    bgImg.x = bgImg.x + bgImg.vx;
 }
 
 function timer() {
     //the sun setting will act as a timer for the player. they have to pollinate a bee before the sun sets otherwise its game over
     sun.x = sun.x + sun.speed;
     sun.y = sun.y + sun.speed;
+
+    //sun display
+    push();
+    noStroke();
     fill(sun.r, sun.g, sun.b);
     ellipse (sun.x, sun.y, sun.size);
+    pop();
+
+    //sky turns redder as the sun sets
+    if (sun.x = sun.x + sun.speed) {
+        bg.r = bg.r + 0.1;
+    }
+
 }
 
 function checkTimer() {
@@ -195,18 +224,35 @@ function checkTimer() {
 }
 
 function display() {
+
+    //image for the background flowers
+    image(bgImage, bgImg.x, bgImg.y);
+
     //user display
-    ellipse(user.x, user.y, user.size);
+    imageMode(CENTER);
+    image(beeImage, user.x, user.y, user.size, user.size);
   
       
-     //display flower1
-    fill(255);
-    ellipse(flower1.x, flower1.y, flower1.size);
+    //display flower1
+    push();
+    imageMode(CENTER);
+    image(flower1Image, flower1.x, flower1.y, flower1.size, flower1.size);
+    noStroke();
+    //the center of the flower. idk why i decided to make it an ellipse instead of just drawing it on my asset image?? it probably would have looked better but i'm too lazy to change the asset now
+    fill(246, 241, 168);
+    ellipse(flower1.x, flower1.y, flower1.centerSize);
+    pop();
   
   
     //display flower2
-    fill(255);
-    ellipse(flower2.x, flower2.y, flower2.size);
+    push();
+    imageMode(CENTER);
+    image(flower2Image, flower2.x, flower2.y, flower2.size, flower2.size);
+    noStroke();
+    //the center of the flower
+    fill(255, 168, 204);
+    ellipse(flower2.x, flower2.y, flower2.centerSize);
+    pop();
 }
 
 function checkTouch() {
@@ -230,27 +276,30 @@ function checkOffscreen() {
   
 function pollination() {
     push();
-    textSize(64);
-    fill(255, 255, 255);
+    textSize(55);
+    fill(78, 61, 158);
     textAlign(CENTER, CENTER);
+    textFont('Georgia');
     text(`Congratulations! You pollinated a flower.`, width/2, height/2);
     pop();
 }
 
 function flyaway() {
     push();
-    textSize(64);
-    fill(255, 255, 255);
+    textSize(55);
+    fill(78, 61, 158);
     textAlign(CENTER, CENTER);
+    textFont('Georgia');
     text(`You flew away! :(`, width/2, height/2);
     pop();
 }
 
 function sunset() {
     push();
-    textSize(64);
-    fill(255, 255, 255);
+    textSize(55);
+    fill(78, 61, 158);
     textAlign(CENTER, CENTER);
+    textFont('Georgia');
     text(`The sun set and you weren't able to pollinate a flower in time! :(`, width/2, height/2);
     pop();
 }
