@@ -11,13 +11,12 @@
 let buttonCast = {
   x: undefined,
   y: undefined,
-  width: 225,
+  width: 250,
   height: 75,
   //text position
   textX: undefined,
   textY: undefined,
-  offsetX: 0,
-  offsetY: 0,
+  isBeingPressed: false,
   sizeChangeAmount: 5
 };
 
@@ -25,13 +24,12 @@ let buttonCast = {
 let buttonHook = {
   x: undefined,
   y: undefined,
-  width: 225,
+  width: 250,
   height: 75,
   //text position
   textX: undefined,
   textY: undefined,
-  offsetX: 0,
-  offsetY: 0,
+  isBeingPressed: false,
   sizeChangeAmount: 5
 };
 
@@ -68,8 +66,37 @@ function setup() {
 */
 function draw() {
   background(0);
+  drawButtonCast();
+  drawButtonHook();
+
+  //if(mouseX >= buttonCast.x - buttonCast.width/2 && mouseX <= buttonCast.x + buttonCast.width/2 && mouseY >= buttonCast.y - buttonCast.height/2 && mouseY <= buttonCast.y + buttonCast.height/2 && mouseClicked == true) { //check if mouse is inside the cast button + if mouse is pressed
+  //  buttonCast.isBeingPressed = true;
+  //  buttonCast.width = buttonCast.width -= buttonCast.sizeChangeAmount;
+  //  buttonCast.height = buttonCast.height -= buttonCast.sizeChangeAmount;
+  //  chooseFish();
+  //}
+  //else {
+  //  buttonCast.isBeingPressed = false;
+    //buttonCast.width = 250;
+    //buttonCast.height = 75;
+  //}
+
+  //if(mouseX >= buttonHook.x - buttonHook.width/2 && mouseX <= buttonHook.x + buttonHook.width/2 && mouseY >= buttonHook.y - buttonHook.height/2 && mouseY <= buttonHook.y + buttonHook.height/2 && mouseClicked == true) { //check if mouse is inside the hook button + if mouse is pressed
+  //  buttonHook.isBeingPressed = true;
+  //  buttonHook.width = buttonHook.width -= buttonHook.sizeChangeAmount;
+  //  buttonHook.height = buttonHook.height -= buttonHook.sizeChangeAmount;
+  //  hookFish();
+  //}
+
+  //if(mouseX >= buttonCast.x - buttonCast.width/2 && mouseX <= buttonCast.x + buttonCast.width/2 && mouseY >= buttonCast.y - buttonCast.height/2 && mouseY <= buttonCast.y + buttonCast.height/2 && mouseReleased == true) {
+  //  buttonCast.width = buttonCast.width += buttonCast.sizeChangeAmount;
+  //  buttonCast.height = buttonCast.height += buttonCast.sizeChangeAmount;
+  //}
+}
 
 
+
+function drawButtonCast() {
 //display of cast button
   push();
   noStroke();
@@ -85,7 +112,9 @@ function draw() {
   fill(255, 0, 0);
   text('Cast line', buttonCast.textX, buttonCast.textY);
   pop();
+}
 
+function drawButtonHook() {
 //display of hook button
   push();
   noStroke();
@@ -101,5 +130,48 @@ function draw() {
   fill(0);
   text('Hook', buttonHook.textX, buttonHook.textY);
   pop();
+}
+
+function mouseInsideButtonCast() {
+  //let d = dist(mouseX, mouseY, buttonCast.x, buttonCast.y);
+  if (mouseX >= buttonCast.x - buttonCast.width/2 && mouseX <= buttonCast.x + buttonCast.width/2 && mouseY >= buttonCast.y - buttonCast.height/2 && mouseY <= buttonCast.y + buttonCast.height/2) { //check if mouse is inside the cast button
+    return true;
+  } 
+  else {
+    return false;
+  }
+}
+
+function mousePressed() {
+  // Only respond to the mouse click if the shape is active
+  // and the mouse is in the shape
+  if (mouseInsideButtonCast()) {
+    buttonCast.isBeingPressed = true;
+    // Remember the offset of the shape's centre relative to the mouse
+    // Make the shape a bit smaller for feedback
+    buttonCast.width -= buttonCast.sizeChangeAmount;
+    buttonCast.height -= buttonCast.sizeChangeAmount;
+    chooseFish();
+  }
+  else {
+    buttonCast.isBeingPress = false;
+    mouseReleased();
+  }
+}
+
+function mouseReleased() {
+  // If the shape is currently being dragged
+  // and they've "dropped it" on the right side of the line
+  if (mouseInsideButtonCast() && buttonCast.isBeingPressed == false) {
+    buttonCast.width += buttonCast.sizeChangeAmount;
+    buttonCast.height += buttonCast.sizeChangeAmount;
+  }
+}
+
+function chooseFish() {
+
+}
+
+function hookFish() {
 
 }
