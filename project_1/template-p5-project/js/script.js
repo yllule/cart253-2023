@@ -33,6 +33,13 @@ let buttonHook = {
   sizeChangeAmount: 5
 };
 
+let inventoryBox = {
+  x: undefined,
+  y: undefined,
+  width: 500,
+  height: 850
+};
+
 /**
  * Description of preload
 */
@@ -47,7 +54,7 @@ function preload() {
 function setup() {
   createCanvas(1500, 1000);
   //setting up the position of the button + text, trying to center the text to the button by eye
-  buttonCast.x = width/4;
+  buttonCast.x = width/5;
   buttonCast.y = height-100;
   buttonCast.textX = buttonCast.x;
   buttonCast.textY = buttonCast.y+12;
@@ -57,6 +64,10 @@ function setup() {
   buttonHook.y = buttonCast.y;
   buttonHook.textX = buttonHook.x;
   buttonHook.textY = buttonHook.y+12;
+
+  //setting up the position of the inventory box
+  inventoryBox.x = width-300;
+  inventoryBox.y = height/2;
 
 }
 
@@ -68,6 +79,12 @@ function draw() {
   background(0);
   drawButtonCast();
   drawButtonHook();
+
+  push();
+  noStroke();
+  rectMode(CENTER);
+  rect(inventoryBox.x, inventoryBox.y, inventoryBox.width, inventoryBox.height, 50);
+  pop();
 
   //if(mouseX >= buttonCast.x - buttonCast.width/2 && mouseX <= buttonCast.x + buttonCast.width/2 && mouseY >= buttonCast.y - buttonCast.height/2 && mouseY <= buttonCast.y + buttonCast.height/2 && mouseClicked == true) { //check if mouse is inside the cast button + if mouse is pressed
   //  buttonCast.isBeingPressed = true;
@@ -168,8 +185,15 @@ function mouseReleased() {
   }
 }
 
-function chooseFish() {
+function chooseFish() { //the code will decide which fish will bite, each fish/object has a drop rate % out of 100
 
+  if (random(0,100) < 60) {
+    fill(255);
+		circle(100,100, 50);
+	}
+	else {
+		square(100,100, 50);
+	}
 }
 
 function hookFish() {
