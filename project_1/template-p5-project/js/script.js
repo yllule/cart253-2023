@@ -17,7 +17,8 @@ let buttonCast = {
   textX: undefined,
   textY: undefined,
   isBeingPressed: false,
-  sizeChangeAmount: 5
+  widthChangeAmount: 245,
+  heightChangeAmount: 70
 };
 
 //setting the variable for the button to hook the line
@@ -30,7 +31,8 @@ let buttonHook = {
   textX: undefined,
   textY: undefined,
   isBeingPressed: false,
-  sizeChangeAmount: 5
+  widthChangeAmount: 245,
+  heightChangeAmount: 70
 };
 
 let inventoryBox = {
@@ -79,47 +81,34 @@ function draw() {
   background(0);
   drawButtonCast();
   drawButtonHook();
+  drawInventoryBox();
+  mouseInsideButtonCast();
+  mouseInsideButtonHook();
 
-  push();
-  noStroke();
-  rectMode(CENTER);
-  rect(inventoryBox.x, inventoryBox.y, inventoryBox.width, inventoryBox.height, 50);
-  pop();
-
-  //if(mouseX >= buttonCast.x - buttonCast.width/2 && mouseX <= buttonCast.x + buttonCast.width/2 && mouseY >= buttonCast.y - buttonCast.height/2 && mouseY <= buttonCast.y + buttonCast.height/2 && mouseClicked == true) { //check if mouse is inside the cast button + if mouse is pressed
-  //  buttonCast.isBeingPressed = true;
-  //  buttonCast.width = buttonCast.width -= buttonCast.sizeChangeAmount;
-  //  buttonCast.height = buttonCast.height -= buttonCast.sizeChangeAmount;
-  //  chooseFish();
-  //}
-  //else {
-  //  buttonCast.isBeingPressed = false;
-    //buttonCast.width = 250;
-    //buttonCast.height = 75;
-  //}
-
-  //if(mouseX >= buttonHook.x - buttonHook.width/2 && mouseX <= buttonHook.x + buttonHook.width/2 && mouseY >= buttonHook.y - buttonHook.height/2 && mouseY <= buttonHook.y + buttonHook.height/2 && mouseClicked == true) { //check if mouse is inside the hook button + if mouse is pressed
-  //  buttonHook.isBeingPressed = true;
-  //  buttonHook.width = buttonHook.width -= buttonHook.sizeChangeAmount;
-  //  buttonHook.height = buttonHook.height -= buttonHook.sizeChangeAmount;
-  //  hookFish();
-  //}
-
-  //if(mouseX >= buttonCast.x - buttonCast.width/2 && mouseX <= buttonCast.x + buttonCast.width/2 && mouseY >= buttonCast.y - buttonCast.height/2 && mouseY <= buttonCast.y + buttonCast.height/2 && mouseReleased == true) {
-  //  buttonCast.width = buttonCast.width += buttonCast.sizeChangeAmount;
-  //  buttonCast.height = buttonCast.height += buttonCast.sizeChangeAmount;
-  //}
 }
 
 
 
 function drawButtonCast() {
-//display of cast button
-  push();
-  noStroke();
-  rectMode(CENTER);
-  rect(buttonCast.x, buttonCast.y, buttonCast.width, buttonCast.height, 25);
-  pop();
+
+  //adding feedback to the button when it gets clicked
+  if (mouseIsPressed === true && mouseInsideButtonCast()) {
+    //display of cast button when clicked
+    push();
+    noStroke();
+    rectMode(CENTER);
+    rect(buttonCast.x, buttonCast.y, buttonCast.widthChangeAmount, buttonCast.heightChangeAmount, 25);
+    pop();
+    //you cast the line and the code will check which fish will bite
+    chooseFish();
+  } else {
+    //display of cast button when not clicked
+    push();
+    noStroke();
+    rectMode(CENTER);
+    rect(buttonCast.x, buttonCast.y, buttonCast.width, buttonCast.height, 25);
+    pop();
+  }
 
 //cast button text
   push();
@@ -132,12 +121,25 @@ function drawButtonCast() {
 }
 
 function drawButtonHook() {
-//display of hook button
+
+//adding feedback to the button when it gets clicked
+if (mouseIsPressed === true && mouseInsideButtonHook()) {
+  //display of hook button when clicked
+  push();
+  noStroke();
+  rectMode(CENTER);
+  rect(buttonHook.x, buttonHook.y, buttonHook.widthChangeAmount, buttonHook.heightChangeAmount, 25);
+  pop();
+  //once you click the button you reel in the fish
+  hookFish();
+} else {
+  //display of hook button when not clicked
   push();
   noStroke();
   rectMode(CENTER);
   rect(buttonHook.x, buttonHook.y, buttonHook.width, buttonHook.height, 25);
   pop();
+}
 
 //hook button text
   push();
@@ -149,8 +151,16 @@ function drawButtonHook() {
   pop();
 }
 
+function drawInventoryBox(){
+  push();
+  noStroke();
+  rectMode(CENTER);
+  rect(inventoryBox.x, inventoryBox.y, inventoryBox.width, inventoryBox.height, 50);
+  pop();
+}
+
 function mouseInsideButtonCast() {
-  //let d = dist(mouseX, mouseY, buttonCast.x, buttonCast.y);
+  let d = dist(mouseX, mouseY, buttonCast.x, buttonCast.y);
   if (mouseX >= buttonCast.x - buttonCast.width/2 && mouseX <= buttonCast.x + buttonCast.width/2 && mouseY >= buttonCast.y - buttonCast.height/2 && mouseY <= buttonCast.y + buttonCast.height/2) { //check if mouse is inside the cast button
     return true;
   } 
@@ -159,39 +169,26 @@ function mouseInsideButtonCast() {
   }
 }
 
-function mousePressed() {
-  // Only respond to the mouse click if the shape is active
-  // and the mouse is in the shape
-  if (mouseInsideButtonCast()) {
-    buttonCast.isBeingPressed = true;
-    // Remember the offset of the shape's centre relative to the mouse
-    // Make the shape a bit smaller for feedback
-    buttonCast.width -= buttonCast.sizeChangeAmount;
-    buttonCast.height -= buttonCast.sizeChangeAmount;
-    chooseFish();
-  }
+function mouseInsideButtonHook() {
+  let d2 = dist(mouseX, mouseY, buttonHook.x, buttonHook.y);
+  if (mouseX >= buttonHook.x - buttonHook.width/2 && mouseX <= buttonHook.x + buttonHook.width/2 && mouseY >= buttonHook.y - buttonHook.height/2 && mouseY <= buttonHook.y + buttonHook.height/2) { //check if mouse is inside the hook button
+    return true;
+  } 
   else {
-    buttonCast.isBeingPress = false;
-    mouseReleased();
+    return false;
   }
 }
 
-function mouseReleased() {
-  // If the shape is currently being dragged
-  // and they've "dropped it" on the right side of the line
-  if (mouseInsideButtonCast() && buttonCast.isBeingPressed == false) {
-    buttonCast.width += buttonCast.sizeChangeAmount;
-    buttonCast.height += buttonCast.sizeChangeAmount;
-  }
-}
+
 
 function chooseFish() { //the code will decide which fish will bite, each fish/object has a drop rate % out of 100
 
-  if (random(0,100) < 60) {
+  if (random(0,100) <= 11) {
     fill(255);
 		circle(100,100, 50);
 	}
 	else {
+    fill(255);
 		square(100,100, 50);
 	}
 }
