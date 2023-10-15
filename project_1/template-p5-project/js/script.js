@@ -82,17 +82,13 @@ function draw() {
   drawButtonCast();
   drawButtonHook();
   drawInventoryBox();
-  mouseInsideButtonCast();
-  mouseInsideButtonHook();
 
 }
-
-
 
 function drawButtonCast() {
 
   //adding feedback to the button when it gets clicked
-  if (mouseIsPressed === true && mouseInsideButtonCast()) {
+  if (mouseIsPressed && mouseInsideButtonCast()) {
     //display of cast button when clicked
     push();
     noStroke();
@@ -101,7 +97,8 @@ function drawButtonCast() {
     pop();
     //you cast the line and the code will check which fish will bite
     chooseFish();
-  } else {
+  } 
+  else {
     //display of cast button when not clicked
     push();
     noStroke();
@@ -123,6 +120,7 @@ function drawButtonCast() {
 function drawButtonHook() {
 
 //adding feedback to the button when it gets clicked
+
 if (mouseIsPressed === true && mouseInsideButtonHook()) {
   //display of hook button when clicked
   push();
@@ -179,18 +177,81 @@ function mouseInsideButtonHook() {
   }
 }
 
+function mouseClicked() {
 
+if(mouseInsideButtonCast===true) {
+  chooseFish();
+  }
+}
 
 function chooseFish() { //the code will decide which fish will bite, each fish/object has a drop rate % out of 100
 
-  if (random(0,100) <= 11) {
-    fill(255);
-		circle(100,100, 50);
+  let i = random(0,100)
+
+  if (i <= 11) {
+		circle(100, 100, 50);
+    //perch
 	}
-	else {
-    fill(255);
-		square(100,100, 50);
+	if (i <= 22 && i > 11) {
+		square(100, 100, 50);
+    //bass
 	}
+  if (i <= 32 && i > 22) {
+    circle(150, 150, 75);
+    //frog
+  }
+  if (i <= 42 && i > 32){
+    square(250, 250, 25);
+    //loach
+  }
+  if(i <= 52 && i > 42){
+    circle(250, 100, 75);
+    //carp
+  }
+  if(i <= 61.5 && i > 52){
+    square(200, 200, 25);
+    //catfish
+  }
+  if(i <= 69.5 && i > 61.5){
+    circle(500, 500, 50);
+    //empty soda can
+  }
+  if(i <= 76.5 && i > 69.5){
+    square(550, 550, 50);
+    //soggy sock
+  }
+  if(i <= 82.5 && i > 76.5){
+    circle(300, 300, 75);
+    //salmon
+  }
+  if(i <= 88.5 && i > 82.5){
+    square (300, 300, 100);
+    //broken glasses
+  }
+  if(i <= 93.5 && i > 88.5){
+    circle(700, 700, 100);
+    //koi
+  }
+  if(i <= 97.5 && i > 93.5){
+    square(750, 750, 50);
+    //sturgeon
+  }
+  if(i <= 98.5 && i > 97.5){
+    circle(750, 750, 50);
+    //crystal
+  }
+  if(i <= 99.5 && i > 98.5){
+    square(800, 800, 100);
+    //treasure chest
+  }
+  if(i <= 100 && i > 99.5){
+    square(1000, 1000, 50);
+    //mutant carp
+  }
+}
+
+function perch() {
+
 }
 
 function hookFish() {
