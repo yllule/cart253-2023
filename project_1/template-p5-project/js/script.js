@@ -2,10 +2,20 @@
  * Fishing simulator
  * Catherine Zaloshnja
  * Originally I wanted the fishing game to be more complex and inspired by the fishing system in Final Fantasy XIV,
- * but finally I settled for something simpler, more similar to Stardew Valley/Animal Crossing like fishing since it was more simpler to make.
+ * but I simplified it to be more similar to Stardew Valley/Animal Crossing like fishing, and THEN I simplified it again
+ * cause I couldn't figure out how to make that work.
  */
 
 "use strict";
+
+let state = 'title' //can be 'title', 'simulation'
+
+let borderImg;
+let fishBgImg;
+let hookImg;
+let fishShadowImg;
+let smallFishImg;
+
 
 let inventoryBox = {
   x: undefined,
@@ -18,6 +28,12 @@ let inventoryBox = {
  * Description of preload
 */
 function preload() {
+
+  borderImg = loadImage("assets/images/border.png");
+  fishBgImg = loadImage("assets/images/bg-fish.png");
+  hookImg = loadImage("assets/images/hook.png");
+  fishShadowImg = loadImage("assets/images/fish.png");
+  smallFishImg = loadImage("assets/images/smallfish.png");
 
 }
 
