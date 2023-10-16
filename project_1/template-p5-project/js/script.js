@@ -21,8 +21,15 @@ let inventoryBox = {
   x: undefined,
   y: undefined,
   width: 500,
-  height: 850
+  height: 900
 };
+
+let scoreBox = {
+  x: undefined,
+  y: undefined,
+  width: 200,
+  height: 75
+}
 
 /**
  * Description of preload
@@ -48,6 +55,10 @@ function setup() {
   inventoryBox.x = width-300;
   inventoryBox.y = height/2;
 
+  //setting up the position of the score box
+  scoreBox.x = width-700;
+  scoreBox.y = height-100;
+
 }
 
 
@@ -56,17 +67,37 @@ function setup() {
 */
 function draw() {
   background(0);
-  drawInventoryBox();
+  display();
 
 }
 
 
-function drawInventoryBox(){
+function display(){
+
+  //fish inventory box
   push();
   noStroke();
   rectMode(CENTER);
   rect(inventoryBox.x, inventoryBox.y, inventoryBox.width, inventoryBox.height, 50);
   pop();
+
+  //border of the main fishing box
+  imageMode(CENTER);
+  image(borderImg, width/2, height/2);
+
+  //main fishing box
+  imageMode(CENTER);
+  image(fishBgImg, width/2, height/2);
+
+  //score box
+  rect(scoreBox.x, scoreBox.y, scoreBox.width, scoreBox.height);
+
+  //user display, it is just the tip of the hook
+  imageMode(CENTER);
+  image(hookImg, mouseX, mouseY);
+  //hook string, i want it to follow the mouse X position
+  rect(mouseX, 0, 5, 1000);
+
 }
 
 function chooseFish() { //the code will decide which fish will bite, each fish/object has a drop rate % out of 100
