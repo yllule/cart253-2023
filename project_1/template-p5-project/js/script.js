@@ -165,14 +165,16 @@ function fish() {
 
   //the min and max y position each fish is allowed to swim to
   let fishMinY = 200;
-  let fishMaxY = 950;
+  let fishMaxY = 800;
+
+  constrain (fish1.y, fishMinY, fishMaxY);
 
   //fish1 movement
   fish1.x = fish1.x + fish1.vx;
   fish1.y = fish1.y + fish1.vy;
 
   let swimX = random();
-  if(swimX < 0.005) {
+  if(swimX < 0.001) {
     fish1.vx = random(-fish1.speed, fish1.speed);
   }
 
@@ -185,19 +187,21 @@ function fish() {
 
   //the fish won't swim any higher or lower than this
   constrain (fish1.y, fishMinY, fishMaxY);
+  constrain (fish1.x,)
 
   //fish1 will go offscreen a bit before resetting
   let reset1 = 1700; //1500 = end of the fish interface + 700 to give it time to reset
   let reset2 = 300;
 
   if (fish1.x > reset1) {
+    //if the fish swims too much to the right, it will respawn on the left
     fish1.x = 500;
     //the fish won't spawn too close to the top
     fish1.y = random(fishMinY, fishMaxY);
   }
 
   if(fish1.x < reset2) {
-    fish1.x = 500;
+    fish1.x = 1600; //if the fish swims too much to the left, it will reset on the right
     fish1.y = random(fishMinY, fishMaxY);
   }
 
