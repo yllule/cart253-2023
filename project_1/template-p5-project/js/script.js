@@ -88,8 +88,8 @@ function setup() {
 
   //setting the fish1 x position to be at the left edge of the fishing interface box
   fish1.x = 500;
-  //when the fish position resets, the y will be random and inside the fishing interface box
-  fish1.y = random(50, 950);
+  //when the fish position resets, the y will be random and inside the fishing interface box, but not too close to the top or bottom
+  fish1.y = random(200, 900);
   fish1.vx = fish1.speed;
 
 }
@@ -116,9 +116,7 @@ image(fishBgImg, width/2, height/2);
 }
 
 
-function display(){
-
-
+function display() {
 
   //user display, it is just the tip of the hook
   imageMode(CENTER);
@@ -165,22 +163,42 @@ function display(){
 
 function fish() {
 
+  //the min and max y position each fish is allowed to swim to
+  let fishMinY = 200;
+  let fishMaxY = 950;
+
   //fish1 movement
   fish1.x = fish1.x + fish1.vx;
   fish1.y = fish1.y + fish1.vy;
 
-  //movement of the fish1
-  let swim = random();
-  if (swim < 0.03) {
+  let swimX = random();
+  if(swimX < 0.005) {
+    fish1.vx = random(-fish1.speed, fish1.speed);
+  }
+
+  //Y movement of the fish1
+  let swimY = random();
+  //how often the fish will swim up or down
+  if (swimY < 0.03) {
     fish1.vy = random(-fish1.speed, fish1.speed);
   }
 
-  //fish1 will go offscreen a bit before resetting
-  let reset = 1800; //1500 = end of the fish interface + 300 to give it time to reset
+  //the fish won't swim any higher or lower than this
+  constrain (fish1.y, fishMinY, fishMaxY);
 
-  if (fish1.x > reset) {
+  //fish1 will go offscreen a bit before resetting
+  let reset1 = 1700; //1500 = end of the fish interface + 700 to give it time to reset
+  let reset2 = 300;
+
+  if (fish1.x > reset1) {
     fish1.x = 500;
-    fish1.y = random(50, 950);
+    //the fish won't spawn too close to the top
+    fish1.y = random(fishMinY, fishMaxY);
+  }
+
+  if(fish1.x < reset2) {
+    fish1.x = 500;
+    fish1.y = random(fishMinY, fishMaxY);
   }
 
 }
