@@ -27,8 +27,17 @@ let inventoryBox = {
 let scoreBox = {
   x: undefined,
   y: undefined,
-  width: 200,
-  height: 75
+  width: 300,
+  height: 75,
+  roundness: 20
+}
+
+let fishCountBox = {
+  x: undefined,
+  y: undefined,
+  width: 300,
+  height: 75,
+  roundness: 20
 }
 
 /**
@@ -56,8 +65,12 @@ function setup() {
   inventoryBox.y = height/2;
 
   //setting up the position of the score box
-  scoreBox.x = width-700;
-  scoreBox.y = height-100;
+  scoreBox.x = width-750;
+  scoreBox.y = height-50;
+
+  //setting up the position of the fish count box
+  fishCountBox.x = width-1250;
+  fishCountBox.y = height-50;
 
 }
 
@@ -68,6 +81,8 @@ function setup() {
 function draw() {
   background(0);
   display();
+
+
 
 }
 
@@ -90,7 +105,18 @@ function display(){
   image(fishBgImg, width/2, height/2);
 
   //score box
-  rect(scoreBox.x, scoreBox.y, scoreBox.width, scoreBox.height);
+  push();
+  rectMode(CENTER);
+  noStroke();
+  rect(scoreBox.x, scoreBox.y, scoreBox.width, scoreBox.height, scoreBox.roundness);
+  pop();
+
+  //fish count box
+  push();
+  rectMode(CENTER);
+  noStroke();
+  rect(fishCountBox.x, fishCountBox.y, fishCountBox.width, fishCountBox.height, fishCountBox.roundness);
+  pop();
 
   //user display, it is just the tip of the hook
   imageMode(CENTER);
