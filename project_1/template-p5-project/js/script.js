@@ -43,6 +43,11 @@ let fishCountBox = {
   roundness: 20
 }
 
+let hook = {
+  x: 0,
+  y: 0
+}
+
 let fish1 = {
   x: 0,
   y: 0,
@@ -92,6 +97,9 @@ function setup() {
   fish1.y = random(200, 900);
   fish1.vx = fish1.speed;
 
+  //user
+  hook.y = width/2;
+
 }
 
 
@@ -103,6 +111,7 @@ function draw() {
   bgElements();
   display();
   fish();
+  user();
 
 }
 
@@ -118,20 +127,12 @@ image(fishBgImg, width/2, height/2);
 
 function display() {
 
-  //user display, it is just the tip of the hook
-  imageMode(CENTER);
-  ellipse(mouseX, mouseY, 25, 25);
-  //hook string, i want it to follow the mouse X position
-  push();
-  noStroke();
-  rectMode(CORNER);
-  //rect(mouseX, mouseY, 5, 1000);
-  pop();
-
   //fish1 display
   push();
   imageMode(CENTER);
-  image(fishShadowImg, fish1.x, fish1.y);
+  //constraining the fish y position so that it does not go too high or low
+  let fishy = constrain (fish1.y, 250, 800);
+  image(fishShadowImg, fish1.x, fishy);
   pop();
 
   //fish inventory box
@@ -139,6 +140,18 @@ function display() {
   noStroke();
   rectMode(CENTER);
   rect(inventoryBox.x, inventoryBox.y, inventoryBox.width, inventoryBox.height, 0, 50, 50, 0);
+  pop();
+
+  //user display, it is just the tip of the hook
+  imageMode(CENTER);
+  //constrain user y movement to the fishing box
+  let yc = constrain(mouseY, 50, 950);
+  ellipse(width/2, yc, 25, 25);
+  //hook string, i want it to follow the mouse X position
+  push();
+  noStroke();
+  rectMode(CORNER);
+  //rect(mouseX, mouseY, 5, 1000);
   pop();
 
   //border of the main fishing box
@@ -163,12 +176,6 @@ function display() {
 
 function fish() {
 
-  //the min and max y position each fish is allowed to swim to
-  let fishMinY = 200;
-  let fishMaxY = 800;
-
-  constrain (fish1.y, fishMinY, fishMaxY);
-
   //fish1 movement
   fish1.x = fish1.x + fish1.vx;
   fish1.y = fish1.y + fish1.vy;
@@ -185,25 +192,24 @@ function fish() {
     fish1.vy = random(-fish1.speed, fish1.speed);
   }
 
-  //the fish won't swim any higher or lower than this
-  constrain (fish1.y, fishMinY, fishMaxY);
-  constrain (fish1.x,)
-
   //fish1 will go offscreen a bit before resetting
-  let reset1 = 1700; //1500 = end of the fish interface + 700 to give it time to reset
-  let reset2 = 300;
+  let reset1 = 1700; //1500 = end of the fish interface + 200 to give it time to reset
+  let reset2 = 300; //500 (beginning of fish interface) - 200 to give it more time to reset
 
   if (fish1.x > reset1) {
     //if the fish swims too much to the right, it will respawn on the left
     fish1.x = 500;
-    //the fish won't spawn too close to the top
-    fish1.y = random(fishMinY, fishMaxY);
   }
 
   if(fish1.x < reset2) {
     fish1.x = 1600; //if the fish swims too much to the left, it will reset on the right
-    fish1.y = random(fishMinY, fishMaxY);
+
   }
+
+}
+
+function user() {
+
 
 }
 
