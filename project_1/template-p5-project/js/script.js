@@ -103,6 +103,9 @@ function setup() {
   fish1.y = random(200, 900);
   fish1.vx = fish1.speed;
 
+  hook.x = width/2;
+  hook.y = mouseY;
+
 }
 
 
@@ -148,8 +151,8 @@ function display() {
   //user display, it is just the tip of the hook
   imageMode(CENTER);
   //constrain user y movement to the fishing box
-  let yc = constrain(mouseY, 50, 950);
-  ellipse(width/2, yc, hook.size, hook.size);
+  hook.y = constrain(mouseY, 50, 950);
+  ellipse(hook.x, hook.y, hook.size, hook.size);
   //hook string, i want it to follow the mouse X position
   push();
   noStroke();
@@ -234,15 +237,27 @@ function fish() {
 }
 
 function checkBite() {
+
 //check if the fish bit the hook, if it does, it will follow the hook
 let d1 = dist(hook.x, hook.y, fish1.x, fish1.y);
 if (d1 < hook.size + fish1.size/2) {
-  //fish1.y = mouseY;
-  //fish1.x = mouseX;
-  chooseFish();
+  fish1.y = hook.y;
+  fish1.x = hook.x;
+  caughtCheck();
+}
 }
 
+function caughtCheck() {
+  //check if the fish got caught once it got reeled in (dragged to the top)
+  if (fish1.y < 250) {
+    fish1.x = 500;
+    fish1.vy = random(-fish1.speed, fish1.speed)
+    fish.y
+    chooseFish();
+    numFish++
+  }
 }
+
 
 function chooseFish() { //the code will decide which fish will bite, each fish/object has a drop rate % out of 100
 
@@ -250,92 +265,77 @@ function chooseFish() { //the code will decide which fish will bite, each fish/o
 
   if (i <= 11) {
 		circle(100, 100, 50);
-    score++;
-    numFish++;
+    score = score+120;
     //perch
 	}
 	else if (i <= 22 && i > 11) {
 		square(100, 100, 50);
-    score++;
-    numFish++;
+    score = score+200;
     //bass
 	}
   else if (i <= 32 && i > 22) {
     circle(150, 150, 75);
-    score++;
-    numFish++;
+    score = score+100;
     //frog
   }
   else if (i <= 42 && i > 32){
     square(250, 250, 25);
-    score++;
-    numFish++;
+    score = score+150;
     //loach
   }
   else if(i <= 52 && i > 42){
     circle(250, 100, 75);
-    score++;
-    numFish++;
+    score = score+120;
     //carp
   }
   else if(i <= 61.5 && i > 52){
     square(200, 200, 25);
-    score++;
-    numFish++;
+    score = score+200;;
     //catfish
   }
   else if(i <= 69.5 && i > 61.5){
     circle(500, 500, 50);
-    score++;
-    numFish++;
+    score = score+5;
     //empty soda can
   }
   else if(i <= 76.5 && i > 69.5){
     square(550, 550, 50);
-    score++;
-    numFish++;
+    score = score+5;
     //soggy sock
   }
   else if(i <= 82.5 && i > 76.5){
     circle(300, 300, 75);
-    score++;
-    numFish++;
+    score = score+500;
     //salmon
   }
   else if(i <= 88.5 && i > 82.5){
     square (300, 300, 100);
-    score++;
-    numFish++;
+    score = score+10;
     //broken glasses
   }
   else if(i <= 93.5 && i > 88.5){
     circle(700, 700, 100);
-    score++;
-    numFish++;
+    score = score+1000;
     //koi
   }
   else if(i <= 97.5 && i > 93.5){
     square(750, 750, 50);
-    score++;
-    numFish++;
+    score = score+5000;
     //sturgeon
   }
   else if(i <= 98.5 && i > 97.5){
     circle(750, 750, 50);
-    score++;
-    numFish++;
+    score = score+10000;
     //crystal
   }
   else if(i <= 99.5 && i > 98.5){
     square(800, 800, 100);
-    score++;
-    numFish++;
+    score = score+15000;
     //treasure chest
   }
   else if(i <= 100 && i > 99.5){
     square(1000, 1000, 50);
-    score++;
-    numFish++;
+    score = score+30000;
     //mutant carp
   }
 }
