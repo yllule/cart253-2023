@@ -64,6 +64,81 @@ let score = 0;
 //number of fish caught
 let numFish = 0;
 
+//variable for if each fish/object has been caught before or not + the counter for times it has been caught
+let frog = {
+  caught: false,
+  counter: 0
+}
+
+let catfish = {
+  caught: false,
+  counter: 0
+}
+
+let loach = {
+  caught: false,
+  counter: 0
+}
+
+let perch = {
+  caught: false,
+  counter: 0
+}
+
+let salmon = {
+  caught: false,
+  counter: 0
+}
+
+let carp = {
+  caught: false,
+  counter: 0
+}
+
+let koi = {
+  caught: false,
+  counter: 0
+}
+
+let mutantCarp = {
+  caught: false,
+  counter: 0
+}
+
+let sturgeon = {
+  caught: false,
+  counter: 0
+}
+
+let bass = {
+  caught: false,
+  counter: 0
+}
+
+let crystal = {
+  caught: false,
+  counter: 0
+}
+
+let brokenGlasses = {
+  caught: false,
+  counter: 0
+}
+
+let soggySock = {
+  caught: false,
+  counter: 0
+}
+
+let sodaCan = {
+  caught: false,
+  counter: 0
+}
+
+let treasureChest = {
+  caught: false,
+  counter: 0
+}
 
 /**
  * Description of preload
@@ -220,19 +295,27 @@ function fish() {
     fish1.vy = random(-fish1.speed, fish1.speed);
   }
 
+  // Bounce the target
+  if (fish1.x <= 500 || fish1.x >= 1500) {
+    fish1.vx = -fish1.vx;
+  }
+  if (fish1.y <= 250 || fish1.y >= 800) {
+    fish1.vy = -fish1.vy;
+  }
+
   //fish1 will go offscreen a bit before resetting
-  let reset1 = 1700; //1500 = end of the fish interface + 200 to give it time to reset
-  let reset2 = 300; //500 (beginning of fish interface) - 200 to give it more time to reset
+  //let reset1 = 1700; //1500 = end of the fish interface + 200 to give it time to reset
+  //let reset2 = 300; //500 (beginning of fish interface) - 200 to give it more time to reset
 
-  if (fish1.x > reset1) {
+  //if (fish1.x > reset1) {
     //if the fish swims too much to the right, it will respawn on the left
-    fish1.x = 500;
-  }
+  //  fish1.x = 500;
+  //}
 
-  if(fish1.x < reset2) {
-    fish1.x = 1600; //if the fish swims too much to the left, it will reset on the right
+  //if(fish1.x < reset2) {
+  //  fish1.x = 1600; //if the fish swims too much to the left, it will reset on the right
 
-  }
+  //}
 
 }
 
@@ -259,13 +342,19 @@ function caughtCheck() {
 }
 
 
-function chooseFish() { //the code will decide which fish will bite, each fish/object has a drop rate % out of 100
+function chooseFish() { 
+  
+  //the code will decide which fish will bite, each fish/object has a drop rate % out of 100 and is worth a certain amount of score
+  //when a fish/object is caught for the first time, it will reveal what it is in the inventory box + keep track of how many of them have been caught
 
   let i = random(0,100)
 
   if (i <= 11) {
     score = score+120;
     //perch
+    if (perch.caught = false) {
+      perch.caught = true;
+    }
 	}
 	else if (i <= 22 && i > 11) {
     score = score+200;
