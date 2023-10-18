@@ -45,13 +45,14 @@ let fishCountBox = {
 
 let hook = {
   x: 0,
-  y: 0
+  y: 0,
+  size: 25
 }
 
 let fish1 = {
   x: 0,
   y: 0,
-  //size: 100,
+  size: 100,
   vx: 0,
   vy: 0,
   speed: 2
@@ -111,7 +112,7 @@ function draw() {
   bgElements();
   display();
   fish();
-  user();
+  checkBite();
 
 }
 
@@ -132,7 +133,7 @@ function display() {
   imageMode(CENTER);
   //constraining the fish y position so that it does not go too high or low
   let fishy = constrain (fish1.y, 250, 800);
-  image(fishShadowImg, fish1.x, fishy);
+  image(fishShadowImg, fish1.x, fishy, fish1.size, fish1.size);
   pop();
 
   //fish inventory box
@@ -146,7 +147,7 @@ function display() {
   imageMode(CENTER);
   //constrain user y movement to the fishing box
   let yc = constrain(mouseY, 50, 950);
-  ellipse(width/2, yc, 25, 25);
+  ellipse(width/2, yc, hook.size, hook.size);
   //hook string, i want it to follow the mouse X position
   push();
   noStroke();
@@ -180,10 +181,13 @@ function fish() {
   fish1.x = fish1.x + fish1.vx;
   fish1.y = fish1.y + fish1.vy;
 
+  //how often the fish will turn left or right
   let swimX = random();
   if(swimX < 0.001) {
     fish1.vx = random(-fish1.speed, fish1.speed);
   }
+
+  //fish img will flip depending on what way its swimming
 
   //Y movement of the fish1
   let swimY = random();
@@ -208,8 +212,14 @@ function fish() {
 
 }
 
-function user() {
-
+function checkBite() {
+//check if the fish bit the hook, if it does, it will follow the hook
+let d1 = dist(hook.x, hook.y, fish1.x, fish1.y);
+if (d1 < hook.size + fish1.size/2) {
+  //fish1.y = mouseY;
+  //fish1.x = mouseX;
+  chooseFish();
+}
 
 }
 
