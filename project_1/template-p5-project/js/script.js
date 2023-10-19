@@ -66,6 +66,24 @@ let fish1 = {
   speed: 1.5
 }
 
+let fish2 = {
+  x: 0,
+  y: 0,
+  size: 50,
+  vx: 0,
+  vy: 0,
+  speed: 2
+}
+
+let fish3 = {
+  x: 0,
+  y: 0,
+  size: 75,
+  vx: 0,
+  vy: 0,
+  speed: 1
+}
+
 //current score
 let score = 0;
 
@@ -183,8 +201,17 @@ function setup() {
   //setting the fish1 x position to be at the left edge of the fishing interface box
   fish1.x = 500;
   //when the fish position resets, the y will be random and inside the fishing interface box, but not too close to the top or bottom
-  fish1.y = random(200, 900);
+  fish1.y = random(250, 800);
   fish1.vx = fish1.speed;
+
+  //same thing but for fish2 + fish3
+  fish2.x = 1500; //will start on the right
+  fish2.y = random(250, 800);
+  fish2.vx = -fish2.speed; //will go from right to left
+
+  fish3.x = 1500;
+  fish3.y = random(250, 800);
+  fish3.vx = -fish3.speed;
 
   //setting up the hook (user) position
   hook.x = width/2;
@@ -221,6 +248,20 @@ function display() {
   //constraining the fish y position so that it does not go too high or low
   let fishy = constrain (fish1.y, 250, 800);
   image(fishShadowImg, fish1.x, fishy, fish1.size, fish1.size);
+  pop();
+
+  //fish2 display
+  push();
+  imageMode(CENTER);
+  let fish2y = constrain (fish2.y, 250, 800);
+  image(fishShadowImg, fish2.x, fish2y, fish2.size, fish2.size);
+  pop();
+
+  //fish3 display
+  push();
+  imageMode(CENTER)
+  let fish3y = constrain (fish3.y, 250, 800);
+  image(fishShadowImg, fish3.x, fish3y, fish3.size, fish3.size);
   pop();
 
   //fish inventory box
@@ -289,6 +330,7 @@ function display() {
   rect(fishCountBox.x, fishCountBox.y, fishCountBox.width, fishCountBox.height, fishCountBox.roundness);
   pop();
   
+  //text display
   push();
   fill(0);
   textSize(45);
@@ -300,6 +342,16 @@ function display() {
 }
 
 function fish() {
+
+  //movement of each fish
+
+  fish1move()
+  fish2move()
+  fish3move()
+
+}
+
+function fish1move() {
 
   //fish1 movement
   fish1.x = fish1.x + fish1.vx;
@@ -328,6 +380,8 @@ function fish() {
     fish1.vy = -fish1.vy;
   }
 
+  // old movement of the fish where the position resets if it goes offscreen, i kept it commented in case i want to go back to this type of movement
+
   //fish1 will go offscreen a bit before resetting
   //let reset1 = 1700; //1500 = end of the fish interface + 200 to give it time to reset
   //let reset2 = 300; //500 (beginning of fish interface) - 200 to give it more time to reset
@@ -341,6 +395,62 @@ function fish() {
   //  fish1.x = 1600; //if the fish swims too much to the left, it will reset on the right
 
   //}
+  
+}
+
+function fish2move() {
+
+  //fish2 movement
+  fish2.x = fish2.x + fish2.vx;
+  fish2.y = fish2.y + fish2.vy;
+
+  //how often the fish2 will move from left to right
+  let swim2x = random();
+  if(swim2x < 0.01) {
+    fish2.vx = random(-fish2.speed, fish2.speed);
+  }
+
+  //how often the fish2 will move up and down
+  let swim2y = random();
+  if (swim2y < 0.01) {
+    fish2.vy = random(-fish2.speed, fish2.speed);
+  }
+
+  //fish2 will bounce off the edge of the fishing interface if it touches it
+  if (fish2.x <= 500 || fish2.x >= 1500) {
+    fish2.vx = -fish2.vx;
+  }
+  if (fish2.y <= 250 || fish2.y >= 800) {
+    fish2.vy = -fish2.vy;
+  }
+
+}
+
+function fish3move() {
+
+  //fish3 movement
+  fish3.x = fish3.x + fish3.vx;
+  fish3.y = fish3.y + fish3.vy;
+
+  //how often the fish3 will move from left to right
+  let swim3x = random();
+  if(swim3x < 0.005) {
+    fish3.vx = random(-fish3.speed, fish3.speed);
+  }
+
+  //how often the fish3 will move up and down
+  let swim3y = random();
+  if (swim3y < 0.02) {
+    fish3.vy = random(-fish3.speed, fish3.speed);
+  }
+
+  //fish3 will bounce off the edge of the fishing interface if it touches it
+  if (fish3.x <= 500 || fish3.x >= 1500) {
+    fish3.vx = -fish3.vx;
+  }
+  if (fish3.y <= 250 || fish3.y >= 800) {
+    fish3.vy = -fish3.vy;
+  }
 
 }
 
@@ -353,14 +463,48 @@ if (d1 < hook.size + fish1.size/2) {
   fish1.x = hook.x;
   caughtCheck();
 }
+
+let d2 = dist(hook.x, hook.y, fish2.x, fish2.y);
+if (d2 < hook.size + fish2.size/2) {
+  fish2.y = hook.y;
+  fish2.x = hook.x;
+  caughtCheck();
+}
+
+let d3 = dist(hook.x, hook.y, fish3.x, fish3.y);
+if (d3 < hook.size + fish3.size/2) {
+  fish3.y = hook.y;
+  fish3.x = hook.x;
+  caughtCheck();
+}
+
 }
 
 function caughtCheck() {
   //check if the fish got caught once it got reeled in (dragged to the top)
   if (fish1.y < 250) {
+    //fish will reset
     fish1.x = 500;
     fish1.vy = random(-fish1.speed, fish1.speed)
     fish1.y = random(250, 800);
+    chooseFish();
+    numFish++
+  }
+
+  //same for fish2 and fish3
+
+  if(fish2.y < 250) {
+    fish2.x = 1500;
+    fish2.vy = random(-fish2.speed, fish2.speed);
+    fish2.y = random(250, 800);
+    chooseFish();
+    numFish++
+  }
+
+  if(fish3.y < 250) {
+    fish3.x = 1500;
+    fish3.vy = random(-fish3.speed, fish3.speed);
+    fish3.y = random(250, 800);
     chooseFish();
     numFish++
   }
