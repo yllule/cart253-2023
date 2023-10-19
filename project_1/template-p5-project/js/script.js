@@ -2,8 +2,14 @@
  * Fishing simulator
  * Catherine Zaloshnja
  * Originally I wanted the fishing game to be more complex and inspired by the fishing system in Final Fantasy XIV,
- * but I simplified it to be more similar to Stardew Valley/Animal Crossing like fishing, and THEN I simplified it again
- * cause I couldn't figure out how to make that work.
+ * but I simplified it to be more similar to Stardew Valley/Animal Crossing like fishing, 
+ * and THEN I simplified it again cause I couldn't figure out how to make that work.
+ * 
+ * The general idea is that you need to hook fish and drag them to the surface to catch them. There are a total of 15 different fish/items that you can
+ * fish out and each of them have a probability of dropping. Once a new fish/item is caught the inventory on the right will light up showing what that fish is
+ * and keeping count of how many of that same fish you've caught. There is also a total fish counter and score. Each fish/item has a score attached to it.
+ * 
+ * there are still some things i'd like to add to this or polish like the fish img flipping depending on what direction its fishing, but due to lack of time i'm keeping it simple
  */
 
 "use strict";
@@ -15,6 +21,8 @@ let borderImg;
 let fishBgImg;
 let hookImg;
 let fishShadowImg;
+let fishShadowFlipImg;
+let bgImg;
 
 //a box showing what fish the user has or has not yet caught
 let inventoryBox = {
@@ -80,7 +88,7 @@ let fish3 = {
   size: 75,
   vx: 0,
   vy: 0,
-  speed: 1
+  speed: 1.5
 }
 
 //current score
@@ -174,7 +182,8 @@ function preload() {
   fishBgImg = loadImage("assets/images/bg-fish.png");
   hookImg = loadImage("assets/images/hook.png");
   fishShadowImg = loadImage("assets/images/fish.png");
-  smallFishImg = loadImage("assets/images/smallfish.png");
+  bgImg = loadImage("assets/images/bg.png");
+  fishShadowFlipImg = loadImage("assets/images/fishflip.png")
 
 }
 
@@ -243,15 +252,23 @@ function draw() {
 
 function title() {
   //title screen / tutorial
+
+  //you can see the game interface in the title screen
+  display();
+
+  //text in the title screen
   push();
   textSize(55);
   fill(255);
   textAlign(CENTER);
-  text('Fishing Simulator', width/2, height/2);
+  textFont('Georgia');
+  text('Fishing Simulator', width/2, height/2-150);
   textSize(35);
-  text('Use your mouse to control the hook and reel fish in by dragging them to the surface!', width/2, height/2+75);
-  textSize(20);
-  text('Click to start', width/2, height/2+125);
+  text('Use your mouse to control the hook.', width/2, height/2);
+  text('Reel fish in by dragging them to the surface!', width/2, height/2+50);
+  text('Try to catch them all. :)', width/2, height/2+100);
+  textSize(25);
+  text('Click to start', width/2, height/2+200);
   pop();
 }
 
@@ -262,19 +279,24 @@ function mousePressed() {
   }
 
   if (state === 'allFishCaught') {
-    state ='simulation';
+    state = 'simulation';
   }
 }
 
 function simulation() {
 
   display();
+  hookMove();
   fish();
   checkBite();
 
 }
 
 function display() {
+
+  //bg image
+  imageMode(CENTER);
+  image(bgImg, width/2, height/2);
 
   //main fishing box
   imageMode(CENTER);
@@ -306,6 +328,7 @@ function display() {
   push();
   noStroke();
   rectMode(CENTER);
+  fill(99, 64, 46);
   rect(inventoryBox.x, inventoryBox.y, inventoryBox.width, inventoryBox.height, 0, 30, 30, 0); // the left edges are not rounded so the inventory doesn't poke through the fishing interface bg
   pop();
 
@@ -327,16 +350,13 @@ function display() {
   sodaCanBox();
   treasureChestBox();
 
-  //user display, it is just the tip of the hook
-  imageMode(CENTER);
-  //constrain user y movement to the fishing box
-  hook.y = constrain(mouseY, 50, 950);
-  ellipse(hook.x, hook.y, hook.size, hook.size);
-  //hook string, i want it to follow the mouse X position
+  //fish inventory box text
   push();
-  noStroke();
-  rectMode(CORNER);
-  //rect(mouseX, mouseY, 5, 1000);
+  textAlign(CENTER);
+  textFont('Georgia');
+  fill(255, 202, 115);
+  textSize(75);
+  text('Inventory', inventoryBox.x, 85);
   pop();
 
   //border of the main fishing box
@@ -354,11 +374,12 @@ function display() {
   //display score text
   push();
   fill(0);
-  textSize(45);
-  text('Score:', scoreBox.x-120, scoreBox.y+15);
+  textSize(35);
+  textFont('Georgia');
+  text('Score:', scoreBox.x-120, scoreBox.y+10);
   textAlign(LEFT);
   //number of the score
-  text(score, scoreBox.x+15, scoreBox.y+16);
+  text(score, scoreBox.x+15, scoreBox.y+10);
   pop();
 
   //fish count box
@@ -371,12 +392,23 @@ function display() {
   //text display
   push();
   fill(0);
-  textSize(45);
-  text('Fish caught:', fishCountBox.x-175, fishCountBox.y+15);
+  textSize(35);
+  textFont('Georgia');
+  text('Fish caught:', fishCountBox.x-175, fishCountBox.y+10);
   textAlign(LEFT);
-  text(numFish, fishCountBox.x+75, fishCountBox.y+16);
+  text(numFish, fishCountBox.x+75, fishCountBox.y+10);
   pop();
 
+}
+
+function hookMove() {
+  //movement of the hook/user
+
+  //user display, it is just the tip of the hook
+  imageMode(CENTER);
+  image(hookImg, hook.x, hook.y);
+  //constrain user y movement to the fishing box
+  hook.y = constrain(mouseY, 50, 950);
 }
 
 function fish() {
@@ -400,8 +432,6 @@ function fish1move() {
   if(swimX < 0.001) {
     fish1.vx = random(-fish1.speed, fish1.speed);
   }
-
-  //fish img will flip depending on what way its swimming
 
   //Y movement of the fish1
   let swimY = random();
@@ -654,67 +684,82 @@ function frogBox() {
  if (frog.caught === false) {
   push();
   rectMode(CENTER);
-  fill(100, 100, 100);
+  fill(99, 64, 46);
+  strokeWeight(4);
+  stroke(44, 29, 29);
   rect(inventoryFishBox.x, inventoryFishBox.y, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
   pop();
   //display text
   push();
-  fill(0);
+  fill(44, 29, 29);
   textSize(45);
   textAlign(CENTER);
+  textFont('Georgia');
   text('???', inventoryFishBox.x, inventoryFishBox.y+15);
   pop();
  }
   else if(frog.caught === true) {
+  //display of the frog box if its caught
   push();
   rectMode(CENTER);
-  fill(255);
+  fill(160, 98, 65);
+  strokeWeight(4);
+  stroke(44, 29, 29);
   rect(inventoryFishBox.x, inventoryFishBox.y, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
   pop();
   //display text
   push();
-  fill(0);
-  textSize(45);
+  fill(255, 202, 115);
+  textSize(30);
   textAlign(CENTER);
-  text('Frog', inventoryFishBox.x-100, inventoryFishBox.y+15);
-  text(frog.counter, inventoryFishBox.x, inventoryFishBox.y+15);
+  textFont('Georgia');
+  text('Frog - 100 pts', inventoryFishBox.x-50, inventoryFishBox.y+10);
+  text(frog.counter, inventoryFishBox.x+150, inventoryFishBox.y+10);
   pop();
   }
 
 }
 
 //adding +55 to the y position for every rect so that they are one on top of the other
+//same thing for frog box but for all the other fish boxes
+
+//now that i'm done with this i realize there was a better way of getting this done by having less repetition and using variables....rip
 
 function catfishBox() {
   
   if (catfish.caught === false) {
   push();
   rectMode(CENTER);
-  fill(150, 150, 150);
+  fill(99, 64, 46);
+  strokeWeight(4);
+  stroke(44, 29, 29);
   rect(inventoryFishBox.x, inventoryFishBox.y+55, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
   pop();
   //display text
   push();
-  fill(0);
+  fill(44, 29, 29);
   textSize(45);
   textAlign(CENTER);
+  textFont('Georgia');
   text('???', inventoryFishBox.x, inventoryFishBox.y+70);
   pop();
   }
   else if(catfish.caught === true) {
   push();
   rectMode(CENTER);
-  fill(255);
+  fill(160, 98, 65);
+  strokeWeight(4);
+  stroke(44, 29, 29);
   rect(inventoryFishBox.x, inventoryFishBox.y+55, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
   pop();
   //display text
   push();
-  fill(0);
-  textSize(45);
+  fill(255, 202, 115);
+  textSize(30);
   textAlign(CENTER);
-  text('Catfish', inventoryFishBox.x-100, inventoryFishBox.y+70); //15+55 (the +y position)
-  ellipse(inventoryFishBox.x, inventoryFishBox.y+70)
-  text(catfish.counter, inventoryFishBox.x, inventoryFishBox.y+70);
+  textFont('Georgia');
+  text('Catfish - 200 pts', inventoryFishBox.x-50, inventoryFishBox.y+65); //15+55 (the +y position)
+  text(catfish.counter, inventoryFishBox.x+150, inventoryFishBox.y+65);
   pop();
   }
   
@@ -725,31 +770,36 @@ function loachBox() {
   if (loach.caught === false) {
   push();
   rectMode(CENTER);
-  fill(100, 100, 100);
+  fill(99, 64, 46);
+  strokeWeight(4);
+  stroke(44, 29, 29);
   rect(inventoryFishBox.x, inventoryFishBox.y+110, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
   pop();
   //display text
   push();
-  fill(0);
+  fill(44, 29, 29);
   textSize(45);
   textAlign(CENTER);
+  textFont('Georgia');
   text('???', inventoryFishBox.x, inventoryFishBox.y+125); // 15+55( +y for the box)
   pop();
   }
   else if(loach.caught === true) {
   push();
   rectMode(CENTER);
-  fill(255);
+  fill(160, 98, 65);
+  strokeWeight(4);
+  stroke(44, 29, 29);
   rect(inventoryFishBox.x, inventoryFishBox.y+110, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
   pop();
   //display text
   push();
-  fill(0);
-  textSize(45);
+  fill(255, 202, 115);
+  textSize(30);
   textAlign(CENTER);
-  text('Loach', inventoryFishBox.x-100, inventoryFishBox.y+125);
-  ellipse(inventoryFishBox.x, inventoryFishBox.y+125)
-  text(loach.counter, inventoryFishBox.x, inventoryFishBox.y+125);
+  textFont('Georgia');
+  text('Loach - 150 pts', inventoryFishBox.x-50, inventoryFishBox.y+120);
+  text(loach.counter, inventoryFishBox.x+150, inventoryFishBox.y+120);
   pop();
   }
   
@@ -760,31 +810,36 @@ function perchBox() {
   if (perch.caught === false) {
   push();
   rectMode(CENTER);
-  fill(150, 150, 150);
+  fill(99, 64, 46);
+  strokeWeight(4);
+  stroke(44, 29, 29);
   rect(inventoryFishBox.x, inventoryFishBox.y+165, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
   pop();
   //display text
   push();
-  fill(0);
+  fill(44, 29, 29);
   textSize(45);
   textAlign(CENTER);
+  textFont('Georgia');
   text('???', inventoryFishBox.x, inventoryFishBox.y+180);
   pop();
   }
   else if (perch.caught === true) {
   push();
   rectMode(CENTER);
-  fill(255);
+  fill(160, 98, 65);
+  strokeWeight(4);
+  stroke(44, 29, 29);
   rect(inventoryFishBox.x, inventoryFishBox.y+165, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
   pop(); 
   //display text
   push();
-  fill(0);
-  textSize(45);
+  fill(255, 202, 115);
+  textSize(30);
   textAlign(CENTER);
-  text('Perch', inventoryFishBox.x-100, inventoryFishBox.y+180);
-  ellipse(inventoryFishBox.x, inventoryFishBox.y+180)
-  text(perch.counter, inventoryFishBox.x, inventoryFishBox.y+180);
+  textFont('Georgia');
+  text('Perch - 120 pts', inventoryFishBox.x-50, inventoryFishBox.y+175);
+  text(perch.counter, inventoryFishBox.x+150, inventoryFishBox.y+175);
   pop();
   }
   
@@ -795,31 +850,36 @@ function salmonBox() {
   if (salmon.caught === false) {
   push();
   rectMode(CENTER);
-  fill(100, 100, 100);
+  fill(99, 64, 46);
+  strokeWeight(4);
+  stroke(44, 29, 29);
   rect(inventoryFishBox.x, inventoryFishBox.y+220, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
   pop();
   //display text
   push();
-  fill(0);
+  fill(44, 29, 29);
   textSize(45);
   textAlign(CENTER);
+  textFont('Georgia');
   text('???', inventoryFishBox.x, inventoryFishBox.y+235);
   pop();
   }
   else if (salmon.caught === true) {
   push();
   rectMode(CENTER);
-  fill(255);
+  fill(160, 98, 65);
+  strokeWeight(4);
+  stroke(44, 29, 29);
   rect(inventoryFishBox.x, inventoryFishBox.y+220, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
   pop();
   //display text
   push();
-  fill(0);
-  textSize(45);
+  fill(255, 202, 115);
+  textSize(30);
   textAlign(CENTER);
-  text('Salmon', inventoryFishBox.x-100, inventoryFishBox.y+235);
-  ellipse(inventoryFishBox.x, inventoryFishBox.y+235)
-  text(salmon.counter, inventoryFishBox.x, inventoryFishBox.y+235);
+  textFont('Georgia');
+  text('Salmon - 500 pts', inventoryFishBox.x-50, inventoryFishBox.y+230);
+  text(salmon.counter, inventoryFishBox.x+150, inventoryFishBox.y+230);
   pop();
   }
   
@@ -830,31 +890,36 @@ function carpBox() {
   if (carp.caught === false) {
   push();
   rectMode(CENTER);
-  fill(150, 150, 150);
+  fill(99, 64, 46);
+  strokeWeight(4);
+  stroke(44, 29, 29);
   rect(inventoryFishBox.x, inventoryFishBox.y+275, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
   pop();
   //display text
   push();
-  fill(0);
+  fill(44, 29, 29);
   textSize(45);
   textAlign(CENTER);
+  textFont('Georgia');
   text('???', inventoryFishBox.x, inventoryFishBox.y+290);
   pop();
   }
   else if (carp.caught === true) {
   push();
   rectMode(CENTER);
-  fill(255);
+  fill(160, 98, 65);
+  strokeWeight(4);
+  stroke(44, 29, 29);
   rect(inventoryFishBox.x, inventoryFishBox.y+275, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
   pop();
   //display text
   push();
-  fill(0);
-  textSize(45);
+  fill(255, 202, 115);
+  textSize(30);
   textAlign(CENTER);
-  text('Carp', inventoryFishBox.x-100, inventoryFishBox.y+290);
-  ellipse(inventoryFishBox.x, inventoryFishBox.y+290)
-  text(carp.counter, inventoryFishBox.x, inventoryFishBox.y+290);
+  textFont('Georgia');
+  text('Carp - 120 pts', inventoryFishBox.x-50, inventoryFishBox.y+285);
+  text(carp.counter, inventoryFishBox.x+150, inventoryFishBox.y+285);
   pop();
   }
   
@@ -865,31 +930,36 @@ function koiBox() {
   if (koi.caught === false) {
   push();
   rectMode(CENTER);
-  fill(100, 100, 100);
+  fill(99, 64, 46);
+  strokeWeight(4);
+  stroke(44, 29, 29);
   rect(inventoryFishBox.x, inventoryFishBox.y+330, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
   pop();
   //display text
   push();
-  fill(0);
+  fill(44, 29, 29);
   textSize(45);
   textAlign(CENTER);
+  textFont('Georgia');
   text('???', inventoryFishBox.x, inventoryFishBox.y+345);
   pop();
   }
   else if (koi.caught === true) {
   push();
   rectMode(CENTER);
-  fill(255);
+  fill(160, 98, 65);
+  strokeWeight(4);
+  stroke(44, 29, 29);
   rect(inventoryFishBox.x, inventoryFishBox.y+330, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
   pop();
   //display text
   push();
-  fill(0);
-  textSize(45);
+  fill(255, 202, 115);
+  textSize(30);
   textAlign(CENTER);
-  text('Koi', inventoryFishBox.x-100, inventoryFishBox.y+345);
-  ellipse(inventoryFishBox.x, inventoryFishBox.y+345)
-  text(koi.counter, inventoryFishBox.x, inventoryFishBox.y+345);
+  textFont('Georgia');
+  text('Koi - 1000 pts', inventoryFishBox.x-50, inventoryFishBox.y+340);
+  text(koi.counter, inventoryFishBox.x+150, inventoryFishBox.y+340);
   pop();
   }
   
@@ -900,32 +970,38 @@ function mutantCarpBox() {
   if (mutantCarp.caught === false) {
   push();
   rectMode(CENTER);
-  fill(150, 150, 150);
+  fill(99, 64, 46);
+  strokeWeight(4);
+  stroke(44, 29, 29);
   rect(inventoryFishBox.x, inventoryFishBox.y+385, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
   pop();
   //display text
   push();
-  fill(0);
+  fill(44, 29, 29);
   textSize(45);
   textAlign(CENTER);
+  textFont('Georgia');
   text('???', inventoryFishBox.x, inventoryFishBox.y+400);
   pop();
   }
   else if (mutantCarp.caught === true) {
-    push();
-    rectMode(CENTER);
-    fill(255);
-    rect(inventoryFishBox.x, inventoryFishBox.y+385, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
-    pop();
-    //display text
-    push();
-    fill(0);
-    textSize(45);
-    textAlign(CENTER);
-    text('Mutant Carp', inventoryFishBox.x-100, inventoryFishBox.y+400);
-    ellipse(inventoryFishBox.x, inventoryFishBox.y+400)
-    text(mutantCarp.counter, inventoryFishBox.x, inventoryFishBox.y+400);
-    pop();
+  push();
+  rectMode(CENTER);
+  fill(160, 98, 65);
+  strokeWeight(4);
+  stroke(44, 29, 29);
+  rect(inventoryFishBox.x, inventoryFishBox.y+385, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
+  pop();
+  //display text
+  push();
+  fill(255, 202, 115);
+  textSize(20);
+  textAlign(CENTER);
+  textFont('Georgia');
+  text('Mutant Carp - 30 000 pts', inventoryFishBox.x-50, inventoryFishBox.y+395);
+  textSize(30);
+  text(mutantCarp.counter, inventoryFishBox.x+150, inventoryFishBox.y+395);
+  pop();
   }
   
 }
@@ -935,31 +1011,36 @@ function sturgeonBox() {
   if (sturgeon.caught === false) {
   push();
   rectMode(CENTER);
-  fill(100, 100, 100);
+  fill(99, 64, 46);
+  strokeWeight(4);
+  stroke(44, 29, 29);
   rect(inventoryFishBox.x, inventoryFishBox.y+440, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
   pop();
   //display text
   push();
-  fill(0);
+  fill(44, 29, 29);
   textSize(45);
   textAlign(CENTER);
+  textFont('Georgia');
   text('???', inventoryFishBox.x, inventoryFishBox.y+455);
   pop();
   }
   else if (sturgeon.caught === true) {
   push();
   rectMode(CENTER);
-  fill(255);
+  fill(160, 98, 65);
+  strokeWeight(4);
+  stroke(44, 29, 29);
   rect(inventoryFishBox.x, inventoryFishBox.y+440, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
   pop();
   //display text
   push();
-  fill(0);
-  textSize(45);
+  fill(255, 202, 115);
+  textSize(30);
   textAlign(CENTER);
-  text('Sturgeon', inventoryFishBox.x-100, inventoryFishBox.y+455);
-  ellipse(inventoryFishBox.x, inventoryFishBox.y+455)
-  text(sturgeon.counter, inventoryFishBox.x, inventoryFishBox.y+455);
+  textFont('Georgia');
+  text('Sturgeon - 5000 pts', inventoryFishBox.x-50, inventoryFishBox.y+450);
+  text(sturgeon.counter, inventoryFishBox.x+150, inventoryFishBox.y+450);
   pop();
   }
   
@@ -970,31 +1051,36 @@ function bassBox() {
   if (bass.caught === false) {
   push();
   rectMode(CENTER);
-  fill(150, 150, 150);
+  fill(99, 64, 46);
+  strokeWeight(4);
+  stroke(44, 29, 29);
   rect(inventoryFishBox.x, inventoryFishBox.y+495, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
   pop();
   //display text
   push();
-  fill(0);
+  fill(44, 29, 29);
   textSize(45);
   textAlign(CENTER);
+  textFont('Georgia');
   text('???', inventoryFishBox.x, inventoryFishBox.y+510);
   pop();
   }
   else if (bass.caught === true) {
   push();
   rectMode(CENTER);
-  fill(255);
+  fill(160, 98, 65);
+  strokeWeight(4);
+  stroke(44, 29, 29);
   rect(inventoryFishBox.x, inventoryFishBox.y+495, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
   pop();
   //display text
   push();
-  fill(0);
-  textSize(45);
+  fill(255, 202, 115);
+  textSize(30);
   textAlign(CENTER);
-  text('Bass', inventoryFishBox.x-100, inventoryFishBox.y+510);
-  ellipse(inventoryFishBox.x, inventoryFishBox.y+510)
-  text(bass.counter, inventoryFishBox.x, inventoryFishBox.y+510);
+  textFont('Georgia');
+  text('Bass - 200 pts', inventoryFishBox.x-50, inventoryFishBox.y+505);
+  text(bass.counter, inventoryFishBox.x+150, inventoryFishBox.y+505);
   pop();
   }
   
@@ -1005,31 +1091,36 @@ function crystalBox() {
   if (crystal.caught === false) {
   push();
   rectMode(CENTER);
-  fill(100, 100, 100);
+  fill(99, 64, 46);
+  strokeWeight(4);
+  stroke(44, 29, 29);
   rect(inventoryFishBox.x, inventoryFishBox.y+550, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
   pop();
   //display text
   push();
-  fill(0);
+  fill(44, 29, 29);
   textSize(45);
   textAlign(CENTER);
+  textFont('Georgia');
   text('???', inventoryFishBox.x, inventoryFishBox.y+565);
   pop();
   }
   else if (crystal.caught === true) {
   push();
   rectMode(CENTER);
-  fill(255);
+  fill(160, 98, 65);
+  strokeWeight(4);
+  stroke(44, 29, 29);
   rect(inventoryFishBox.x, inventoryFishBox.y+550, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
   pop();
   //display text
   push();
-  fill(0);
-  textSize(45);
+  fill(255, 202, 115);
+  textSize(30);
   textAlign(CENTER);
-  text('Crystal', inventoryFishBox.x-100, inventoryFishBox.y+565);
-  ellipse(inventoryFishBox.x, inventoryFishBox.y+565)
-  text(crystal.counter, inventoryFishBox.x, inventoryFishBox.y+565);
+  textFont('Georgia');
+  text('Crystal - 10 000 pts', inventoryFishBox.x-50, inventoryFishBox.y+560);
+  text(crystal.counter, inventoryFishBox.x+150, inventoryFishBox.y+560);
   pop();
   }
   
@@ -1040,31 +1131,36 @@ function brokenGlassesBox() {
   if (brokenGlasses.caught === false) {
   push();
   rectMode(CENTER);
-  fill(150, 150, 150);
+  fill(99, 64, 46);
+  strokeWeight(4);
+  stroke(44, 29, 29);
   rect(inventoryFishBox.x, inventoryFishBox.y+605, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
   pop();
   //display text
   push();
-  fill(0);
+  fill(44, 29, 29);
   textSize(45);
   textAlign(CENTER);
+  textFont('Georgia');
   text('???', inventoryFishBox.x, inventoryFishBox.y+620);
   pop();
   }
   else if (brokenGlasses.caught === true) {
   push();
   rectMode(CENTER);
-  fill(255);
+  fill(160, 98, 65);
+  strokeWeight(4);
+  stroke(44, 29, 29);
   rect(inventoryFishBox.x, inventoryFishBox.y+605, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
   pop();
   //display text
   push();
-  fill(0);
-  textSize(45);
+  fill(255, 202, 115);
+  textSize(30);
   textAlign(CENTER);
-  text('Broken Glasses', inventoryFishBox.x-100, inventoryFishBox.y+620);
-  ellipse(inventoryFishBox.x, inventoryFishBox.y+620)
-  text(brokenGlasses.counter, inventoryFishBox.x, inventoryFishBox.y+620);
+  textFont('Georgia');
+  text('Broken Glasses - 10 pts', inventoryFishBox.x-50, inventoryFishBox.y+615);
+  text(brokenGlasses.counter, inventoryFishBox.x+150, inventoryFishBox.y+615);
   pop();
   }
   
@@ -1075,31 +1171,36 @@ function soggySockBox() {
   if (soggySock.caught === false) {
   push();
   rectMode(CENTER);
-  fill(100, 100, 100);
+  fill(99, 64, 46);
+  strokeWeight(4);
+  stroke(44, 29, 29);
   rect(inventoryFishBox.x, inventoryFishBox.y+660, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
   pop();
   //display text
   push();
-  fill(0);
+  fill(44, 29, 29);
   textSize(45);
   textAlign(CENTER);
+  textFont('Georgia');
   text('???', inventoryFishBox.x, inventoryFishBox.y+675);
   pop();
   }
   else if (soggySock.caught === true) {
   push();
   rectMode(CENTER);
-  fill(255);
+  strokeWeight(4);
+  stroke(44, 29, 29);
+  fill(160, 98, 65);
   rect(inventoryFishBox.x, inventoryFishBox.y+660, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
   pop();
   //display text
   push();
-  fill(0);
-  textSize(45);
+  fill(255, 202, 115);
+  textSize(30);
   textAlign(CENTER);
-  text('Soggy Sock', inventoryFishBox.x-100, inventoryFishBox.y+675);
-  ellipse(inventoryFishBox.x, inventoryFishBox.y+675)
-  text(soggySock.counter, inventoryFishBox.x, inventoryFishBox.y+675);
+  textFont('Georgia');
+  text('Soggy Sock - 5 pts', inventoryFishBox.x-50, inventoryFishBox.y+670);
+  text(soggySock.counter, inventoryFishBox.x+150, inventoryFishBox.y+670);
   pop();
   }
   
@@ -1110,31 +1211,36 @@ function sodaCanBox() {
   if (sodaCan.caught === false) {
   push();
   rectMode(CENTER);
-  fill(150, 150, 150);
+  fill(99, 64, 46);
+  strokeWeight(4);
+  stroke(44, 29, 29);
   rect(inventoryFishBox.x, inventoryFishBox.y+715, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
   pop();
   //display text
   push();
-  fill(0);
+  fill(44, 29, 29);
   textSize(45);
   textAlign(CENTER);
+  textFont('Georgia');
   text('???', inventoryFishBox.x, inventoryFishBox.y+730);
   pop();
   }
   else if (sodaCan.caught === true) {
   push();
   rectMode(CENTER);
-  fill(255);
+  fill(160, 98, 65);
+  strokeWeight(4);
+  stroke(44, 29, 29);
   rect(inventoryFishBox.x, inventoryFishBox.y+715, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
   pop();
   //display text
   push();
-  fill(0);
-  textSize(45);
+  fill(255, 202, 115);
+  textSize(30);
   textAlign(CENTER);
-  text('Soda Can', inventoryFishBox.x-100, inventoryFishBox.y+730);
-  ellipse(inventoryFishBox.x, inventoryFishBox.y+730)
-  text(sodaCan.counter, inventoryFishBox.x, inventoryFishBox.y+730);
+  textFont('Georgia');
+  text('Soda Can - 5 pts', inventoryFishBox.x-50, inventoryFishBox.y+725);
+  text(sodaCan.counter, inventoryFishBox.x+150, inventoryFishBox.y+725);
   pop();
   }
   
@@ -1145,37 +1251,45 @@ function treasureChestBox() {
   if (treasureChest.caught === false) {
   push();
   rectMode(CENTER);
-  fill(100, 100, 100);
+  fill(99, 64, 46);
+  strokeWeight(4);
+  stroke(44, 29, 29);
   rect(inventoryFishBox.x, inventoryFishBox.y+770, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
   pop();
   //display text
   push();
-  fill(0);
+  fill(44, 29, 29);
   textSize(45);
   textAlign(CENTER);
+  textFont('Georgia');
   text('???', inventoryFishBox.x, inventoryFishBox.y+785);
   pop();
   }
   else if(treasureChest.caught === true) {
   push();
   rectMode(CENTER);
-  fill(255);
+  fill(160, 98, 65);
+  strokeWeight(4);
+  stroke(44, 29, 29);
   rect(inventoryFishBox.x, inventoryFishBox.y+770, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
   pop();
   //display text
   push();
-  fill(0);
-  textSize(45);
+  fill(255, 202, 115);
+  textSize(20);
   textAlign(CENTER);
-  text('Treasure Chest', inventoryFishBox.x-100, inventoryFishBox.y+785);
-  ellipse(inventoryFishBox.x, inventoryFishBox.y+785)
-  text(treasureChest.counter, inventoryFishBox.x, inventoryFishBox.y+785);
+  textFont('Georgia');
+  text('Treasure Chest - 15 000 pts', inventoryFishBox.x-50, inventoryFishBox.y+780);
+  textSize(30);
+  text(treasureChest.counter, inventoryFishBox.x+150, inventoryFishBox.y+780);
   pop();
   }
   
 }
 
 function checkAllFishCaught() {
+  //check if all fish have been caught to execute allFishCaught state
+  //i tried getting this ending to see if the code works and was unable to...there's always just one fish that does NOT want to drop, so i have no idea if this works or not lol
   if (frog.caught === true && catfish.caught === true && loach.caught === true && perch.caught === true && salmon.caught === true && carp.caught === true && koi.caught === true && mutantCarp.caught === true && sturgeon.caught === true && bass.caught === true && crystal.caught === true && brokenGlasses.caught === true && soggySock.caught === true && sodaCan.caught === true && treasureChest.caught === true) {
     state = 'allFishCaught';
   }
@@ -1187,6 +1301,7 @@ push();
 textSize(55);
 fill(255);
 textAlign(CENTER);
+textFont('Georgia');
 text('You caught all the fish!', width/2, height/2);
 textSize(35);
 text('Click to resume game.', width/2, height/2+75);
