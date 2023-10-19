@@ -25,6 +25,14 @@ let inventoryBox = {
   height: 900
 };
 
+//each box inside the inventory box for each fish
+let inventoryFishBox = {
+  x: undefined,
+  y: undefined,
+  width: 410,
+  height: 55
+}
+
 //each different type of fish caught is worth a certain amount, this will keep track of the user's score
 let scoreBox = {
   x: undefined,
@@ -178,8 +186,13 @@ function setup() {
   fish1.y = random(200, 900);
   fish1.vx = fish1.speed;
 
+  //setting up the hook (user) position
   hook.x = width/2;
   hook.y = mouseY;
+
+  //setting up the position of the inventory fish box
+  inventoryFishBox.x = width-275;
+  inventoryFishBox.y = 125;
 
 }
 
@@ -189,24 +202,18 @@ function setup() {
 */
 function draw() {
   background(100, 0, 220);
-  bgElements();
   display();
   fish();
   checkBite();
 
 }
 
-function bgElements() { // i made this function just to help with the layering of certain visual elements
-//these ones will be all the way in the back of the screen
-
-//main fishing box
-imageMode(CENTER);
-image(fishBgImg, width/2, height/2);
-
-}
-
 
 function display() {
+
+  //main fishing box
+  imageMode(CENTER);
+  image(fishBgImg, width/2, height/2);
 
   //fish1 display
   push();
@@ -220,8 +227,26 @@ function display() {
   push();
   noStroke();
   rectMode(CENTER);
-  rect(inventoryBox.x, inventoryBox.y, inventoryBox.width, inventoryBox.height, 0, 50, 50, 0);
+  rect(inventoryBox.x, inventoryBox.y, inventoryBox.width, inventoryBox.height, 0, 30, 30, 0); // the left edges are not rounded so the inventory doesn't poke through the fishing interface bg
   pop();
+
+  //display of each fish box inside the inventory, named after the fish each box represents. each function decides whether the display of the fish box will be greyed out or not depending on if that fish has been caught before
+
+  frogBox();
+  catfishBox();
+  loachBox();
+  perchBox();
+  salmonBox();
+  carpBox();
+  koiBox();
+  mutantCarpBox();
+  sturgeonBox();
+  bassBox();
+  crystalBox();
+  brokenGlassesBox();
+  soggySockBox();
+  sodaCanBox();
+  treasureChestBox();
 
   //user display, it is just the tip of the hook
   imageMode(CENTER);
@@ -295,7 +320,7 @@ function fish() {
     fish1.vy = random(-fish1.speed, fish1.speed);
   }
 
-  // Bounce the target
+  // fish will bounce off the edge of the fishing interface if it touches it
   if (fish1.x <= 500 || fish1.x >= 1500) {
     fish1.vx = -fish1.vx;
   }
@@ -352,64 +377,618 @@ function chooseFish() {
   if (i <= 11) {
     score = score+120;
     //perch
-    if (perch.caught = false) {
-      perch.caught = true;
-    }
+    perch.caught = true;
+    perch.counter++;
 	}
 	else if (i <= 22 && i > 11) {
     score = score+200;
+    bass.caught = true;
+    bass.counter++;
     //bass
 	}
   else if (i <= 32 && i > 22) {
     score = score+100;
+    frog.caught = true;
+    frog.counter++;
     //frog
   }
   else if (i <= 42 && i > 32) {
     score = score+150;
+    loach.caught = true;
+    loach.counter++;
     //loach
   }
   else if(i <= 52 && i > 42) {
     score = score+120;
+    carp.caught = true;
+    carp.counter++;
     //carp
   }
   else if(i <= 61.5 && i > 52) {
     score = score+200;;
+    carp.caught = true;
+    carp.counter++;
     //catfish
   }
   else if(i <= 69.5 && i > 61.5) {
     score = score+5;
+    sodaCan.caught = true;
+    sodaCan.counter++;
     //empty soda can
   }
   else if(i <= 76.5 && i > 69.5) {
     score = score+5;
+    soggySock.caught = true;
+    soggySock.counter++;
     //soggy sock
   }
   else if(i <= 82.5 && i > 76.5) {
     score = score+500;
+    salmon.caught = true;
+    salmon.counter++;
     //salmon
   }
   else if(i <= 88.5 && i > 82.5) {
     score = score+10;
+    brokenGlasses.caught = true;
+    brokenGlasses.counter++;
     //broken glasses
   }
   else if(i <= 93.5 && i > 88.5) {
     score = score+1000;
+    koi.caught = true;
+    koi.counter++;
     //koi
   }
   else if(i <= 97.5 && i > 93.5) {
     score = score+5000;
+    sturgeon.caught = true;
+    sturgeon.counter++;
     //sturgeon
   }
   else if(i <= 98.5 && i > 97.5) {
     score = score+10000;
+    crystal.caught = true;
+    crystal.counter++;
     //crystal
   }
   else if(i <= 99.5 && i > 98.5) {
     score = score+15000;
+    treasureChest.caught = true;
+    treasureChest.counter++;
     //treasure chest
   }
   else if(i <= 100 && i > 99.5) {
     score = score+30000;
+    mutantCarp.caught = true;
+    mutantCarp.counter++;
     //mutant carp
   }
+}
+
+
+function frogBox() {
+//display of the frog box if it hasn't been caught yet
+ if (frog.caught === false) {
+  push();
+  rectMode(CENTER);
+  fill(100, 100, 100);
+  rect(inventoryFishBox.x, inventoryFishBox.y, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
+  pop();
+  //display text
+  push();
+  fill(0);
+  textSize(45);
+  textAlign(CENTER);
+  text('???', inventoryFishBox.x, inventoryFishBox.y+15);
+  pop();
+ }
+  else if(frog.caught === true) {
+  push();
+  rectMode(CENTER);
+  fill(255);
+  rect(inventoryFishBox.x, inventoryFishBox.y, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
+  pop();
+  //display text
+  push();
+  fill(0);
+  textSize(45);
+  textAlign(CENTER);
+  text('Frog', inventoryFishBox.x-100, inventoryFishBox.y+15);
+  text(frog.counter, inventoryFishBox.x, inventoryFishBox.y+15);
+  pop();
+  }
+
+}
+
+//adding +55 to the y position for every rect so that they are one on top of the other
+
+function catfishBox() {
+  
+  if (catfish.caught === false) {
+  push();
+  rectMode(CENTER);
+  fill(150, 150, 150);
+  rect(inventoryFishBox.x, inventoryFishBox.y+55, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
+  pop();
+  //display text
+  push();
+  fill(0);
+  textSize(45);
+  textAlign(CENTER);
+  text('???', inventoryFishBox.x, inventoryFishBox.y+70);
+  pop();
+  }
+  else if(catfish.caught === true) {
+  push();
+  rectMode(CENTER);
+  fill(255);
+  rect(inventoryFishBox.x, inventoryFishBox.y+55, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
+  pop();
+  //display text
+  push();
+  fill(0);
+  textSize(45);
+  textAlign(CENTER);
+  text('Catfish', inventoryFishBox.x-100, inventoryFishBox.y+70); //15+55 (the +y position)
+  ellipse(inventoryFishBox.x, inventoryFishBox.y+70)
+  text(catfish.counter, inventoryFishBox.x, inventoryFishBox.y+70);
+  pop();
+  }
+  
+}
+
+function loachBox() {
+    
+  if (loach.caught === false) {
+  push();
+  rectMode(CENTER);
+  fill(100, 100, 100);
+  rect(inventoryFishBox.x, inventoryFishBox.y+110, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
+  pop();
+  //display text
+  push();
+  fill(0);
+  textSize(45);
+  textAlign(CENTER);
+  text('???', inventoryFishBox.x, inventoryFishBox.y+125); // 15+55( +y for the box)
+  pop();
+  }
+  else if(loach.caught === true) {
+  push();
+  rectMode(CENTER);
+  fill(255);
+  rect(inventoryFishBox.x, inventoryFishBox.y+110, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
+  pop();
+  //display text
+  push();
+  fill(0);
+  textSize(45);
+  textAlign(CENTER);
+  text('Loach', inventoryFishBox.x-100, inventoryFishBox.y+125);
+  ellipse(inventoryFishBox.x, inventoryFishBox.y+125)
+  text(loach.counter, inventoryFishBox.x, inventoryFishBox.y+125);
+  pop();
+  }
+  
+}
+
+function perchBox() {
+
+  if (perch.caught === false) {
+  push();
+  rectMode(CENTER);
+  fill(150, 150, 150);
+  rect(inventoryFishBox.x, inventoryFishBox.y+165, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
+  pop();
+  //display text
+  push();
+  fill(0);
+  textSize(45);
+  textAlign(CENTER);
+  text('???', inventoryFishBox.x, inventoryFishBox.y+180);
+  pop();
+  }
+  else if (perch.caught === true) {
+  push();
+  rectMode(CENTER);
+  fill(255);
+  rect(inventoryFishBox.x, inventoryFishBox.y+165, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
+  pop(); 
+  //display text
+  push();
+  fill(0);
+  textSize(45);
+  textAlign(CENTER);
+  text('Perch', inventoryFishBox.x-100, inventoryFishBox.y+180);
+  ellipse(inventoryFishBox.x, inventoryFishBox.y+180)
+  text(perch.counter, inventoryFishBox.x, inventoryFishBox.y+180);
+  pop();
+  }
+  
+}
+
+function salmonBox() {
+    
+  if (salmon.caught === false) {
+  push();
+  rectMode(CENTER);
+  fill(100, 100, 100);
+  rect(inventoryFishBox.x, inventoryFishBox.y+220, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
+  pop();
+  //display text
+  push();
+  fill(0);
+  textSize(45);
+  textAlign(CENTER);
+  text('???', inventoryFishBox.x, inventoryFishBox.y+235);
+  pop();
+  }
+  else if (salmon.caught === true) {
+  push();
+  rectMode(CENTER);
+  fill(255);
+  rect(inventoryFishBox.x, inventoryFishBox.y+220, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
+  pop();
+  //display text
+  push();
+  fill(0);
+  textSize(45);
+  textAlign(CENTER);
+  text('Salmon', inventoryFishBox.x-100, inventoryFishBox.y+235);
+  ellipse(inventoryFishBox.x, inventoryFishBox.y+235)
+  text(salmon.counter, inventoryFishBox.x, inventoryFishBox.y+235);
+  pop();
+  }
+  
+}
+
+function carpBox() {
+    
+  if (carp.caught === false) {
+  push();
+  rectMode(CENTER);
+  fill(150, 150, 150);
+  rect(inventoryFishBox.x, inventoryFishBox.y+275, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
+  pop();
+  //display text
+  push();
+  fill(0);
+  textSize(45);
+  textAlign(CENTER);
+  text('???', inventoryFishBox.x, inventoryFishBox.y+290);
+  pop();
+  }
+  else if (carp.caught === true) {
+  push();
+  rectMode(CENTER);
+  fill(255);
+  rect(inventoryFishBox.x, inventoryFishBox.y+275, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
+  pop();
+  //display text
+  push();
+  fill(0);
+  textSize(45);
+  textAlign(CENTER);
+  text('Carp', inventoryFishBox.x-100, inventoryFishBox.y+290);
+  ellipse(inventoryFishBox.x, inventoryFishBox.y+290)
+  text(carp.counter, inventoryFishBox.x, inventoryFishBox.y+290);
+  pop();
+  }
+  
+}
+
+function koiBox() {
+    
+  if (koi.caught === false) {
+  push();
+  rectMode(CENTER);
+  fill(100, 100, 100);
+  rect(inventoryFishBox.x, inventoryFishBox.y+330, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
+  pop();
+  //display text
+  push();
+  fill(0);
+  textSize(45);
+  textAlign(CENTER);
+  text('???', inventoryFishBox.x, inventoryFishBox.y+345);
+  pop();
+  }
+  else if (koi.caught === true) {
+  push();
+  rectMode(CENTER);
+  fill(255);
+  rect(inventoryFishBox.x, inventoryFishBox.y+330, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
+  pop();
+  //display text
+  push();
+  fill(0);
+  textSize(45);
+  textAlign(CENTER);
+  text('Koi', inventoryFishBox.x-100, inventoryFishBox.y+345);
+  ellipse(inventoryFishBox.x, inventoryFishBox.y+345)
+  text(koi.counter, inventoryFishBox.x, inventoryFishBox.y+345);
+  pop();
+  }
+  
+}
+
+function mutantCarpBox() {
+      
+  if (mutantCarp.caught === false) {
+  push();
+  rectMode(CENTER);
+  fill(150, 150, 150);
+  rect(inventoryFishBox.x, inventoryFishBox.y+385, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
+  pop();
+  //display text
+  push();
+  fill(0);
+  textSize(45);
+  textAlign(CENTER);
+  text('???', inventoryFishBox.x, inventoryFishBox.y+400);
+  pop();
+  }
+  else if (mutantCarp.caught === true) {
+    push();
+    rectMode(CENTER);
+    fill(255);
+    rect(inventoryFishBox.x, inventoryFishBox.y+385, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
+    pop();
+    //display text
+    push();
+    fill(0);
+    textSize(45);
+    textAlign(CENTER);
+    text('Mutant Carp', inventoryFishBox.x-100, inventoryFishBox.y+400);
+    ellipse(inventoryFishBox.x, inventoryFishBox.y+400)
+    text(mutantCarp.counter, inventoryFishBox.x, inventoryFishBox.y+400);
+    pop();
+  }
+  
+}
+
+function sturgeonBox() {
+      
+  if (sturgeon.caught === false) {
+  push();
+  rectMode(CENTER);
+  fill(100, 100, 100);
+  rect(inventoryFishBox.x, inventoryFishBox.y+440, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
+  pop();
+  //display text
+  push();
+  fill(0);
+  textSize(45);
+  textAlign(CENTER);
+  text('???', inventoryFishBox.x, inventoryFishBox.y+455);
+  pop();
+  }
+  else if (sturgeon.caught === true) {
+  push();
+  rectMode(CENTER);
+  fill(255);
+  rect(inventoryFishBox.x, inventoryFishBox.y+440, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
+  pop();
+  //display text
+  push();
+  fill(0);
+  textSize(45);
+  textAlign(CENTER);
+  text('Sturgeon', inventoryFishBox.x-100, inventoryFishBox.y+455);
+  ellipse(inventoryFishBox.x, inventoryFishBox.y+455)
+  text(sturgeon.counter, inventoryFishBox.x, inventoryFishBox.y+455);
+  pop();
+  }
+  
+}
+
+function bassBox() {
+      
+  if (bass.caught === false) {
+  push();
+  rectMode(CENTER);
+  fill(150, 150, 150);
+  rect(inventoryFishBox.x, inventoryFishBox.y+495, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
+  pop();
+  //display text
+  push();
+  fill(0);
+  textSize(45);
+  textAlign(CENTER);
+  text('???', inventoryFishBox.x, inventoryFishBox.y+510);
+  pop();
+  }
+  else if (bass.caught === true) {
+  push();
+  rectMode(CENTER);
+  fill(255);
+  rect(inventoryFishBox.x, inventoryFishBox.y+495, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
+  pop();
+  //display text
+  push();
+  fill(0);
+  textSize(45);
+  textAlign(CENTER);
+  text('Bass', inventoryFishBox.x-100, inventoryFishBox.y+510);
+  ellipse(inventoryFishBox.x, inventoryFishBox.y+510)
+  text(bass.counter, inventoryFishBox.x, inventoryFishBox.y+510);
+  pop();
+  }
+  
+}
+
+function crystalBox() {
+      
+  if (crystal.caught === false) {
+  push();
+  rectMode(CENTER);
+  fill(100, 100, 100);
+  rect(inventoryFishBox.x, inventoryFishBox.y+550, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
+  pop();
+  //display text
+  push();
+  fill(0);
+  textSize(45);
+  textAlign(CENTER);
+  text('???', inventoryFishBox.x, inventoryFishBox.y+565);
+  pop();
+  }
+  else if (crystal.caught === true) {
+  push();
+  rectMode(CENTER);
+  fill(255);
+  rect(inventoryFishBox.x, inventoryFishBox.y+550, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
+  pop();
+  //display text
+  push();
+  fill(0);
+  textSize(45);
+  textAlign(CENTER);
+  text('Crystal', inventoryFishBox.x-100, inventoryFishBox.y+565);
+  ellipse(inventoryFishBox.x, inventoryFishBox.y+565)
+  text(crystal.counter, inventoryFishBox.x, inventoryFishBox.y+565);
+  pop();
+  }
+  
+}
+
+function brokenGlassesBox() {
+      
+  if (brokenGlasses.caught === false) {
+  push();
+  rectMode(CENTER);
+  fill(150, 150, 150);
+  rect(inventoryFishBox.x, inventoryFishBox.y+605, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
+  pop();
+  //display text
+  push();
+  fill(0);
+  textSize(45);
+  textAlign(CENTER);
+  text('???', inventoryFishBox.x, inventoryFishBox.y+620);
+  pop();
+  }
+  else if (brokenGlasses.caught === true) {
+  push();
+  rectMode(CENTER);
+  fill(255);
+  rect(inventoryFishBox.x, inventoryFishBox.y+605, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
+  pop();
+  //display text
+  push();
+  fill(0);
+  textSize(45);
+  textAlign(CENTER);
+  text('Broken Glasses', inventoryFishBox.x-100, inventoryFishBox.y+620);
+  ellipse(inventoryFishBox.x, inventoryFishBox.y+620)
+  text(brokenGlasses.counter, inventoryFishBox.x, inventoryFishBox.y+620);
+  pop();
+  }
+  
+}
+
+function soggySockBox() {
+      
+  if (soggySock.caught === false) {
+  push();
+  rectMode(CENTER);
+  fill(100, 100, 100);
+  rect(inventoryFishBox.x, inventoryFishBox.y+660, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
+  pop();
+  //display text
+  push();
+  fill(0);
+  textSize(45);
+  textAlign(CENTER);
+  text('???', inventoryFishBox.x, inventoryFishBox.y+675);
+  pop();
+  }
+  else if (soggySock.caught === true) {
+  push();
+  rectMode(CENTER);
+  fill(255);
+  rect(inventoryFishBox.x, inventoryFishBox.y+660, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
+  pop();
+  //display text
+  push();
+  fill(0);
+  textSize(45);
+  textAlign(CENTER);
+  text('Soggy Sock', inventoryFishBox.x-100, inventoryFishBox.y+675);
+  ellipse(inventoryFishBox.x, inventoryFishBox.y+675)
+  text(soggySock.counter, inventoryFishBox.x, inventoryFishBox.y+675);
+  pop();
+  }
+  
+}
+
+function sodaCanBox() {
+      
+  if (sodaCan.caught === false) {
+  push();
+  rectMode(CENTER);
+  fill(150, 150, 150);
+  rect(inventoryFishBox.x, inventoryFishBox.y+715, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
+  pop();
+  //display text
+  push();
+  fill(0);
+  textSize(45);
+  textAlign(CENTER);
+  text('???', inventoryFishBox.x, inventoryFishBox.y+730);
+  pop();
+  }
+  else if (sodaCan.caught === true) {
+  push();
+  rectMode(CENTER);
+  fill(255);
+  rect(inventoryFishBox.x, inventoryFishBox.y+715, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
+  pop();
+  //display text
+  push();
+  fill(0);
+  textSize(45);
+  textAlign(CENTER);
+  text('Soda Can', inventoryFishBox.x-100, inventoryFishBox.y+730);
+  ellipse(inventoryFishBox.x, inventoryFishBox.y+730)
+  text(sodaCan.counter, inventoryFishBox.x, inventoryFishBox.y+730);
+  pop();
+  }
+  
+}
+
+function treasureChestBox() {
+      
+  if (treasureChest.caught === false) {
+  push();
+  rectMode(CENTER);
+  fill(100, 100, 100);
+  rect(inventoryFishBox.x, inventoryFishBox.y+770, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
+  pop();
+  //display text
+  push();
+  fill(0);
+  textSize(45);
+  textAlign(CENTER);
+  text('???', inventoryFishBox.x, inventoryFishBox.y+785);
+  pop();
+  }
+  else if(treasureChest.caught === true) {
+  push();
+  rectMode(CENTER);
+  fill(255);
+  rect(inventoryFishBox.x, inventoryFishBox.y+770, inventoryFishBox.width, inventoryFishBox.height, 0, 15, 15, 0);
+  pop();
+  //display text
+  push();
+  fill(0);
+  textSize(45);
+  textAlign(CENTER);
+  text('Treasure Chest', inventoryFishBox.x-100, inventoryFishBox.y+785);
+  ellipse(inventoryFishBox.x, inventoryFishBox.y+785)
+  text(treasureChest.counter, inventoryFishBox.x, inventoryFishBox.y+785);
+  pop();
+  }
+  
 }
