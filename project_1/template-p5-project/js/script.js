@@ -229,12 +229,51 @@ function setup() {
 */
 function draw() {
   background(100, 0, 220);
+
+  if (state === 'title') {
+    title();
+  }
+  else if (state === 'simulation') {
+    simulation();
+  }
+  else if (state === 'allFishCaught') {
+    allFishCaught();
+  }
+
+}
+
+function title() {
+  //title screen / tutorial
+  push();
+  textSize(55);
+  fill(255);
+  textAlign(CENTER);
+  text('Fishing Simulator', width/2, height/2);
+  textSize(35);
+  text('Use your mouse to control the hook and reel fish in by dragging them to the surface!', width/2, height/2+75);
+  textSize(20);
+  text('Click to start', width/2, height/2+125);
+  pop();
+}
+
+function mousePressed() {
+  //click to start the game
+  if (state === 'title') {
+    state = 'simulation';
+  }
+
+  if (state === 'allFishCaught') {
+    state ='simulation';
+  }
+}
+
+function simulation() {
+
   display();
   fish();
   checkBite();
 
 }
-
 
 function display() {
 
@@ -550,8 +589,8 @@ function chooseFish() {
   }
   else if(i <= 61.5 && i > 52) {
     score = score+200;;
-    carp.caught = true;
-    carp.counter++;
+    catfish.caught = true;
+    catfish.counter++;
     //catfish
   }
   else if(i <= 69.5 && i > 61.5) {
@@ -1135,4 +1174,23 @@ function treasureChestBox() {
   pop();
   }
   
+}
+
+function checkAllFishCaught() {
+  if (frog.caught === true && catfish.caught === true && loach.caught === true && perch.caught === true && salmon.caught === true && carp.caught === true && koi.caught === true && mutantCarp.caught === true && sturgeon.caught === true && bass.caught === true && crystal.caught === true && brokenGlasses.caught === true && soggySock.caught === true && sodaCan.caught === true && treasureChest.caught === true) {
+    state = 'allFishCaught';
+  }
+}
+
+function allFishCaught() {
+
+push();
+textSize(55);
+fill(255);
+textAlign(CENTER);
+text('You caught all the fish!', width/2, height/2);
+textSize(35);
+text('Click to resume game.', width/2, height/2+75);
+pop();
+
 }
