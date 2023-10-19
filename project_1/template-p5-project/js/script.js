@@ -15,7 +15,6 @@ let borderImg;
 let fishBgImg;
 let hookImg;
 let fishShadowImg;
-let smallFishImg;
 
 //a box showing what fish the user has or has not yet caught
 let inventoryBox = {
