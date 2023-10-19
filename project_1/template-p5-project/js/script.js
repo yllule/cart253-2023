@@ -58,12 +58,14 @@ let fishCountBox = {
   roundness: 20
 }
 
+//the hook is the user
 let hook = {
   x: 0,
   y: 0,
   size: 25
 }
 
+//variables for our 3 fish
 let fish1 = {
   x: 0,
   y: 0,
@@ -266,7 +268,7 @@ function title() {
   textSize(35);
   text('Use your mouse to control the hook.', width/2, height/2);
   text('Reel fish in by dragging them to the surface!', width/2, height/2+50);
-  text('Try to catch them all. :)', width/2, height/2+100);
+  text('Catch them all! :)', width/2, height/2+100);
   textSize(25);
   text('Click to start', width/2, height/2+200);
   pop();
@@ -278,6 +280,7 @@ function mousePressed() {
     state = 'simulation';
   }
 
+  //click to resume the game once all different fish have been caught
   if (state === 'allFishCaught') {
     state = 'simulation';
   }
@@ -305,22 +308,22 @@ function display() {
   //fish1 display
   push();
   imageMode(CENTER);
-  //constraining the fish y position so that it does not go too high or low
-  let fishy = constrain (fish1.y, 250, 800);
+  //constraining the fish y position so that it does not go too high or low. it is set to 251 so that the fish doesn't naturally swim to 250 which is when it will be considered as caught
+  let fishy = constrain (fish1.y, 251, 800);
   image(fishShadowImg, fish1.x, fishy, fish1.size, fish1.size);
   pop();
 
   //fish2 display
   push();
   imageMode(CENTER);
-  let fish2y = constrain (fish2.y, 250, 800);
+  let fish2y = constrain (fish2.y, 251, 800);
   image(fishShadowImg, fish2.x, fish2y, fish2.size, fish2.size);
   pop();
 
   //fish3 display
   push();
   imageMode(CENTER)
-  let fish3y = constrain (fish3.y, 250, 800);
+  let fish3y = constrain (fish3.y, 251, 800);
   image(fishShadowImg, fish3.x, fish3y, fish3.size, fish3.size);
   pop();
 
@@ -369,7 +372,6 @@ function display() {
   noStroke();
   rect(scoreBox.x, scoreBox.y, scoreBox.width, scoreBox.height, scoreBox.roundness);
   pop();
-
 
   //display score text
   push();
@@ -588,7 +590,7 @@ function chooseFish() {
 
   if (i <= 11) {
     score = score+120;
-    //perch
+    //perch 11% chance
     perch.caught = true;
     perch.counter++;
 	}
@@ -596,85 +598,85 @@ function chooseFish() {
     score = score+200;
     bass.caught = true;
     bass.counter++;
-    //bass
+    //bass 11% chance
 	}
   else if (i <= 32 && i > 22) {
     score = score+100;
     frog.caught = true;
     frog.counter++;
-    //frog
+    //frog 10% chance
   }
   else if (i <= 42 && i > 32) {
     score = score+150;
     loach.caught = true;
     loach.counter++;
-    //loach
+    //loach 10% chance
   }
   else if(i <= 52 && i > 42) {
     score = score+120;
     carp.caught = true;
     carp.counter++;
-    //carp
+    //carp 10% chance
   }
   else if(i <= 61.5 && i > 52) {
     score = score+200;;
     catfish.caught = true;
     catfish.counter++;
-    //catfish
+    //catfish 9.5% chance
   }
   else if(i <= 69.5 && i > 61.5) {
     score = score+5;
     sodaCan.caught = true;
     sodaCan.counter++;
-    //empty soda can
+    //empty soda can 8% chance
   }
   else if(i <= 76.5 && i > 69.5) {
     score = score+5;
     soggySock.caught = true;
     soggySock.counter++;
-    //soggy sock
+    //soggy sock 7% chance
   }
   else if(i <= 82.5 && i > 76.5) {
     score = score+500;
     salmon.caught = true;
     salmon.counter++;
-    //salmon
+    //salmon 6% chance
   }
   else if(i <= 88.5 && i > 82.5) {
     score = score+10;
     brokenGlasses.caught = true;
     brokenGlasses.counter++;
-    //broken glasses
+    //broken glasses 6% chance
   }
   else if(i <= 93.5 && i > 88.5) {
     score = score+1000;
     koi.caught = true;
     koi.counter++;
-    //koi
+    //koi 5% chance
   }
   else if(i <= 97.5 && i > 93.5) {
     score = score+5000;
     sturgeon.caught = true;
     sturgeon.counter++;
-    //sturgeon
+    //sturgeon 4% chance
   }
   else if(i <= 98.5 && i > 97.5) {
     score = score+10000;
     crystal.caught = true;
     crystal.counter++;
-    //crystal
+    //crystal 1% chance
   }
   else if(i <= 99.5 && i > 98.5) {
     score = score+15000;
     treasureChest.caught = true;
     treasureChest.counter++;
-    //treasure chest
+    //treasure chest 1% chance
   }
   else if(i <= 100 && i > 99.5) {
     score = score+30000;
     mutantCarp.caught = true;
     mutantCarp.counter++;
-    //mutant carp
+    //mutant carp 0.5% chance
   }
 }
 
@@ -722,8 +724,6 @@ function frogBox() {
 
 //adding +55 to the y position for every rect so that they are one on top of the other
 //same thing for frog box but for all the other fish boxes
-
-//now that i'm done with this i realize there was a better way of getting this done by having less repetition and using variables....rip
 
 function catfishBox() {
   
@@ -1289,7 +1289,7 @@ function treasureChestBox() {
 
 function checkAllFishCaught() {
   //check if all fish have been caught to execute allFishCaught state
-  //i tried getting this ending to see if the code works and was unable to...there's always just one fish that does NOT want to drop, so i have no idea if this works or not lol
+  //i tried getting this ending to see if the code works and was unable to...there's always just one fish that does NOT want to drop, so i actually have no idea if this works or not lol
   if (frog.caught === true && catfish.caught === true && loach.caught === true && perch.caught === true && salmon.caught === true && carp.caught === true && koi.caught === true && mutantCarp.caught === true && sturgeon.caught === true && bass.caught === true && crystal.caught === true && brokenGlasses.caught === true && soggySock.caught === true && sodaCan.caught === true && treasureChest.caught === true) {
     state = 'allFishCaught';
   }
