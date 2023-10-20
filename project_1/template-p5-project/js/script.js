@@ -9,7 +9,8 @@
  * fish out and each of them have a probability of dropping. Once a new fish/item is caught the inventory on the right will light up showing what that fish is
  * and keeping count of how many of that same fish you've caught. There is also a total fish counter and score. Each fish/item has a score attached to it.
  * 
- * there are still some things i'd like to add to this or polish like the fish img flipping depending on what direction its fishing, but due to lack of time i'm keeping it simple
+ * there are still some things i'd like to add to this or polish like the fish img flipping depending on what direction its swimming, improving some of the visuals and 
+ * adding little pixel icons for each fish/items in the inventory but due to lack of time i'm leaving it at this
  */
 
 "use strict";
@@ -175,17 +176,24 @@ let treasureChest = {
   counter: 0
 }
 
+//variable for SFX
+let audio;
+
 /**
  * Description of preload
 */
 function preload() {
 
+  //images
   borderImg = loadImage("assets/images/border.png");
   fishBgImg = loadImage("assets/images/bg-fish.png");
   hookImg = loadImage("assets/images/hook.png");
   fishShadowImg = loadImage("assets/images/fish.png");
   bgImg = loadImage("assets/images/bg.png");
   fishShadowFlipImg = loadImage("assets/images/fishflip.png")
+
+  //sound
+  audio = loadSound('assets/sounds/water_birds.wav');
 
 }
 
@@ -239,6 +247,7 @@ function setup() {
 */
 function draw() {
   background(100, 0, 220);
+  noCursor();
 
   if (state === 'title') {
     title();
@@ -271,6 +280,8 @@ function title() {
   text('Catch them all! :)', width/2, height/2+100);
   textSize(25);
   text('Click to start', width/2, height/2+200);
+  textAlign(LEFT);
+  text('Audio by DarkShroom on Freesound', 25, 975);
   pop();
 }
 
@@ -288,6 +299,13 @@ function mousePressed() {
 
 function simulation() {
 
+  //audio playing
+  if (!audio.isPlaying()) {
+    audio.setVolume(0.03);
+    audio.loop();
+  }
+
+  //functions happening during simulation
   display();
   hookMove();
   fish();
@@ -304,6 +322,11 @@ function display() {
   //main fishing box
   imageMode(CENTER);
   image(fishBgImg, width/2, height/2);
+
+  //user display, it is just the tip of the hook
+  //the constraint on the y is on a function of its own (function hookMove) just so that the hook doesn't appear in the title screen
+  imageMode(CENTER);
+  image(hookImg, hook.x, hook.y);
 
   //fish1 display
   push();
@@ -406,9 +429,6 @@ function display() {
 function hookMove() {
   //movement of the hook/user
 
-  //user display, it is just the tip of the hook
-  imageMode(CENTER);
-  image(hookImg, hook.x, hook.y);
   //constrain user y movement to the fishing box
   hook.y = constrain(mouseY, 50, 950);
 }
@@ -1156,10 +1176,11 @@ function brokenGlassesBox() {
   //display text
   push();
   fill(255, 202, 115);
-  textSize(30);
+  textSize(20);
   textAlign(CENTER);
   textFont('Georgia');
   text('Broken Glasses - 10 pts', inventoryFishBox.x-50, inventoryFishBox.y+615);
+  textSize(30);
   text(brokenGlasses.counter, inventoryFishBox.x+150, inventoryFishBox.y+615);
   pop();
   }
