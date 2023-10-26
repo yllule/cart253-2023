@@ -6,105 +6,16 @@
 
 "use strict";
 
-// let circle = {
-//     x: 0,
-//     y: 0,
-//     size: 100,
-//     trail: [],
-//     trailSize: 20
-// };
+let forestFire = [];
+let forestFireSize = 15;
 
-// /**
-//  * Description of setup
-// */
-// function setup() {
-//     createCanvas(600,600);
-// }
-
-// /**
-//  * Description of draw()
-// */
-// function draw() {
-
-// background(0);
-
-// circle.x = mouseX;
-// circle.y = mouseY;
-
-// for (let i = 0; i < circle.trail.length; i++) {
-//     let position = circle.trail[i];
-//     ellipse(position.x, position.y, circle.size);
-// }
-
-// ellipse(circle.x, circle.y, circle.size);
-
-// let newTrailPosition = {
-//     x: circle.x,
-//     y: circle.y,
-// };
-// circle.trail.push(newTrailPosition);
-
-// if (circle.trail.length > circle.trailSize) {
-//     circle.trail.shift();
-// }
-
-// }
-
-//previous exercise
-
-// let fortunes = [
-//     "To be or not to be",
-//     "That is the question",
-//     "Whether 'tis nobler in the mind",
-//     "To suffer the slings and arrows",
-//     "Of outrageous fortune",
-//     "Or to take arms",
-//     "Against a sea of sorrows",
-//     "And by opposing end them."
-// ];
-
-// let currentIndex = 0;
-
-// /**
-//  * Description of preload
-// */
-// function preload() {
-
-// }
-
-// /**
-//  * Description of setup
-// */
-// function setup() {
-//     createCanvas(600, 600);
-//     textAlign(CENTER, CENTER);
-//     textSize(32);
-//     fill(255);
-// }
-
-// /**
-//  * Description of draw()
-// */
-// function draw() {
-//     background(0);
-//     text(fortunes[currentIndex], width/2, height/2);
-
-// }
-
-// function mousePressed() {
-//     currentIndex = currentIndex+1;
-
-//     if(currentIndex === fortunes.length) {
-//         currentIndex = fortunes.length-1;
-//     }
-// }
-
-
-//previous video exercise
-
-let school = [];
-let schoolSize = 10;
-
+let hose = {
+    x: 0,
+    y: 0,
+    size: 50,
+    trail: [],
+    maxTrail: 10
+}
 
 /**
  * Description of preload
@@ -121,15 +32,14 @@ function setup() {
 createCanvas(600, 600);
 
 
-for (let i = 0; i < schoolSize; i++) {
-    let fish = createFish(random(0, width), random(0, height));
-    school.push(fish);
-//    school[i] = createFish(random(0, width), random(0, height));
+for (let i = 0; i < forestFireSize; i++) {
+    let fire = createFire(random(0, width), random(0, height));
+    forestFire.push(fire);
 }
 }
 
-function createFish(x, y) {
-    let fish = {
+function createFire(x, y) {
+    let fire = {
         x: x,
         y: y,
         size: 50,
@@ -137,7 +47,7 @@ function createFish(x, y) {
         vy: 0,
         speed: 2
     };
-    return fish;
+    return fire;
 }
 
 
@@ -147,37 +57,68 @@ function createFish(x, y) {
 function draw() {
     background(0);
 
-    for (let i = 0; i < school.length; i++) {
-        moveFish(school[i]);
-        displayFish(school[i]);
+    for (let i = 0; i < forestFire.length; i++) {
+        moveFire(forestFire[i]);
+        displayFire(forestFire[i]);
+    }
+
+    for (let i = 0; i < hose.trail.length; i++) {
+        let element = hose.trail[i];
+        //display of the water coming out
+        push();
+        noStroke();
+        fill(100, 100, 255);
+        ellipse(element.x, element.y, hose.size);
+        pop();
+    }
+
+    hose.x = mouseX;
+    hose.y = mouseY;
+
+    //display of the hose nozzle
+    push();
+    noStroke();
+    ellipse(hose.x, hose.y, hose.size);
+    pop();
+
+    let newTrailPosition = {
+        x: hose.x,
+        y: hose.y
+    };
+
+    hose.trail.push(newTrailPosition);
+
+    if (hose.trail.length > hose.maxTrail) {
+        hose.trail.shift();
     }
 }
 
-function moveFish(fish) {
+function moveFire(fire) {
 
     let change = random(0,1);
     if (change < 1) {
-        fish.vx = random(-fish.speed, fish.speed);
-        fish.vy = random(-fish.speed, fish.speed);
+        fire.vx = random(-fire.speed, fire.speed);
+        fire.vy = random(-fire.speed, fire.speed);
     }
 
-    fish.x = fish.x + fish.vx;
-    fish.y = fish.y + fish.vy;
+    fire.x = fire.x + fire.vx;
+    fire.y = fire.y + fire.vy;
 
-    fish.x = constrain(fish.x, 0, width);
-    fish.y = constrain(fish.y, 0, height);
+    fire.x = constrain(fire.x, 0, width);
+    fire.y = constrain(fire.y, 0, height);
 }
 
-function displayFish(fish) {
+function displayFire(fire) {
 
     push();
-    fill(200, 100, 100);
+    fill(255, 100, 100);
     noStroke();
-    ellipse(fish.x, fish.y, fish.size);
+    ellipse(fire.x, fire.y, fire.size);
     pop();
 }
 
 function mouseDragged() {
-    let fish = createFish(mouseX, mouseY);
-    school.push(fish);
+    // let fire = createFire(mouseX, mouseY);
+    // forestFire.push(fire);
+
 }
