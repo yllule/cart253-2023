@@ -69,3 +69,10 @@ function draw() {
   }
 
 }
+
+function mousePressed() {
+  for (let i = 0; i < garden.flowers.length; i++) {
+    let flower = garden.flowers[i];
+    flower.mousePressed();
+  }
+}
