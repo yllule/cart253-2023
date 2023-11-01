@@ -1,22 +1,14 @@
 /**
- * Age of Aquariums exercise
+ * Juggle Garden exercise
  * Catherine Zaloshnja
  * 
- * I'm having a hard time with understanding arrays and so I wasn't able to complete this exercise like I wanted to.
- * Since I don't have much time outside of class time this week to finish this, I'm leaving the code as is and taking the L knowing that it's not functional or complete.
- * The idea here was to have the fires get extinguished when the user hoses them with water.
- * My issue is that checkTouch works only when the mouse (hose position) is touching a fire, it doesn't apply to the trail of water. (also the fire won't disappear when it's touched)
- * The fact that I can't get this to work is likely due to my lack of knowledge / practice on arrays.
- * 
- * I wanted to have the fires multiply as time went on and if they don't get extinguished quickly enough.
- * If all fires don't get extinguished quickly enough, the forest will turn brown/black and the game will be over.
- * If all fires get extinguished you win the game.
+ * Reusing the concept from the previous exercise
  * 
  */
 
 "use strict";
 
-let state = 'title' //can be 'title', 'simulation', 'badEnd', 'goodEnd'
+//let state = 'title' //can be 'title', 'simulation', 'badEnd', 'goodEnd'
 
 //variables for the fires
 let forestFire = [];
