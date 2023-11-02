@@ -21,11 +21,11 @@ let forest = {
     //an array for the trees in the forest
     trees: [],
     //number of trees in the game
-    numTrees : 50,
-    //an array for the trail of water
+    numTrees : 50
 };
 
 let water;
+
 
 /**
  * Description of preload
@@ -93,13 +93,12 @@ function draw() {
         }
     }
 
-    //display and movement of the hose
-    water.move();
-    water.display();   
+    //display and movement of the water
+    water.display();  
 }
 
 function mouseDragged() {
 
-  water.mouseDragged();
+   water.mouseDragged();
 
 }
