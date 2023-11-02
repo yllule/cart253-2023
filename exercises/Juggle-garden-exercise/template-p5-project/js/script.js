@@ -20,15 +20,8 @@ let forest = {
     trees: [],
     //number of trees in the game
     numTrees : 50,
-}
-
-//variable for the user and the trail of water the hose will create
-let hose = {
-    x: 0,
-    y: 0,
-    size: 50,
-    trail: [],
-    maxTrail: 10
+    //an array for the trail of water
+    waters: []
 }
 
 /**
@@ -63,6 +56,14 @@ for (let i = 0; i < forest.numTrees; i++) {
     let tree = new Tree(x1,y1);
     forest.trees.push(tree);
 }
+
+for (let i = 0; i < forest.numWater; i++) {
+    let x = mouseX;
+    let y = mouseY;
+    //create a new tree
+    let water = new Water();
+    forest.waters.push(water);
+}
 }
 
 /**
@@ -94,6 +95,12 @@ function draw() {
         }
     }
 
+    for (let i = 0; i < forest.waters.length; i++) {
+        let water = forest.waters[i];
+        //display of the water coming out
+        water.display();
+    }
+
     // if (state === 'title') {
     //     title();
     // }
@@ -107,6 +114,15 @@ function draw() {
     //     badEnd();
     // }
     
+}
+
+function mousePressed() {
+
+    for(let i = 0; i < forest.waters.length; i++) {
+        let water = forest.waters[i];
+        water.mousePressed();
+    }
+
 }
 
 // function title() {
@@ -137,26 +153,6 @@ function draw() {
 //         checkTouch(forestFire[i]);
 //     }
 
-//     for (let i = 0; i < hose.trail.length; i++) {
-//         let element = hose.trail[i];
-//         //display of the water coming out
-//         push();
-//         noStroke();
-//         fill(100, 100, 255);
-//         ellipse(element.x, element.y, hose.size);
-//         pop();
-//     }
-
-//     //the hose nozzle will follow the mouse position
-//     hose.x = mouseX;
-//     hose.y = mouseY;
-
-//     //display of the hose nozzle
-//     push();
-//     noStroke();
-//     ellipse(hose.x, hose.y, hose.size);
-//     pop();
-// }
 
 // function moveFire(fire) {
 
@@ -182,22 +178,6 @@ function draw() {
 //     ellipse(fire.x, fire.y, fire.size);
 //     pop();
 //     }
-// }
-
-// function mouseDragged() {
-
-//     // adding water when the mouse is dragged by adding a trail to the hose nozzle
-//     let newTrailPosition = {
-//         x: hose.x,
-//         y: hose.y
-//     };
-
-//     hose.trail.push(newTrailPosition);
-
-//     if (hose.trail.length > hose.maxTrail) {
-//         hose.trail.shift();
-//     }
-
 // }
 
 // function checkTouch(fire) {
