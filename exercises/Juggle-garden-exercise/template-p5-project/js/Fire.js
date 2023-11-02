@@ -31,7 +31,7 @@ class Fire {
         //tree.x1+25 is the middle distance between x1 and x2, same thing for y1 and y3
         //therefore tree.x1+25 and tree.y1-25 should give us the center of each triangle
         let d = dist(this.x, this.y, tree.x1+25, tree.y1-25);
-        if (d < this.size + tree.x1+25 || d < this.size + tree.y1-25) {
+        if (d < this.size + tree.x1+25 && d < this.size + tree.y1-25) {
             this.grow();
             tree.burn();
         }

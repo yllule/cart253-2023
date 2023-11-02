@@ -17,8 +17,13 @@ class Water {
          pop();
     }
 
-    mousePressed(){
+    mouseDragged(){
         this.display();
-        this.size = this.size + 5;
+        this.size = this.size + 1;
+        this.size = constrain(this.size, 50, 100);
+
+        if (this.size >= 100) {
+            this.size = 50;
+        }
     }
 }

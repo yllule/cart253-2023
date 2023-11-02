@@ -2,7 +2,9 @@
  * Juggle Garden exercise
  * Catherine Zaloshnja
  * 
- * Reusing the concept from the previous exercise
+ * Reusing the concept from the previous exercise, put out the fires to save the forest
+ * I wanted to keep the trail of water from my previous exercise attempt
+ * but I was having a hard time doing that so I just went simpler
  * 
  */
 
@@ -21,7 +23,7 @@ let forest = {
     //number of trees in the game
     numTrees : 50,
     //an array for the trail of water
-}
+};
 
 let water;
 
@@ -96,8 +98,8 @@ function draw() {
     water.display();   
 }
 
-function mousePressed() {
+function mouseDragged() {
 
-  water.mousePressed();
+  water.mouseDragged();
 
 }
