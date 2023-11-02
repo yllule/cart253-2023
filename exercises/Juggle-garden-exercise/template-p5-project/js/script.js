@@ -10,7 +10,7 @@
 
 "use strict";
 
-// let state = 'title' //can be 'title', 'simulation', 'badEnd', 'goodEnd'
+let state = 'title' //can be 'title', 'simulation', 'badEnd', 'goodEnd'
 
 //the forest
 let forest = {
@@ -55,11 +55,10 @@ for (let i = 0; i < forest.numTrees; i++) {
     let x1 = random(0, width);
     let y1 = random(0, height);
     //create a new tree
-    let tree = new Tree(x1,y1,i);
+    let tree = new Tree(x1,y1);
     forest.trees.push(tree);
 }
 
-console.log (forest.trees);
 water = new Water();
 }
 
@@ -70,18 +69,34 @@ function draw() {
     background(50, 100, 50);
     noCursor();
 
-    // if (state === 'title') {
-    //     title();
-    // }
-    // else if (state === 'simulation') {
-    //     simulation();
-    // }
-    // else if (state === 'goodEnd') {
-    //     goodEnd();
-    // }
-    // else if (state === 'badEnd') {
-    //     badEnd();
-    // }
+    if (state === 'title') {
+        title();
+    }
+    else if (state === 'simulation') {
+        simulation();
+    }
+    else if (state === 'goodEnd') {
+        goodEnd();
+    }
+    else if (state === 'badEnd') {
+        badEnd();
+    }
+}
+function title() {
+    //title screen / tutorial
+
+    push();
+    textSize(30);
+    fill(255);
+    textAlign(CENTER);
+    textFont('Georgia');
+    text('Save the Forest!',width/2, height/2);
+    textSize(20);
+    text('Move the cursor towards fires to extinguish them', width/2, height/2+30);
+    pop();
+}
+
+function simulation() {
 
     //display all the fires in the array
     for (let i = 0; i < forest.fires.length; i++) {
@@ -113,20 +128,8 @@ function draw() {
         let fire = forest.fires[i];
         water.tryToWater(fire);
     }
-}
-// function title() {
-//     //title screen / tutorial
 
-//     push();
-//     fill(255);
-//     textAlign(CENTER);
-//     textFont('Georgia');
-//     textSize(55);
-//     text('Save the Forest!')
-//     textSize(45);
-//text('Move cursor towards fires to extinguish them')
-//     pop();
-// }
+}
 
 function mouseDragged() {
    water.mouseDragged();
@@ -134,4 +137,19 @@ function mouseDragged() {
 
 function mouseReleased() {
     water.mouseReleased();
+}
+
+function mousePressed() {
+    //click to start the game
+    if (state === 'title') {
+        state = 'simulation';
+    }
+}
+
+function goodEnd() {
+    for (let i = 0; i < forest.fires.length; i++) {
+        let fire = forest.fires[i];
+        fire.goodEnd();
+
+}
 }

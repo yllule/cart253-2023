@@ -18,7 +18,7 @@ class Fire {
     }
 
     grow() {
-        let grow = random(0, 0.5);
+        let grow = random(0, 0.4);
         this.size = this.size + grow;
     }
 
@@ -30,7 +30,6 @@ class Fire {
         }
     }
 
-    //
     tryToBurn(tree) {
         //tree.x1+25 is the middle distance between x1 and x2, same thing for y1 and y3
         //therefore tree.x1+25 and tree.y1-25 should give us the center of each triangle
@@ -47,5 +46,17 @@ class Fire {
         noStroke();
         ellipse(this.x, this.y, this.size);
         pop();
+    }
+
+    goodEnd() {
+        if(this.extinguished) {
+            push();
+            textSize(30);
+            fill(255);
+            textAlign(CENTER);
+            textFont('Georgia');
+            text('You saved the forest!',width/2, height/2);
+            pop();
+        }
     }
 }
