@@ -10,7 +10,7 @@
 
 "use strict";
 
-//let state = 'title' //can be 'title', 'simulation', 'badEnd', 'goodEnd'
+// let state = 'title' //can be 'title', 'simulation', 'badEnd', 'goodEnd'
 
 //the forest
 let forest = {
@@ -70,6 +70,19 @@ function draw() {
     background(50, 100, 50);
     noCursor();
 
+    // if (state === 'title') {
+    //     title();
+    // }
+    // else if (state === 'simulation') {
+    //     simulation();
+    // }
+    // else if (state === 'goodEnd') {
+    //     goodEnd();
+    // }
+    // else if (state === 'badEnd') {
+    //     badEnd();
+    // }
+
     //display all the fires in the array
     for (let i = 0; i < forest.fires.length; i++) {
         let fire = forest.fires[i];
@@ -77,7 +90,7 @@ function draw() {
             fire.grow();
             fire.display();
 
-            for (let j = 0; j < forest.fires.length; j++) {
+            for (let j = 0; j < forest.trees.length; j++) {
                 let tree = forest.trees[j];
                 fire.tryToBurn(tree);
             }
@@ -101,6 +114,19 @@ function draw() {
         water.tryToWater(fire);
     }
 }
+// function title() {
+//     //title screen / tutorial
+
+//     push();
+//     fill(255);
+//     textAlign(CENTER);
+//     textFont('Georgia');
+//     textSize(55);
+//     text('Save the Forest!')
+//     textSize(45);
+//text('Move cursor towards fires to extinguish them')
+//     pop();
+// }
 
 function mouseDragged() {
    water.mouseDragged();
