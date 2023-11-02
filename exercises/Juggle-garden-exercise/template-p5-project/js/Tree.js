@@ -1,5 +1,5 @@
 class Tree {
-    constructor(x1, y1) {
+    constructor(x1, y1, i) {
         //defining the variables for the triangle that will symbolize the trees in the forest
         this.x1 = x1;
         this.x2 = this.x1+50;
@@ -13,11 +13,12 @@ class Tree {
             g: 255,
             b: 100
         };
+        this.index = i;
     }
 
     burn() {
-        this.color.g = this.color.g-0.05;
-        this.color.b = this.color.b-0.05;
+        this.color.g = this.color.g-0.5;
+        this.color.b = this.color.b-0.5;
         if (this.color.g <= 0 && this.color.b <= 0) {
             this.burnt = true;
         }
@@ -27,7 +28,10 @@ class Tree {
         push();
         noStroke();
         fill(this.color.r, this.color.g, this.color.b);
-        triangle(this.x1, this.y1, this.x2, this.y2, this.x3, this.y3)
+        triangle(this.x1, this.y1, this.x2, this.y2, this.x3, this.y3);
         pop();
+
+        textAlign(CENTER);
+        text(this.index, this.x1+25, this.y1-25);
     }
 }

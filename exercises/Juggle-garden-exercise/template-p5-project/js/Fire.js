@@ -18,12 +18,16 @@ class Fire {
     }
 
     grow() {
-        let grow = random(0, 0.1);
+        let grow = random(0, 0.5);
         this.size = this.size + grow;
-        
-        // if (this.size = this.maxSize) {
-        //     //function to duplicate (create fire?)
-        // }
+    }
+
+    shrink() {
+        let shrink = random(0, 5);
+        this.size = this.size - shrink;
+        if (this.size <= 0) {
+            this.extinguished = true;
+        }
     }
 
     //
@@ -31,7 +35,7 @@ class Fire {
         //tree.x1+25 is the middle distance between x1 and x2, same thing for y1 and y3
         //therefore tree.x1+25 and tree.y1-25 should give us the center of each triangle
         let d = dist(this.x, this.y, tree.x1+25, tree.y1-25);
-        if (d < this.size + tree.x1+25 && d < this.size + tree.y1-25) {
+        if (d < this.size/2) {
             this.grow();
             tree.burn();
         }

@@ -26,7 +26,6 @@ let forest = {
 
 let water;
 
-
 /**
  * Description of preload
 */
@@ -56,12 +55,12 @@ for (let i = 0; i < forest.numTrees; i++) {
     let x1 = random(0, width);
     let y1 = random(0, height);
     //create a new tree
-    let tree = new Tree(x1,y1);
+    let tree = new Tree(x1,y1,i);
     forest.trees.push(tree);
 }
 
+console.log (forest.trees);
 water = new Water();
-
 }
 
 /**
@@ -94,11 +93,19 @@ function draw() {
     }
 
     //display and movement of the water
-    water.display();  
+    water.display();
+    water.move();
+
+    for (let i = 0; i < forest.fires.length; i++) {
+        let fire = forest.fires[i];
+        water.tryToWater(fire);
+    }
 }
 
 function mouseDragged() {
-
    water.mouseDragged();
+}
 
+function mouseReleased() {
+    water.mouseReleased();
 }
