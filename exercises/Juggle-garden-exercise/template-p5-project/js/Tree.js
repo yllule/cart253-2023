@@ -16,8 +16,8 @@ class Tree {
     }
 
     burn() {
-        this.color.g = this.color.g-1;
-        this.color.b = this.color.b-1;
+        this.color.g = this.color.g-0.05;
+        this.color.b = this.color.b-0.05;
         if (this.color.g <= 0 || this.color.b <= 0) {
             this.burnt = true;
         }

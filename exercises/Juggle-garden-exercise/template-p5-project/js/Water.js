@@ -1,8 +1,13 @@
 class Water {
     constructor() {
+        this.x = 0;
+        this.y = 0;
+        this.size = 50;
+    }
+
+    move() {
         this.x = mouseX;
         this.y = mouseY;
-        this.size = 50;
     }
 
     display() {
