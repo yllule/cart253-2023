@@ -24,6 +24,7 @@ let forest = {
     numTrees : 50
 };
 
+//variable for the user / water being sprayed
 let water;
 
 /**
@@ -59,6 +60,7 @@ for (let i = 0; i < forest.numTrees; i++) {
     forest.trees.push(tree);
 }
 
+//create the water / user
 water = new Water();
 }
 
@@ -69,6 +71,7 @@ function draw() {
     background(50, 100, 50);
     noCursor();
 
+    //setting up the states
     if (state === 'title') {
         title();
     }
@@ -93,6 +96,8 @@ function title() {
     text('Save the Forest!',width/2, height/2);
     textSize(20);
     text('Move the cursor towards fires to extinguish them', width/2, height/2+30);
+    textSize(20);
+    text('Press and drag your mouse to deliver a more intense water spray', width/2, height/2+60);
     pop();
 }
 
@@ -131,10 +136,12 @@ function simulation() {
 
 }
 
+//water hose will be more intense when the mouse is dragged
 function mouseDragged() {
    water.mouseDragged();
 }
 
+//water hose will go back to original state when mouse released
 function mouseReleased() {
     water.mouseReleased();
 }
@@ -146,10 +153,40 @@ function mousePressed() {
     }
 }
 
+//i was confused on how to add states using OOP, and i know this doesn't work
+//but i'm keeping it here for feedback on what i did wrong
+
+function checkGoodEnd() {
+    //if all fires are extinguished, you get the good ending
+    if (fire.extinguished == true) {
+       state = 'goodEnd';
+   }
+}
+
+function checkBadEnd() {
+    // if all trees are burnt, you get the bad ending
+     if (tree.burnt == true) {
+        state = 'badEnd';
+    }
+}
+
 function goodEnd() {
-    for (let i = 0; i < forest.fires.length; i++) {
-        let fire = forest.fires[i];
-        fire.goodEnd();
+    push();
+    textSize(30);
+    fill(255);
+    textAlign(CENTER);
+    textFont('Georgia');
+    text('Congratulations! You saved the forest.',width/2, height/2);
+    pop();
 
 }
+
+function badEnd() {
+        push();
+        textSize(30);
+        fill(255);
+        textAlign(CENTER);
+        textFont('Georgia');
+        text('The forest burnt down. Try again!',width/2, height/2);
+        pop();
 }

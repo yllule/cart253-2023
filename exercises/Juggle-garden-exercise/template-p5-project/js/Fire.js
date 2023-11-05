@@ -3,7 +3,6 @@ class Fire {
         this.x = x;
         this.y = y;
         this.size = size;
-        this.maxSize = size;
         this.vx = 0;
         this.vy = 0;
         this.speed = 2;
@@ -18,12 +17,14 @@ class Fire {
     }
 
     grow() {
+        //the fires will grow at a random rate
         let grow = random(0, 0.4);
         this.size = this.size + grow;
     }
 
     shrink() {
-        let shrink = random(0, 5);
+        //the fires will shrink at a random rate when in contact with water
+        let shrink = random(0, 5); //putting 5 here so that, at max, shrink rate will be higher than most grow rates
         this.size = this.size - shrink;
         if (this.size <= 0) {
             this.extinguished = true;
@@ -41,22 +42,11 @@ class Fire {
     }
 
     display() {
+        //display of the fire
         push();
         fill(255, 100, 100);
         noStroke();
         ellipse(this.x, this.y, this.size);
         pop();
-    }
-
-    goodEnd() {
-        if(this.extinguished) {
-            push();
-            textSize(30);
-            fill(255);
-            textAlign(CENTER);
-            textFont('Georgia');
-            text('You saved the forest!',width/2, height/2);
-            pop();
-        }
     }
 }
