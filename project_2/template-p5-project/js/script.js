@@ -24,27 +24,37 @@ let screen = {
     h: 150 //height
 };
 
-//variables for the buttons on the toy. in the final, i make a class for these buttons instead
+//variables for the buttons on the toy. in the final, i may make a class for these buttons instead
 let buttonLeft = {
     x: 0,
     y: 0,
-    size: 50,
-    pressed : false
+    size: 50
 };
 
 let buttonCenter = {
     x: 0,
     y: 0,
-    size: 50,
-    pressed : false
+    size: 50
 }
 
 let buttonRight = {
     x: 0,
     y: 0,
-    size: 50,
-    pressed : false
+    size: 50
 }
+
+//in the final, images will be associated to all of these elements that are going to be in the array
+// feed
+// drink
+// wash
+// play
+// medecine
+// talk
+// info
+// off
+let options = [];
+//number of options in the array
+let numOptions = 8;
 
 /**
  * Description of preload
@@ -72,7 +82,7 @@ function setup() {
     buttonLeft.x = toy.x - 75;
     buttonLeft.y = toy.y + 100;
     buttonCenter.x = toy.x;
-    buttonCenter.y = toy.y + 125;
+    buttonCenter.y = toy.y + 125; //center button is a bit lower than the others
     buttonRight.x = toy.x + 75;
     buttonRight.y = toy.y + 100;
 }
@@ -100,20 +110,72 @@ function draw() {
     pop();
 
     //display of the buttons
-    //left button
+    leftButtonDisplay();
+    centerButtonDisplay();
+    rightButtonDisplay();
+}
+
+function leftButtonDisplay() {
     push();
     fill(200, 50, 100);
     ellipse(buttonLeft.x, buttonLeft.y, buttonLeft.size);
     pop();
+}
 
+function centerButtonDisplay() {
     push();
     fill(200, 50, 100);
     ellipse(buttonCenter.x, buttonCenter.y, buttonCenter.size);
     pop();
+}
 
+function rightButtonDisplay() {
     push();
     fill(200, 50, 100);
     ellipse(buttonRight.x, buttonRight.y, buttonRight.size);
     pop();
+}
 
+function mouseInsideLeftButton() {
+    //checks if the mouse is inside the left button
+    if (mouseX >= buttonLeft.x - buttonLeft.size/2 && mouseX <= buttonLeft.x + buttonLeft.size/2 && mouseY >= buttonLeft.y - buttonLeft.size/2 && mouseY <= buttonLeft.y + buttonLeft.size/2) {
+        return true;
+    }
+}
+
+//doing the same thing for the other buttons
+function mouseInsideCenterButton() {
+    if(mouseX >= buttonCenter.x - buttonCenter.size/2 && mouseX <= buttonCenter.x + buttonCenter.size/2 && mouseY >= buttonCenter.y - buttonCenter.size/2 && mouseY <= buttonCenter.y + buttonCenter.size/2) {
+        return true;
+    }
+}
+
+function mouseInsideRightButton() {
+    if(mouseX >= buttonRight.x - buttonRight.size/2 && mouseX <= buttonRight.x + buttonRight.size/2 && mouseY >= buttonRight.y - buttonRight.size/2 && mouseY <= buttonRight.y + buttonRight.size/2) {
+        return true;
+    }
+}
+
+function mousePressed() {
+    if(mouseInsideLeftButton()){
+        //move to select left options on screen
+        buttonLeft.size = 45; //button feedback (gets smaller)
+        ellipse(100, 100, 100); //these shapes show up when the button is clicked, it is here just to make sure the button works, which weirdly enough it doesn't (it was working earlier??)
+    }
+    if(mouseInsideCenterButton()){
+        //select button for on screen options
+        buttonCenter.size = 45;
+        rect(150, 150, 100);
+    }
+    if(mouseInsideRightButton()){
+        //move to select right options on screen
+        buttonRight.size = 45;
+        ellipse(200, 200, 200);
+    }
+}
+
+function mouseReleased() {
+    buttonLeft.size = 50;
+    buttonCenter.size = 50;
+    buttonRight.size = 50;
 }
