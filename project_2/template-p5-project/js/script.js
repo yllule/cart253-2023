@@ -179,3 +179,22 @@ function mouseReleased() {
     buttonCenter.size = 50;
     buttonRight.size = 50;
 }
+
+//my next steps are gonna be something like :
+//1- make an array of the options on the screen (feeding,cleaning,etc)
+//2- make clicking the buttons functional with the screen options (clicking left button will move to the left option on screen)
+//3- make sketches of the assets i need and add them to the project
+//4- add what actions happen when screen options are selected (ex: feeding makes food appear + pet eats it)
+//5- make pet evolve as you take care of it
+//6- polish and add the narrative + tutorial state and ending state
+
+//i'll need to plan more as in, what actions does the player need to take to make the pet evolve to the next stage?
+//and a list + sketches of all the pet evolution stages
+
+//another note to self (for the narrative)
+//once it becomes clear to the player that the pet you're raising is a monster, would be nice if its like a jumpscare reveal with scary sound. maybe up until that point the game is silent or has calming music that gets interrupted
+//also once the player reaches the "final" stages of the pet's evolution, maybe the toy gets cracked
+//eventually (once the pet reaches final evolution) you can't choose any more options other than the off button since the screen is so cracked
+//once that's done, monster comes out of toy and end:)
+
+//i'm not sure if all this is too ambitious, if it is i may just make this a normal cute tamagotchi simulator and skip the horror narrative haha
