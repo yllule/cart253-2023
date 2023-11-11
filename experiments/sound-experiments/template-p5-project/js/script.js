@@ -6,8 +6,9 @@
 
 "use strict";
 
-let oscillator;
-let t = 0;
+let synth;
+let notes = ['F2', 'G2', 'Ab3', 'Bb3', 'C3', 'Db3', 'Eb3', 'F4'] //f minor
+let currentNote = 0;
 
 /**
  * Description of preload
@@ -25,9 +26,7 @@ function setup() {
     createCanvas(600,600);
     userStartAudio();
 
-    oscillator = new p5.Oscillator(440,'sine');
-    oscillator.amp(0.2);
-
+    synth = new p5.PolySynth();
 }
 
 
@@ -37,17 +36,19 @@ function setup() {
 function draw() {
     background(0);
 
-    let noiseValue = noise(t);
-    let newFreq = map(noiseValue, 0, 1, 440, 880);
-    oscillator.freq(newFreq);
-
-    t = t+0.1;
 }
 
-function mousePressed() {
-    oscillator.start();
+function keyPressed() {
+    setInterval(playRandomNote,150);
+
 }
 
-function mouseReleased() {
-    oscillator.stop();
+function playRandomNote() {
+    let note = notes[currentNote];
+    synth.play(note, 1, 0, 1);
+
+    currentNote = currentNote+1;
+    if (currentNote === notes.length) {
+        currentNote = 0;
+    }
 }
