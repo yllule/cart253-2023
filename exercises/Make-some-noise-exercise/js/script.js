@@ -2,6 +2,8 @@
  * Make some noise exercise
  * Catherine Zaloshnja
  * 
+ * I experimented with sound for this exercise to see if i would want to
+ * use the sound library for my project, in the end i'll primarily use sounds and music found online.
  */
 
 "use strict";
@@ -27,11 +29,15 @@ let clickSFX = 'G2'; //clicking on button sfx
 let evolveSFX = 'F5'; //sound when pet evolves
 let synth = new p5.PolySynth();
 
+let oscillator;
+let music;
+
 /**
  * Description of preload
 */
 function preload() {
     gootsImg = loadImage("assets/images/goots.png");
+    music = loadSound('assets/sounds/bg_music.mp3');
 
 }
 
@@ -41,6 +47,7 @@ function preload() {
 */
 function setup() {
 createCanvas(600,600);
+userStartAudio();
 
 //setting up the positions of the button and the pet
 button.x = width/2;
@@ -48,6 +55,8 @@ button.y = height/2+200;
 
 pet.x = width/2;
 pet.y = height/2;
+
+oscillator = new p5.Oscillator(50, 'triangle');
 
 }
 
@@ -57,6 +66,11 @@ pet.y = height/2;
 */
 function draw() {
     background(255, 200, 200);
+
+    if (!music.isPlaying()) {
+        music.setVolume(0.05);
+        music.loop();
+    }
 
     if (pet.size <= pet.evolve) {
         displayBabyPet();
@@ -68,6 +82,11 @@ function draw() {
     }
     else {
         displayFinalEvolution();
+        music.stop();
+        //making the results of making the oscillator start here are not what i expected and wanted,
+        //but the results are interesting and give a creepy vibe so i'm keeping this commented here
+        //in case i want to use it for the project
+        //oscillator.start();
     }
 
 }
@@ -133,9 +152,14 @@ function displayFinalEvolution() {
     textAlign(CENTER);
     stroke(0)
     strokeWeight(5);
-    text("Congratulations, you've raised a", width/2, 40);
+    text("You've raised a", width/2, 40);
     pop();
-
+    push();
+    noStroke();
+    textSize(15);
+    textAlign(CENTER);
+    text("He is rapidly approaching your location (be very afraid)", width/2, height-10);
+    pop();
 }
 
 function mouseInsideButton() {
@@ -154,6 +178,7 @@ function mousePressed() {
     }
     if(mouseInsideButton() && pet.size === 210) {
         petEvolveSFX();
+        oscillator.start();
     }
 }
 
@@ -165,3 +190,30 @@ function buttonClickSFX() {
 function petEvolveSFX() {
     synth.play(evolveSFX, 0.2, 0, 0.1);
 }
+
+//i'm adding these links to audios i may use in my final project
+//they are here mostly just as a note to myself
+
+//evolve sound
+//https://freesound.org/people/Mrthenoronha/sounds/518306/
+
+//error sound?
+//https://freesound.org/people/SamsterBirdies/sounds/363920/
+
+//death sound (when player avatar gets eaten)
+//https://freesound.org/people/Prof.Mudkip/sounds/386862/
+
+//main music (first one is used in this exercise)
+//https://freesound.org/people/Electrobuz/sounds/137227/
+//https://freesound.org/people/josefpres/sounds/653793/
+
+//horror ambiance
+//https://freesound.org/people/NovaSoundTechnology/sounds/653064/
+//this one may be a bit TOO much of a banger to use
+//https://freesound.org/people/M-Murray/sounds/634646/
+
+//creepy sfx
+//https://freesound.org/people/waveplaySFX/sounds/529139/
+
+//beeps (in game select sfx?)
+//https://freesound.org/people/Breviceps/sounds/450617/
