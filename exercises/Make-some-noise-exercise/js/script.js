@@ -6,6 +6,8 @@
 
 "use strict";
 
+let gootsImg;
+
 let button = {
     x: 0,
     y: 0,
@@ -17,7 +19,8 @@ let pet = {
     x: 0,
     y: 0,
     size: 50, // start size of pet
-    evolve: 100 //size the pet needs to reach to evolve
+    evolve: 100, //size the pet needs to reach to evolve
+    evolve2: 200 //size the pet needs to reach to evolve again
 }
 
 let clickSFX = 'G2'; //clicking on button sfx
@@ -28,6 +31,7 @@ let synth = new p5.PolySynth();
  * Description of preload
 */
 function preload() {
+    gootsImg = loadImage("assets/images/goots.png");
 
 }
 
@@ -38,6 +42,7 @@ function preload() {
 function setup() {
 createCanvas(600,600);
 
+//setting up the positions of the button and the pet
 button.x = width/2;
 button.y = height/2+200;
 
@@ -53,6 +58,21 @@ pet.y = height/2;
 function draw() {
     background(255, 200, 200);
 
+    if (pet.size <= pet.evolve) {
+        displayBabyPet();
+        displayButton();
+    }
+    else if (pet.size <= pet.evolve2) {
+        displayEvolvedPet();
+        displayButton();
+    }
+    else {
+        displayFinalEvolution();
+    }
+
+}
+
+function displayButton() {
     //display the button
     push();
     noStroke();
@@ -63,18 +83,6 @@ function draw() {
     fill(255, 100, 100);
     text('Feed pet', width/2, height/2+210);
     pop();
-
-    if (pet.size <= pet.evolve) {
-        displayBabyPet();
-    }
-    else {
-        displayEvolvedPet();
-    }
-    
-    // if (pet.evolve === 100) {
-    //     petEvolveSFX();
-    // }
-
 }
 
 function displayBabyPet() {
@@ -112,6 +120,24 @@ function displayEvolvedPet() {
     pop();
 }
 
+function displayFinalEvolution() {
+    //display goots
+    push();
+    imageMode(CENTER);
+    image(gootsImg, pet.x, pet.y+20);
+    pop();
+    //display text
+    push();
+    fill(255)
+    textSize(30);
+    textAlign(CENTER);
+    stroke(0)
+    strokeWeight(5);
+    text("Congratulations, you've raised a", width/2, 40);
+    pop();
+
+}
+
 function mouseInsideButton() {
     if(mouseX >= button.x - button.w/2 && mouseX <= button.x + button.w/2 && mouseY >= button.y - button.h/2 && mouseY <= button.y + button.h/2) {
         return true;
@@ -122,6 +148,12 @@ function mousePressed() {
     if(mouseInsideButton()) {
         pet.size = pet.size + 10;
         buttonClickSFX();
+    }
+    if(mouseInsideButton() && pet.size === 110) {
+        petEvolveSFX();
+    }
+    if(mouseInsideButton() && pet.size === 210) {
+        petEvolveSFX();
     }
 }
 
