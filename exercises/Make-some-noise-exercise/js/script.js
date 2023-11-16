@@ -3,13 +3,16 @@
  * Catherine Zaloshnja
  * 
  * I experimented with sound for this exercise to see if i would want to
- * use the sound library for my project, in the end i'll primarily use sounds and music found online.
+ * use the sound library for my project, in the end i'll primarily use sounds and music found online,
+ * but I may use the library to make the button clicking sounds + evolving sounds.
  */
 
 "use strict";
 
+//setting up the variable for my img
 let gootsImg;
 
+//variable for the feed button
 let button = {
     x: 0,
     y: 0,
@@ -17,6 +20,7 @@ let button = {
     h: 50
 }
 
+//variable for the pet
 let pet = {
     x: 0,
     y: 0,
@@ -25,12 +29,13 @@ let pet = {
     evolve2: 200 //size the pet needs to reach to evolve again
 }
 
+
 let clickSFX = 'G2'; //clicking on button sfx
 let evolveSFX = 'F5'; //sound when pet evolves
 let synth = new p5.PolySynth();
 
 let oscillator;
-let music;
+let music; //variable for cute bg music
 
 /**
  * Description of preload
@@ -38,7 +43,6 @@ let music;
 function preload() {
     gootsImg = loadImage("assets/images/goots.png");
     music = loadSound('assets/sounds/bg_music.mp3');
-
 }
 
 
@@ -56,6 +60,7 @@ button.y = height/2+200;
 pet.x = width/2;
 pet.y = height/2;
 
+//creating an oscillator
 oscillator = new p5.Oscillator(50, 'triangle');
 
 }
@@ -67,26 +72,30 @@ oscillator = new p5.Oscillator(50, 'triangle');
 function draw() {
     background(255, 200, 200);
 
+    //adding bg music
     if (!music.isPlaying()) {
         music.setVolume(0.05);
         music.loop();
     }
 
-    if (pet.size <= pet.evolve) {
+    //if the pet size is under 100 (the size needed for it to evolve) it will display as a baby
+    if (pet.size < pet.evolve) {
         displayBabyPet();
         displayButton();
     }
-    else if (pet.size <= pet.evolve2) {
+    //if the pet size is under 200 (the size needed for its final evolution) it will display the first evolution
+    else if (pet.size < pet.evolve2) {
         displayEvolvedPet();
         displayButton();
     }
+    //otherwise, the pet will have fully evolved and the music stops playing, making things a bit ominous
     else {
         displayFinalEvolution();
         music.stop();
-        //making the results of making the oscillator start here are not what i expected and wanted,
+        //oscillator.start();
+        //the results of making the oscillator start here are not what i expected and wanted,
         //but the results are interesting and give a creepy vibe so i'm keeping this commented here
         //in case i want to use it for the project
-        //oscillator.start();
     }
 
 }
@@ -140,7 +149,7 @@ function displayEvolvedPet() {
 }
 
 function displayFinalEvolution() {
-    //display goots
+    //display goots (final evolution)
     push();
     imageMode(CENTER);
     image(gootsImg, pet.x, pet.y+20);
@@ -163,22 +172,24 @@ function displayFinalEvolution() {
 }
 
 function mouseInsideButton() {
+    //checking if the mouse is inside the button
     if(mouseX >= button.x - button.w/2 && mouseX <= button.x + button.w/2 && mouseY >= button.y - button.h/2 && mouseY <= button.y + button.h/2) {
         return true;
     }
 }
 
 function mousePressed() {
+    //if the mouse is inside the button + mousepressed, you feed the pet and it grows in size, it also plays the click sfx
     if(mouseInsideButton()) {
         pet.size = pet.size + 10;
         buttonClickSFX();
     }
-    if(mouseInsideButton() && pet.size === 110) {
+    if(mouseInsideButton() && pet.size === 100) {
         petEvolveSFX();
     }
-    if(mouseInsideButton() && pet.size === 210) {
+    if(mouseInsideButton() && pet.size === 200) {
         petEvolveSFX();
-        oscillator.start();
+        oscillator.start(); //starting the oscillator to make a creepy ambient sound when goots has arrived
     }
 }
 
@@ -188,6 +199,7 @@ function buttonClickSFX() {
 }
 
 function petEvolveSFX() {
+    //audio for pet evolution
     synth.play(evolveSFX, 0.2, 0, 0.1);
 }
 
