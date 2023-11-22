@@ -52,9 +52,18 @@ let buttonRight = {
 // talk
 // info
 // off
-let options = [];
+let options = [
+    "feed",
+    "drink",
+    "wash",
+    "play",
+    "medecine",
+    "talk",
+    "info",
+    "off"
+];
 //number of options in the array
-let numOptions = 8;
+let currentIndex = 0;
 
 let clickSFX = 'G2'; //clicking on button SFX
 let synth = new p5.PolySynth();
@@ -116,6 +125,8 @@ function draw() {
     leftButtonDisplay();
     centerButtonDisplay();
     rightButtonDisplay();
+
+    text(options[currentIndex], width/2, height/2);
 }
 
 function leftButtonDisplay() {
@@ -165,6 +176,11 @@ function mousePressed() {
         buttonLeft.size = 45; //button feedback (gets smaller)
         ellipse(100, 100, 100); //these shapes show up when the button is clicked, it is here just to make sure the button works, which weirdly enough it doesn't (it was working earlier??)
         buttonClickSFX();
+        //clicking on the button will make you switch to the next option in the array
+        currentIndex = currentIndex+1;
+        if(currentIndex === options.length) {
+        currentIndex = 0;
+        }
     }
     if(mouseInsideCenterButton()){
         //select button for on screen options
@@ -177,6 +193,10 @@ function mousePressed() {
         buttonRight.size = 45;
         ellipse(200, 200, 200);
         buttonClickSFX();
+        currentIndex = currentIndex-1;
+        if(currentIndex === 0) {
+        currentIndex = options.length;
+        }
     }
 }
 
