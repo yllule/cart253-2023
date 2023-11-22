@@ -56,6 +56,9 @@ let options = [];
 //number of options in the array
 let numOptions = 8;
 
+let clickSFX = 'G2'; //clicking on button SFX
+let synth = new p5.PolySynth();
+
 /**
  * Description of preload
 */
@@ -161,18 +164,27 @@ function mousePressed() {
         //move to select left options on screen
         buttonLeft.size = 45; //button feedback (gets smaller)
         ellipse(100, 100, 100); //these shapes show up when the button is clicked, it is here just to make sure the button works, which weirdly enough it doesn't (it was working earlier??)
+        buttonClickSFX();
     }
     if(mouseInsideCenterButton()){
         //select button for on screen options
         buttonCenter.size = 45;
         rect(150, 150, 100);
+        buttonClickSFX();
     }
     if(mouseInsideRightButton()){
         //move to select right options on screen
         buttonRight.size = 45;
         ellipse(200, 200, 200);
+        buttonClickSFX();
     }
 }
+
+function buttonClickSFX() {
+    //audio for button click
+    synth.play(clickSFX, 0.2, 0, 0.1);
+}
+
 
 function mouseReleased() {
     buttonLeft.size = 50;
