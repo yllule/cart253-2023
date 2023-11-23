@@ -43,15 +43,7 @@ let buttonRight = {
     size: 50
 }
 
-//in the final, images will be associated to all of these elements that are going to be in the array
-// feed
-// drink
-// wash
-// play
-// medecine
-// talk
-// info
-// off
+//the options of actions the player could take
 let options = [
     "feed",
     "drink",
@@ -126,6 +118,19 @@ function draw() {
     centerButtonDisplay();
     rightButtonDisplay();
 
+    //display of the options (temporary)
+    push();
+    fill(0);
+    ellipse(toy.x-75, toy.y-75, 25);
+    ellipse(toy.x-30, toy.y-75, 25);
+    ellipse(toy.x+15, toy.y-75, 25);
+    ellipse(toy.x+60, toy.y-75, 25);
+    ellipse(toy.x-75, toy.y+25, 25);
+    ellipse(toy.x-30, toy.y+25, 25);
+    ellipse(toy.x+15, toy.y+25, 25);
+    ellipse(toy.x+60, toy.y+25, 25);
+    pop();
+
     text(options[currentIndex], width/2, height/2);
 }
 
@@ -174,28 +179,31 @@ function mousePressed() {
     if(mouseInsideLeftButton()){
         //move to select left options on screen
         buttonLeft.size = 45; //button feedback (gets smaller)
-        ellipse(100, 100, 100); //these shapes show up when the button is clicked, it is here just to make sure the button works, which weirdly enough it doesn't (it was working earlier??)
         buttonClickSFX();
         //clicking on the button will make you switch to the next option in the array
         currentIndex = currentIndex+1;
-        if(currentIndex === options.length) {
+        if(currentIndex > options.length) {
         currentIndex = 0;
+        console.log(currentIndex);
         }
     }
     if(mouseInsideCenterButton()){
         //select button for on screen options
         buttonCenter.size = 45;
-        rect(150, 150, 100);
         buttonClickSFX();
+
+        //if currentIndex = 0 -> feed() (make feed function)
+        //if currentIndex = 1 -> water() (make water function)
+        //etc...
     }
     if(mouseInsideRightButton()){
         //move to select right options on screen
         buttonRight.size = 45;
-        ellipse(200, 200, 200);
         buttonClickSFX();
         currentIndex = currentIndex-1;
-        if(currentIndex === 0) {
-        currentIndex = options.length;
+        if(currentIndex < 0) {
+        currentIndex = 7;
+        console.log(current.Index);
         }
     }
 }
@@ -215,6 +223,8 @@ function mouseReleased() {
 //my next steps are gonna be something like :
 //1- make an array of the options on the screen (feeding,cleaning,etc)
 //2- make clicking the buttons functional with the screen options (clicking left button will move to the left option on screen)
+//the assets for the options are always visible, i'll place them on the screen
+//when an option is "shown" in the array, it will flash, then when its selected it will start a function related to that part of the array
 //3- make sketches of the assets i need and add them to the project
 //4- add what actions happen when screen options are selected (ex: feeding makes food appear + pet eats it)
 //5- make pet evolve as you take care of it
