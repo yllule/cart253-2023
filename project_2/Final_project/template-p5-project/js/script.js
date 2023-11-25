@@ -54,7 +54,7 @@ let options = [
     "info",
     "off"
 ];
-//number of options in the array
+//the action option that is currently targetted
 let currentIndex = 0;
 
 let clickSFX = 'G2'; //clicking on button SFX
@@ -182,10 +182,10 @@ function mousePressed() {
         buttonClickSFX();
         //clicking on the button will make you switch to the next option in the array
         currentIndex = currentIndex+1;
-        if(currentIndex > options.length) {
+        if(currentIndex === options.length) {
         currentIndex = 0;
-        console.log(currentIndex);
         }
+        console.log(currentIndex);
     }
     if(mouseInsideCenterButton()){
         //select button for on screen options
@@ -203,8 +203,8 @@ function mousePressed() {
         currentIndex = currentIndex-1;
         if(currentIndex < 0) {
         currentIndex = 7;
-        console.log(current.Index);
         }
+        console.log(currentIndex);
     }
 }
 
