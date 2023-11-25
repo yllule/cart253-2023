@@ -57,8 +57,8 @@ let options = [
 //the action option that is currently targetted
 let currentIndex = 0;
 
-let clickSFX = 'G2'; //clicking on button SFX
-let synth = new p5.PolySynth();
+// let clickSFX = 'G2'; //clicking on button SFX
+// let synth = new p5.PolySynth();
 
 /**
  * Description of preload
@@ -179,7 +179,7 @@ function mousePressed() {
     if(mouseInsideLeftButton()){
         //move to select left options on screen
         buttonLeft.size = 45; //button feedback (gets smaller)
-        buttonClickSFX();
+        // buttonClickSFX();
         //clicking on the button will make you switch to the next option in the array
         currentIndex = currentIndex+1;
         if(currentIndex === options.length) {
@@ -190,7 +190,7 @@ function mousePressed() {
     if(mouseInsideCenterButton()){
         //select button for on screen options
         buttonCenter.size = 45;
-        buttonClickSFX();
+        // buttonClickSFX();
 
         //if currentIndex = 0 -> feed() (make feed function)
         //if currentIndex = 1 -> water() (make water function)
@@ -199,7 +199,7 @@ function mousePressed() {
     if(mouseInsideRightButton()){
         //move to select right options on screen
         buttonRight.size = 45;
-        buttonClickSFX();
+        // buttonClickSFX();
         currentIndex = currentIndex-1;
         if(currentIndex < 0) {
         currentIndex = 7;
@@ -208,10 +208,10 @@ function mousePressed() {
     }
 }
 
-function buttonClickSFX() {
-    //audio for button click
-    synth.play(clickSFX, 0.2, 0, 0.1);
-}
+// function buttonClickSFX() {
+//     //audio for button click
+//     synth.play(clickSFX, 0.2, 0, 0.1);
+// }
 
 
 function mouseReleased() {
