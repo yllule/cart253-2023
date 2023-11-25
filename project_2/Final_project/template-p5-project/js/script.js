@@ -37,13 +37,13 @@ let buttonCenter = {
     x: 0,
     y: 0,
     size: 55
-}
+};
 
 let buttonRight = {
     x: 0,
     y: 0,
     size: 55
-}
+};
 
 //the options of actions the player could take
 let options = [
@@ -58,9 +58,6 @@ let options = [
 ];
 //the action option that is currently targetted
 let currentIndex = 0;
-
-// let clickSFX = 'G2'; //clicking on button SFX
-// let synth = new p5.PolySynth();
 
 /**
  * Description of preload
@@ -92,10 +89,6 @@ function setup() {
     toy.x = width/2;
     toy.y = height/2;
 
-    //setting up the position of the screen on the toy
-    screen.x = toy.x;
-    screen.y = toy.y-25; //not completely centered so there's space for the buttons
-
     //setting up the position of the buttons on the toy, i have centered it to the button "hole" from the toy asset img
     buttonLeft.x = toy.x - 94;
     buttonLeft.y = toy.y + 184;
@@ -111,8 +104,6 @@ function setup() {
 */
 function draw() {
     background(255);
-    //all the elements will be drawn with no stroke, so i'm including it outside push/pop
-    noStroke();
 
     //display of the toy
     push();
@@ -126,11 +117,6 @@ function draw() {
     image(screenImg, toy.x, toy.y);
     pop();
 
-    //display of the buttons
-    leftButtonDisplay();
-    centerButtonDisplay();
-    rightButtonDisplay();
-
     //display of the options on the screen
     displayFeed();
     displayDrink();
@@ -141,7 +127,10 @@ function draw() {
     displayInfo();
     displayOff();
 
-    text(options[currentIndex], width/2, height/2);
+    //display of the buttons
+    leftButtonDisplay();
+    centerButtonDisplay();
+    rightButtonDisplay();
 
     //display of the grain texture over everything
     push();
@@ -270,6 +259,7 @@ function displayOff() {
 //display of the buttons
 function leftButtonDisplay() {
     push();
+    noStroke();
     fill(200, 50, 100);
     ellipse(buttonLeft.x, buttonLeft.y, buttonLeft.size);
     pop();
@@ -277,6 +267,7 @@ function leftButtonDisplay() {
 
 function centerButtonDisplay() {
     push();
+    noStroke();
     fill(200, 50, 100);
     ellipse(buttonCenter.x, buttonCenter.y, buttonCenter.size);
     pop();
@@ -284,6 +275,7 @@ function centerButtonDisplay() {
 
 function rightButtonDisplay() {
     push();
+    noStroke();
     fill(200, 50, 100);
     ellipse(buttonRight.x, buttonRight.y, buttonRight.size);
     pop();
@@ -310,30 +302,31 @@ function mouseInsideRightButton() {
 }
 
 function mousePressed() {
-    if(mouseInsideLeftButton()){
+    if(mouseInsideLeftButton()) {
         //move to select left options on screen
         buttonLeft.size = 50; //button feedback (gets smaller)
-        // buttonClickSFX();
         //clicking on the button will make you switch to the next option in the array
         currentIndex = currentIndex-1;
         if(currentIndex < 0) {
-        currentIndex = 7;
+            currentIndex = 7;
         }
-
     }
-    if(mouseInsideCenterButton()){
+
+    if(mouseInsideCenterButton()) {
         //select button for on screen options
         buttonCenter.size = 50;
-        // buttonClickSFX();
-
-        //if currentIndex = 0 -> feed() (make feed function)
-        //if currentIndex = 1 -> water() (make water function)
-        //etc...
+        actionFeed();
+        //     if (currentIndex === 0) {
+        //         actionFeed();
+        //     }
+        //     else if (currentIndex === 1) {
+        //         actionDrink();
+        // }
     }
-    if(mouseInsideRightButton()){
+
+    if(mouseInsideRightButton()) {
         //move to select right options on screen
         buttonRight.size = 50;
-        // buttonClickSFX();
         currentIndex = currentIndex+1;
         if(currentIndex === options.length) {
         currentIndex = 0;
@@ -341,17 +334,27 @@ function mousePressed() {
     }
 }
 
-// function buttonClickSFX() {
-//     //audio for button click
-//     synth.play(clickSFX, 0.2, 0, 0.1);
-// }
+function actionFeed() {
 
+    push();
+    console.log('poop');
+    fill(0);
+    ellipse(200,200,200);
+    pop();
+
+}
 
 function mouseReleased() {
     buttonLeft.size = 55;
     buttonCenter.size = 55;
     buttonRight.size = 55;
 }
+
+// function actionDrink() {
+
+//     text(`drink uwu`, width/2, height/2);
+
+// }
 
 //my next steps are gonna be something like :
 //1- make an array of the options on the screen (feeding,cleaning,etc)
