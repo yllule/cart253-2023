@@ -18,6 +18,7 @@ let medecineImg;
 let talkImg;
 let infoImg;
 let offImg;
+let grainImg;
 
 //variables for the toy in its entirety, without the buttons or the main screen
 let toy = {
@@ -66,8 +67,17 @@ let currentIndex = 0;
 */
 function preload() {
     
+    grainImg = loadImage("assets/images/grain.png");
     toyImg = loadImage("assets/images/toy.png");
     screenImg = loadImage("assets/images/toy_screen.png");
+    feedImg = loadImage("assets/images/n_feed.png");
+    drinkImg = loadImage("assets/images/n_water.png");
+    washImg = loadImage("assets/images/n_wash.png");
+    playImg = loadImage("assets/images/n_play.png");
+    medecineImg = loadImage("assets/images/n_medecine.png");
+    talkImg = loadImage("assets/images/n_talk.png");
+    infoImg = loadImage("assets/images/n_info.png");
+    offImg = loadImage("assets/images/n_off.png");
 
 }
 
@@ -121,22 +131,143 @@ function draw() {
     centerButtonDisplay();
     rightButtonDisplay();
 
-    //display of the options (temporary)
-    push();
-    fill(0);
-    ellipse(toy.x-65, toy.y-75, 25);
-    ellipse(toy.x-25, toy.y-75, 25);
-    ellipse(toy.x+15, toy.y-75, 25);
-    ellipse(toy.x+55, toy.y-75, 25);
-    ellipse(toy.x-65, toy.y+25, 25);
-    ellipse(toy.x-25, toy.y+25, 25);
-    ellipse(toy.x+15, toy.y+25, 25);
-    ellipse(toy.x+55, toy.y+25, 25);
-    pop();
+    //display of the options on the screen
+    displayFeed();
+    displayDrink();
+    displayWash();
+    displayPlay();
+    displayMedecine();
+    displayTalk();
+    displayInfo();
+    displayOff();
 
     text(options[currentIndex], width/2, height/2);
+
+    //display of the grain texture over everything
+    push();
+    imageMode(CENTER);
+    blendMode(OVERLAY);
+    image(grainImg, toy.x, toy.y);
+    pop();
 }
 
+//display of the options, the position values are funky here cause i'm trying to perfectly place the elements where needed
+function displayFeed() {
+    //when this option is targetted, it changes blending mode to indicate that that one is currently targetted
+    if (currentIndex === 0) {
+        push();
+        blendMode(HARD_LIGHT);
+        image(feedImg, toy.x-129, toy.y-117);
+        pop();
+    }
+    //otherwise the option looks normal
+    else {
+        push();
+        image(feedImg, toy.x-129, toy.y-117);
+        pop();
+    }
+}
+
+//same thing as display feed but for the other options
+function displayDrink() {
+    if (currentIndex === 1) {
+        push();
+        blendMode(HARD_LIGHT);
+        image(drinkImg, toy.x-57, toy.y-118);
+        pop();
+    }
+    else {
+        push();
+        image(drinkImg, toy.x-57, toy.y-118);
+        pop();
+    }
+}
+
+function displayWash() {
+    if (currentIndex === 2) {
+        push();
+        blendMode(HARD_LIGHT);
+        image(washImg, toy.x+5, toy.y-113);
+        pop();
+    }
+    else {
+        push();
+        image(washImg, toy.x+5, toy.y-113);
+        pop();
+    }
+}
+
+function displayPlay() {
+    if (currentIndex === 3) {
+        push();
+        blendMode(HARD_LIGHT);
+        image(playImg, toy.x+85, toy.y-117);
+        pop();
+    }
+    else {
+        push();
+        image(playImg, toy.x+85, toy.y-117);
+        pop();
+    }
+}
+
+function displayMedecine() {
+    if (currentIndex === 4) {
+        push();
+        blendMode(HARD_LIGHT);
+        image(medecineImg, toy.x-133, toy.y+46);
+        pop();
+    }
+    else {
+        push();
+        image(medecineImg, toy.x-133, toy.y+46);
+        pop();
+    }
+}
+
+function displayTalk() {
+    if (currentIndex === 5) {
+        push();
+        blendMode(HARD_LIGHT);
+        image(talkImg, toy.x-60, toy.y+43);
+        pop();
+    }
+    else {
+        push();
+        image(talkImg, toy.x-60, toy.y+43);
+        pop();
+    }
+}
+
+function displayInfo() {
+    if (currentIndex === 6) {
+        push();
+        blendMode(HARD_LIGHT);
+        image(infoImg, toy.x+15, toy.y+44);
+        pop();
+    }
+    else {
+        push();
+        image(infoImg, toy.x+15, toy.y+44);
+        pop();
+    }
+}
+
+function displayOff() {
+    if (currentIndex === 7) {
+        push();
+        blendMode(HARD_LIGHT);
+        image(offImg, toy.x+85, toy.y+46);
+        pop();
+    }
+    else {
+        push();
+        image(offImg, toy.x+85, toy.y+46);
+        pop();
+    }
+}
+
+//display of the buttons
 function leftButtonDisplay() {
     push();
     fill(200, 50, 100);
@@ -184,10 +315,11 @@ function mousePressed() {
         buttonLeft.size = 50; //button feedback (gets smaller)
         // buttonClickSFX();
         //clicking on the button will make you switch to the next option in the array
-        currentIndex = currentIndex+1;
-        if(currentIndex === options.length) {
-        currentIndex = 0;
+        currentIndex = currentIndex-1;
+        if(currentIndex < 0) {
+        currentIndex = 7;
         }
+
     }
     if(mouseInsideCenterButton()){
         //select button for on screen options
@@ -202,9 +334,9 @@ function mousePressed() {
         //move to select right options on screen
         buttonRight.size = 50;
         // buttonClickSFX();
-        currentIndex = currentIndex-1;
-        if(currentIndex < 0) {
-        currentIndex = 7;
+        currentIndex = currentIndex+1;
+        if(currentIndex === options.length) {
+        currentIndex = 0;
         }
     }
 }
