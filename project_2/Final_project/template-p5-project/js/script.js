@@ -223,6 +223,7 @@ function mouseReleased() {
 //my next steps are gonna be something like :
 //1- make an array of the options on the screen (feeding,cleaning,etc)
 //2- make clicking the buttons functional with the screen options (clicking left button will move to the left option on screen)
+
 //the assets for the options are always visible, i'll place them on the screen
 //when an option is "shown" in the array, it will flash, then when its selected it will start a function related to that part of the array
 //3- make sketches of the assets i need and add them to the project
