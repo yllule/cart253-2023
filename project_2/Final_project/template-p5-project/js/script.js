@@ -7,40 +7,41 @@
 
 "use strict";
 
+//variables for the image assets
+let toyImg;
+let screenImg;
+let feedImg;
+let drinkImg;
+let washImg;
+let playImg;
+let medecineImg;
+let talkImg;
+let infoImg;
+let offImg;
+
 //variables for the toy in its entirety, without the buttons or the main screen
-//in the final, this will be replaced by an image
 let toy = {
     x: 0,
-    y: 0,
-    w: 300, //width
-    h: 350 //height
+    y: 0
 };
 
-//variables for the screen of the toy
-let screen = {
-    x: 0,
-    y: 0,
-    w: 200, //width
-    h: 150 //height
-};
-
-//variables for the buttons on the toy. in the final, i may make a class for these buttons instead
+//variables for the buttons on the toy
 let buttonLeft = {
     x: 0,
     y: 0,
-    size: 50
+    size: 55
 };
 
 let buttonCenter = {
     x: 0,
     y: 0,
-    size: 50
+    size: 55
 }
 
 let buttonRight = {
     x: 0,
     y: 0,
-    size: 50
+    size: 55
 }
 
 //the options of actions the player could take
@@ -64,6 +65,9 @@ let currentIndex = 0;
  * Description of preload
 */
 function preload() {
+    
+    toyImg = loadImage("assets/images/toy.png");
+    screenImg = loadImage("assets/images/toy_screen.png");
 
 }
 
@@ -82,13 +86,13 @@ function setup() {
     screen.x = toy.x;
     screen.y = toy.y-25; //not completely centered so there's space for the buttons
 
-    //setting up the position of the buttons on the toy
-    buttonLeft.x = toy.x - 75;
-    buttonLeft.y = toy.y + 100;
+    //setting up the position of the buttons on the toy, i have centered it to the button "hole" from the toy asset img
+    buttonLeft.x = toy.x - 94;
+    buttonLeft.y = toy.y + 184;
     buttonCenter.x = toy.x;
-    buttonCenter.y = toy.y + 125; //center button is a bit lower than the others
-    buttonRight.x = toy.x + 75;
-    buttonRight.y = toy.y + 100;
+    buttonCenter.y = toy.y + 227;
+    buttonRight.x = toy.x + 96;
+    buttonRight.y = toy.y + 184;
 }
 
 
@@ -96,21 +100,20 @@ function setup() {
  * Description of draw()
 */
 function draw() {
-    //note to self: the background color will be white/blank in the final
-    background(255, 200, 200);
+    background(255);
     //all the elements will be drawn with no stroke, so i'm including it outside push/pop
     noStroke();
 
     //display of the toy
     push();
-    fill(255, 100, 100);
-    ellipse(toy.x, toy.y, toy.w, toy.h);
+    imageMode(CENTER);
+    image(toyImg, toy.x, toy.y);
     pop();
 
     //display of the game screen
     push();
-    rectMode(CENTER);
-    rect(screen.x, screen.y, screen.w, screen.h, 20, 20, 20, 20); //values for the roundness of the corners
+    imageMode(CENTER);
+    image(screenImg, toy.x, toy.y);
     pop();
 
     //display of the buttons
@@ -121,14 +124,14 @@ function draw() {
     //display of the options (temporary)
     push();
     fill(0);
-    ellipse(toy.x-75, toy.y-75, 25);
-    ellipse(toy.x-30, toy.y-75, 25);
+    ellipse(toy.x-65, toy.y-75, 25);
+    ellipse(toy.x-25, toy.y-75, 25);
     ellipse(toy.x+15, toy.y-75, 25);
-    ellipse(toy.x+60, toy.y-75, 25);
-    ellipse(toy.x-75, toy.y+25, 25);
-    ellipse(toy.x-30, toy.y+25, 25);
+    ellipse(toy.x+55, toy.y-75, 25);
+    ellipse(toy.x-65, toy.y+25, 25);
+    ellipse(toy.x-25, toy.y+25, 25);
     ellipse(toy.x+15, toy.y+25, 25);
-    ellipse(toy.x+60, toy.y+25, 25);
+    ellipse(toy.x+55, toy.y+25, 25);
     pop();
 
     text(options[currentIndex], width/2, height/2);
@@ -178,18 +181,17 @@ function mouseInsideRightButton() {
 function mousePressed() {
     if(mouseInsideLeftButton()){
         //move to select left options on screen
-        buttonLeft.size = 45; //button feedback (gets smaller)
+        buttonLeft.size = 50; //button feedback (gets smaller)
         // buttonClickSFX();
         //clicking on the button will make you switch to the next option in the array
         currentIndex = currentIndex+1;
         if(currentIndex === options.length) {
         currentIndex = 0;
         }
-        console.log(currentIndex);
     }
     if(mouseInsideCenterButton()){
         //select button for on screen options
-        buttonCenter.size = 45;
+        buttonCenter.size = 50;
         // buttonClickSFX();
 
         //if currentIndex = 0 -> feed() (make feed function)
@@ -198,13 +200,12 @@ function mousePressed() {
     }
     if(mouseInsideRightButton()){
         //move to select right options on screen
-        buttonRight.size = 45;
+        buttonRight.size = 50;
         // buttonClickSFX();
         currentIndex = currentIndex-1;
         if(currentIndex < 0) {
         currentIndex = 7;
         }
-        console.log(currentIndex);
     }
 }
 
@@ -215,18 +216,18 @@ function mousePressed() {
 
 
 function mouseReleased() {
-    buttonLeft.size = 50;
-    buttonCenter.size = 50;
-    buttonRight.size = 50;
+    buttonLeft.size = 55;
+    buttonCenter.size = 55;
+    buttonRight.size = 55;
 }
 
 //my next steps are gonna be something like :
 //1- make an array of the options on the screen (feeding,cleaning,etc)
 //2- make clicking the buttons functional with the screen options (clicking left button will move to the left option on screen)
-
 //the assets for the options are always visible, i'll place them on the screen
 //when an option is "shown" in the array, it will flash, then when its selected it will start a function related to that part of the array
 //3- make sketches of the assets i need and add them to the project
+
 //4- add what actions happen when screen options are selected (ex: feeding makes food appear + pet eats it)
 //5- make pet evolve as you take care of it
 //6- polish and add the narrative + tutorial state and ending state
