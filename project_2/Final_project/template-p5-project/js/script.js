@@ -45,6 +45,20 @@ let buttonRight = {
     size: 55
 };
 
+//variables for the pet sprite
+let petImg;
+let pet = {
+    x: 200,
+    y: 200
+}
+
+//variables for the player sprite
+let playerImg;
+let player = {
+    x: 100,
+    y: 100
+}
+
 //the options of actions the player could take
 let options = [
     "feed",
@@ -75,6 +89,9 @@ function preload() {
     talkImg = loadImage("assets/images/n_talk.png");
     infoImg = loadImage("assets/images/n_info.png");
     offImg = loadImage("assets/images/n_off.png");
+    playerImg = loadImage("assets/images/player1a.png"); //make array with all imgs
+    petImg = loadImage("assets/images/pet_sprout1.png");
+
 
 }
 
@@ -96,6 +113,13 @@ function setup() {
     buttonCenter.y = toy.y + 227;
     buttonRight.x = toy.x + 96;
     buttonRight.y = toy.y + 184;
+
+    //setting up the position of the player and pet
+    player.x = width/2-70;
+    player.y = height/2-55;
+
+    pet.x = width/2;
+    pet.y = height/2-10;
 }
 
 
@@ -131,6 +155,16 @@ function draw() {
     leftButtonDisplay();
     centerButtonDisplay();
     rightButtonDisplay();
+
+    //display player
+    push();
+    image(playerImg, player.x, player.y);
+    pop();
+
+    //display pet
+    push();
+    image(petImg, pet.x, pet.y);
+    pop();
 
     //display of the grain texture over everything
     push();
