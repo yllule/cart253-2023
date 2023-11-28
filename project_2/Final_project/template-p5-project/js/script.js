@@ -7,6 +7,10 @@
 
 "use strict";
 
+//variable to store the current active state. there will be different states for different parts of the narrative
+//states include : intro?, sprout, flower, carnivore, death, monster, crash, crack, end
+let currentState;
+
 //variables for the image assets
 let toyImg;
 let screenImg;
@@ -103,6 +107,10 @@ function preload() {
 function setup() {
     createCanvas(windowWidth, windowHeight);
 
+    currentState = new Title();
+    textSize(32);
+    textAlign(CENTER, CENTER);
+
     //setting up the position of the toy on the screen
     toy.x = width/2;
     toy.y = height/2;
@@ -129,6 +137,8 @@ function setup() {
 */
 function draw() {
     background(255);
+
+    currentState.draw();
 
     //display of the toy
     push();
@@ -367,6 +377,7 @@ function mousePressed() {
         currentIndex = 0;
         }
     }
+    currentState.mousePressed();
 }
 
 function actionFeed() {
