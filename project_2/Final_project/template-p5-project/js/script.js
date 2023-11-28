@@ -8,7 +8,7 @@
 "use strict";
 
 //variable to store the current active state. there will be different states for different parts of the narrative
-//states include : intro?, sprout, flower, carnivore, death, monster, crash, crack, end
+//states include : title, intro?, sprout, flower, carnivore, death, monster, crash, crack, end
 let currentState;
 
 //variables for the image assets
@@ -108,8 +108,9 @@ function setup() {
     createCanvas(windowWidth, windowHeight);
 
     currentState = new Title();
-    textSize(32);
+    textSize(50);
     textAlign(CENTER, CENTER);
+    textFont('Georgia');
 
     //setting up the position of the toy on the screen
     toy.x = width/2;
@@ -152,30 +153,10 @@ function draw() {
     image(screenImg, toy.x, toy.y);
     pop();
 
-    //display of the options on the screen
-    displayFeed();
-    displayDrink();
-    displayWash();
-    displayPlay();
-    displayMedecine();
-    displayTalk();
-    displayInfo();
-    displayOff();
-
     //display of the buttons
     leftButtonDisplay();
     centerButtonDisplay();
     rightButtonDisplay();
-
-    //display player
-    push();
-    image(playerImg, player.x, player.y);
-    pop();
-
-    //display pet
-    push();
-    image(petImg, pet.x, pet.y);
-    pop();
 
     //display of the grain texture over everything
     push();
@@ -183,122 +164,6 @@ function draw() {
     blendMode(OVERLAY);
     image(grainImg, toy.x, toy.y);
     pop();
-}
-
-//display of the options, the position values are funky here cause i'm trying to perfectly place the elements where needed
-function displayFeed() {
-    //when this option is targetted, it changes blending mode to indicate that that one is currently targetted
-    if (currentIndex === 0) {
-        push();
-        blendMode(HARD_LIGHT);
-        image(feedImg, toy.x-129, toy.y-117);
-        pop();
-    }
-    //otherwise the option looks normal
-    else {
-        push();
-        image(feedImg, toy.x-129, toy.y-117);
-        pop();
-    }
-}
-
-//same thing as display feed but for the other options
-function displayDrink() {
-    if (currentIndex === 1) {
-        push();
-        blendMode(HARD_LIGHT);
-        image(drinkImg, toy.x-57, toy.y-118);
-        pop();
-    }
-    else {
-        push();
-        image(drinkImg, toy.x-57, toy.y-118);
-        pop();
-    }
-}
-
-function displayWash() {
-    if (currentIndex === 2) {
-        push();
-        blendMode(HARD_LIGHT);
-        image(washImg, toy.x+5, toy.y-113);
-        pop();
-    }
-    else {
-        push();
-        image(washImg, toy.x+5, toy.y-113);
-        pop();
-    }
-}
-
-function displayPlay() {
-    if (currentIndex === 3) {
-        push();
-        blendMode(HARD_LIGHT);
-        image(playImg, toy.x+85, toy.y-117);
-        pop();
-    }
-    else {
-        push();
-        image(playImg, toy.x+85, toy.y-117);
-        pop();
-    }
-}
-
-function displayMedecine() {
-    if (currentIndex === 4) {
-        push();
-        blendMode(HARD_LIGHT);
-        image(medecineImg, toy.x-133, toy.y+46);
-        pop();
-    }
-    else {
-        push();
-        image(medecineImg, toy.x-133, toy.y+46);
-        pop();
-    }
-}
-
-function displayTalk() {
-    if (currentIndex === 5) {
-        push();
-        blendMode(HARD_LIGHT);
-        image(talkImg, toy.x-60, toy.y+43);
-        pop();
-    }
-    else {
-        push();
-        image(talkImg, toy.x-60, toy.y+43);
-        pop();
-    }
-}
-
-function displayInfo() {
-    if (currentIndex === 6) {
-        push();
-        blendMode(HARD_LIGHT);
-        image(infoImg, toy.x+15, toy.y+44);
-        pop();
-    }
-    else {
-        push();
-        image(infoImg, toy.x+15, toy.y+44);
-        pop();
-    }
-}
-
-function displayOff() {
-    if (currentIndex === 7) {
-        push();
-        blendMode(HARD_LIGHT);
-        image(offImg, toy.x+85, toy.y+46);
-        pop();
-    }
-    else {
-        push();
-        image(offImg, toy.x+85, toy.y+46);
-        pop();
-    }
 }
 
 //display of the buttons
