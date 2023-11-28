@@ -48,15 +48,15 @@ let buttonRight = {
 //variables for the pet sprite
 let petImg;
 let pet = {
-    x: 200,
-    y: 200
+    x: 0,
+    y: 0
 }
 
 //variables for the player sprite
 let playerImg;
 let player = {
-    x: 100,
-    y: 100
+    x: 0,
+    y: 0
 }
 
 //the options of actions the player could take
@@ -70,6 +70,7 @@ let options = [
     "info",
     "off"
 ];
+
 //the action option that is currently targetted
 let currentIndex = 0;
 
@@ -316,7 +317,7 @@ function rightButtonDisplay() {
 }
 
 function mouseInsideLeftButton() {
-    //checks if the mouse is inside the left button
+//checks if the mouse is inside the left button
     if (mouseX >= buttonLeft.x - buttonLeft.size/2 && mouseX <= buttonLeft.x + buttonLeft.size/2 && mouseY >= buttonLeft.y - buttonLeft.size/2 && mouseY <= buttonLeft.y + buttonLeft.size/2) {
         return true;
     }
@@ -370,11 +371,8 @@ function mousePressed() {
 
 function actionFeed() {
 
-    push();
     console.log('poop');
-    fill(0);
-    ellipse(200,200,200);
-    pop();
+    image(playerImg,200,200);
 
 }
 
