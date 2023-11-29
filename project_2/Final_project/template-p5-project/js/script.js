@@ -139,8 +139,6 @@ function setup() {
 function draw() {
     background(255);
 
-    currentState.draw();
-
     //display of the toy
     push();
     imageMode(CENTER);
@@ -157,6 +155,8 @@ function draw() {
     leftButtonDisplay();
     centerButtonDisplay();
     rightButtonDisplay();
+
+    currentState.draw();
 
     //display of the grain texture over everything
     push();
@@ -225,7 +225,7 @@ function mousePressed() {
     if(mouseInsideCenterButton()) {
         //select button for on screen options
         buttonCenter.size = 50;
-        actionFeed();
+        // actionFeed();
         //     if (currentIndex === 0) {
         //         actionFeed();
         //     }
@@ -245,12 +245,12 @@ function mousePressed() {
     currentState.mousePressed();
 }
 
-function actionFeed() {
+// function actionFeed() {
 
-    console.log('poop');
-    image(playerImg,200,200);
+//     console.log('poop');
+//     image(playerImg,200,200);
 
-}
+// }
 
 function mouseReleased() {
     buttonLeft.size = 55;

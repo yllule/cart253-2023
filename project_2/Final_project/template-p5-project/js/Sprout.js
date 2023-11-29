@@ -1,10 +1,16 @@
 class Sprout {
     constructor() {
 
+        //check if the pet has been fed or watered, which are the conditions needed for it to evolve
+        this.fed = false;
+        this.watered = false;
+        //if this is true, the feed and drink "animation" will show
+        this.showImageFeed = false;
+        this.showImageWater = false;
+
     }
 
     draw() {
-        background(255);
         
         //display of the options on the screen
         this.displayFeed();
@@ -26,6 +32,12 @@ class Sprout {
         image(petImg, pet.x, pet.y);
         pop();
 
+        if(this.showImageFeed) {
+            ellipse(200,200,200);
+        }
+
+        //check if the sprout has been watered and fed, which will lead to the next state
+        this.checkEvolution();
         
     }
 
@@ -33,18 +45,18 @@ class Sprout {
     displayFeed() {
     //when this option is targetted, it changes blending mode to indicate that that one is currently targetted
         if (currentIndex === 0) {
-        push();
-        blendMode(HARD_LIGHT);
-        image(feedImg, toy.x-129, toy.y-117);
-        pop();
-    }
+            push();
+            blendMode(HARD_LIGHT);
+            image(feedImg, toy.x-129, toy.y-117);
+            pop();
+        }
     //otherwise the option looks normal
-    else {
-        push();
-        image(feedImg, toy.x-129, toy.y-117);
-        pop();
+        else {
+            push();
+            image(feedImg, toy.x-129, toy.y-117);
+            pop();
+        }
     }
-}
 
 //same thing as display feed but for the other options
     displayDrink() {
@@ -64,12 +76,13 @@ class Sprout {
     displayWash() {
     if (currentIndex === 2) {
         push();
-        blendMode(HARD_LIGHT);
+        blendMode(REMOVE);
         image(washImg, toy.x+5, toy.y-113);
         pop();
     }
     else {
         push();
+        blendMode(SOFT_LIGHT);
         image(washImg, toy.x+5, toy.y-113);
         pop();
     }
@@ -78,12 +91,13 @@ class Sprout {
     displayPlay() {
     if (currentIndex === 3) {
         push();
-        blendMode(HARD_LIGHT);
+        blendMode(REMOVE);
         image(playImg, toy.x+85, toy.y-117);
         pop();
     }
     else {
         push();
+        blendMode(SOFT_LIGHT);
         image(playImg, toy.x+85, toy.y-117);
         pop();
     }
@@ -92,12 +106,13 @@ class Sprout {
     displayMedecine() {
     if (currentIndex === 4) {
         push();
-        blendMode(HARD_LIGHT);
+        blendMode(REMOVE);
         image(medecineImg, toy.x-133, toy.y+46);
         pop();
     }
     else {
         push();
+        blendMode(SOFT_LIGHT);
         image(medecineImg, toy.x-133, toy.y+46);
         pop();
     }
@@ -106,12 +121,13 @@ class Sprout {
     displayTalk() {
     if (currentIndex === 5) {
         push();
-        blendMode(HARD_LIGHT);
+        blendMode(REMOVE);
         image(talkImg, toy.x-60, toy.y+43);
         pop();
     }
     else {
         push();
+        blendMode(SOFT_LIGHT);
         image(talkImg, toy.x-60, toy.y+43);
         pop();
     }
@@ -147,5 +163,36 @@ class Sprout {
 
     mousePressed() {
 
+        if(mouseInsideCenterButton()) {
+            //select button for on screen options
+            buttonCenter.size = 50;
+                if (currentIndex === 0) {
+                    this.actionFeed();
+                }
+                else if (currentIndex === 1) {
+                    this.actionDrink();
+            }
+        }
+    }
+
+    actionFeed() {
+
+        this.showImageFeed = true;
+        this.fed = true;
+    
+    }
+
+    actionDrink() {
+
+        this.showImageWater = true;
+        this.watered = true;
+    
+    }
+
+    checkEvolution() {
+
+        if(this.fed === true && this.watered === true) {
+            currentState = new Flower;
+        }
     }
 }

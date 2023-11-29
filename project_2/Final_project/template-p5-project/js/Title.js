@@ -9,7 +9,6 @@ class Title {
     }
 
     draw() {
-        background(255);
 
         //display the title
         push();
@@ -17,7 +16,6 @@ class Title {
         text(this.titleString, toy.x, 200);
         text(this.instructionString, toy.x, 1000);
         pop();
-
     }
 
 

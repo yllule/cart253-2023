@@ -1,0 +1,8 @@
+class Flower {
+    
+    constructor() {
+    }
+
+    draw() {
+    }
+}
