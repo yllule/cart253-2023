@@ -7,6 +7,8 @@ class Sprout {
         //if this is true, the feed and drink "animation" will show
         this.showImageFeed = false;
         this.showImageWater = false;
+        this.showTextFeed = false;
+        this.showTextWater = false;
 
     }
 
@@ -23,17 +25,34 @@ class Sprout {
         this.displayOff();
 
         //display player
-        push();
-        image(playerImg, player.x, player.y);
-        pop();
+            push();
+            image(playerImg, player.x, player.y);
+            pop();
+
 
         //display pet
-        push();
-        image(petImg, pet.x, pet.y);
-        pop();
+            push();
+            image(sproutImg, pet.x, pet.y);
+            pop();
 
         if(this.showImageFeed) {
             ellipse(200,200,200);
+            //resets the variable back to false so the feed 'animation' repeats everytime you click on the feed option
+            this.showImageFeed = false;
+        }
+
+        if(this.showImageWater) {
+            ellipse(100,100,100);
+            this.showImageWater = false;
+        }
+
+        if(this.showTextFeed) {
+            push();
+            textSize(15);
+            textAlign(CENTER);
+            textFont('Georgia');
+            text('Maybe my pet plant could use some fertilizer...', width/2, height/2-15);
+            pop();
         }
 
         //check if the sprout has been watered and fed, which will lead to the next state
@@ -171,7 +190,16 @@ class Sprout {
                 }
                 else if (currentIndex === 1) {
                     this.actionDrink();
-            }
+                }
+                else if (currentIndex === 6) {
+                    this.actionInfo();
+                }
+                else if (currentIndex === 7) {
+                    currentState = new Title;
+                }
+                if (this.showTextFeed === true) {
+                    this.showTextFeed === false;
+                }
         }
     }
 
@@ -179,14 +207,21 @@ class Sprout {
 
         this.showImageFeed = true;
         this.fed = true;
-    
     }
 
     actionDrink() {
 
         this.showImageWater = true;
         this.watered = true;
-    
+    }
+
+    actionInfo() {
+        if (!this.fed) {
+            this.showTextFeed = true;
+        }
+        if (!this.water) {
+            this.showTextWater = true;
+        }
     }
 
     checkEvolution() {

@@ -24,6 +24,10 @@ let infoImg;
 let offImg;
 let grainImg;
 
+let flowerImg;
+let player2Img;
+let carnivoreImg;
+
 //variables for the toy in its entirety, without the buttons or the main screen
 let toy = {
     x: 0,
@@ -50,7 +54,7 @@ let buttonRight = {
 };
 
 //variables for the pet sprite
-let petImg;
+let sproutImg;
 let pet = {
     x: 0,
     y: 0
@@ -95,8 +99,10 @@ function preload() {
     infoImg = loadImage("assets/images/n_info.png");
     offImg = loadImage("assets/images/n_off.png");
     playerImg = loadImage("assets/images/player1a.png"); //make array with all imgs
-    petImg = loadImage("assets/images/pet_sprout1.png");
-
+    sproutImg = loadImage("assets/images/pet_sprout1.png");
+    player2Img = loadImage('assets/images/player2a.png');
+    flowerImg = loadImage('assets/images/pet_flower1.png');
+    carnivoreImg = loadImage('assets/images/pet_carnivore1.png');
 
 }
 
@@ -225,13 +231,6 @@ function mousePressed() {
     if(mouseInsideCenterButton()) {
         //select button for on screen options
         buttonCenter.size = 50;
-        // actionFeed();
-        //     if (currentIndex === 0) {
-        //         actionFeed();
-        //     }
-        //     else if (currentIndex === 1) {
-        //         actionDrink();
-        // }
     }
 
     if(mouseInsideRightButton()) {
@@ -245,24 +244,11 @@ function mousePressed() {
     currentState.mousePressed();
 }
 
-// function actionFeed() {
-
-//     console.log('poop');
-//     image(playerImg,200,200);
-
-// }
-
 function mouseReleased() {
     buttonLeft.size = 55;
     buttonCenter.size = 55;
     buttonRight.size = 55;
 }
-
-// function actionDrink() {
-
-//     text(`drink uwu`, width/2, height/2);
-
-// }
 
 //my next steps are gonna be something like :
 //1- make an array of the options on the screen (feeding,cleaning,etc)
