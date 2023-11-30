@@ -98,11 +98,11 @@ function preload() {
     talkImg = loadImage("assets/images/n_talk.png");
     infoImg = loadImage("assets/images/n_info.png");
     offImg = loadImage("assets/images/n_off.png");
-    playerImg = loadImage("assets/images/player1a.png"); //make array with all imgs
-    sproutImg = loadImage("assets/images/pet_sprout1.png");
-    player2Img = loadImage('assets/images/player2a.png');
-    flowerImg = loadImage('assets/images/pet_flower1.png');
-    carnivoreImg = loadImage('assets/images/pet_carnivore1.png');
+    playerImg = loadImage("assets/images/player1.gif");
+    sproutImg = loadImage("assets/images/pet_sprout.gif");
+    player2Img = loadImage('assets/images/player2.gif');
+    flowerImg = loadImage('assets/images/pet_flower.gif');
+    carnivoreImg = loadImage('assets/images/pet_carnivore.gif');
 
 }
 
