@@ -1,7 +1,9 @@
+//first evolution stage of the pet
+
 class Sprout {
     constructor() {
 
-        //check if the pet has been fed or watered, which are the conditions needed for it to evolve
+        //variables to check if the pet has been fed or watered, which are the conditions needed for it to evolve
         this.fed = false;
         this.watered = false;
         //if this is true, the feed and drink "animation" will show
@@ -9,6 +11,7 @@ class Sprout {
         this.showImageWater = false;
         this.showTextFeed = false;
         this.showTextWater = false;
+        //these variables will turn off when action animations play
         this.displayPlayer = true;
         this.displayPet = true;
         //if this is true, the screen will appear as off
@@ -28,62 +31,25 @@ class Sprout {
         this.displayInfo();
         this.displayOff();
 
-        //display player\
+        //display player, only displays if display player is true
         if(this.displayPlayer) {
             push();
             image(playerImg, player.x, player.y);
             pop();
         }
 
-        //display pet
+        //display pet, only displays if display pet is true
         if(this.displayPet) {
             push();
             image(sproutImg, pet.x, pet.y);
             pop();
         }
 
-        //display the feed frame animation, makes the player asset not show
-        if (this.showImageFeed) {
-            image(playerFeedImg, player.x, player.y);
-            this.displayPlayer = false;
+        this.actionFeed();
+        this.actionWater();
+        this.actionInfoFeed();
+        this.actionInfoWater();
 
-        //check if one second has passed since the feed frame was shown
-            if (millis() - this.feedStartTime >= 1000) {
-                this.showImageFeed = false;
-                this.displayPlayer = true;
-            }
-        } 
-        
-        else {
-        //set the start time when image feed is not being shown
-        this.feedStartTime = millis();
-        }
-
-        //display the water animation, makes the player asset not show
-        if (this.showImageWater) {
-            image(playerWaterImg, player.x, player.y);
-            this.displayPlayer = false;
-
-            //check if one second has passed since the water frame was shown
-            if (millis() - this.waterStartTime >= 1000) {
-                this.showImageWater = false;
-                this.displayPlayer = true;
-            }
-        }
-
-        else {
-        //set the start time when image water is not being shown
-            this.waterStartTime = millis();
-        }
-
-        if(this.showTextFeed) {
-            push();
-            textSize(15);
-            textAlign(CENTER);
-            textFont('Georgia');
-            text('Maybe my pet plant could use some fertilizer...', width/2, height/2-15);
-            pop();
-        }
 
         //screen turns off if player selects off button (off screen asset goes over everything)
         if(this.showOffScreen) {
@@ -218,6 +184,94 @@ class Sprout {
     }
 }
 
+    actionFeed() {
+        //start time variable for the feed animation
+        let feedInterval;
+
+        //display the feed animation for one second, makes the player asset not show
+        if (this.showImageFeed) {
+            image(playerFeedImg, player.x, player.y);
+            this.displayPlayer = false;
+
+            //check if one second has passed since the feed frame was shown
+            if (!feedInterval) {
+                feedInterval = setInterval(() => {
+                    clearInterval(feedInterval);
+                    this.showImageFeed = false;
+                    this.displayPlayer = true;
+                }, 1000);
+            }
+        }
+    }
+
+    actionWater() {
+        //start time interval for the water animation
+        let waterInterval;
+
+        //display the water animation, makes the player asset not show
+        if (this.showImageWater) {
+            image(playerWaterImg, player.x, player.y);
+            this.displayPlayer = false;
+
+            //check if one second has passed since the water frame was shown
+            if (!waterInterval) {
+                waterInterval = setInterval(() => {
+                    clearInterval(waterInterval);
+                    this.showImageWater = false;
+                    this.displayPlayer = true;
+                }, 1000);
+            }
+        }
+    }
+
+    actionInfoFeed() {
+        //same thing as above but with showing text when you choose the info button and text displays for 2 secs
+        let feedTextInterval;
+
+        if(this.showTextFeed) {
+            push();
+            textSize(14);
+            textAlign(CENTER);
+            text('Maybe my pet could use some fertilizer...', width/2, height/2-15);
+            pop();
+            this.displayPlayer = false;
+            this.displayPet = false;
+
+            if (!feedTextInterval) {
+                feedTextInterval = setInterval(() => {
+                    clearInterval(feedTextInterval);
+                    this.showTextFeed = false;
+                    this.displayPet = true;
+                    this.displayPlayer = true;
+                }, 2000);
+            }
+        }
+    }
+
+    actionInfoWater() {
+        //same thing as above method for water text for info button
+        let waterTextInterval;
+
+        if(this.showTextWater) {
+            push();
+            textSize(14);
+            textAlign(CENTER);
+            text('Maybe my pet could use some water...', width/2, height/2-15);
+            pop();
+            this.displayPlayer = false;
+            this.displayPet = false;
+
+            if(!waterTextInterval) {
+                waterTextInterval = setInterval(() => {
+                    clearInterval(waterTextInterval);
+                    this.showTextWater = false;
+                    this.displayPet = true;
+                    this.displayPlayer = true;
+                }, 2000);
+            }
+        }
+    }
+
     mousePressed() {
 
         if(mouseInsideCenterButton()) {
@@ -233,12 +287,13 @@ class Sprout {
                     this.watered = true;
                 }
 
-                //shows what the pet needs
+                //the info action shows what the pet needs
                 else if (currentIndex === 6) {
                     if (!this.fed) {
                         this.showTextFeed = true;
                     }
-                    if (!this.water) {
+                    //to prevent both texts from appearing at the same time, the water text shows up only if the pet has been fed, so the feed text is first to show up
+                    if (!this.water && this.fed) {
                         this.showTextWater = true;
                     }
                 }

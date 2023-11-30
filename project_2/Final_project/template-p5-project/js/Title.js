@@ -1,9 +1,9 @@
 //the title screen of the game
-//press the center button to start the game?
 
 class Title {
     constructor() {
 
+        //variable for title text
         this.titleString = 'On your way home you find an off brand Tamagotcha toy...'
 
     }
@@ -23,6 +23,7 @@ class Title {
         image(screenOffImg, toy.x, toy.y);
         pop();
 
+        //adding the asset for note on top of screen
         push();
         imageMode(CENTER);
         image(noteImg, toy.x, toy.y);
