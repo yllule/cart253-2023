@@ -15,6 +15,7 @@ let currentState;
 let toyImg;
 let screenImg;
 let screenOffImg;
+
 let feedImg;
 let drinkImg;
 let washImg;
@@ -23,6 +24,7 @@ let medecineImg;
 let talkImg;
 let infoImg;
 let offImg;
+
 let grainImg;
 let grimeImg;
 let noteImg;
@@ -32,6 +34,9 @@ let player2Img;
 let carnivoreImg;
 let playerFeedImg;
 let playerWaterImg;
+let playerMedecineImg;
+let pestsImg;
+let talkBubble1Img;
 
 //variable for the font used (google font)
 let font;
@@ -126,10 +131,13 @@ function preload() {
     playerImg = loadImage("assets/images/player1.gif");
     playerFeedImg = loadImage('assets/images/player_feed.png');
     playerWaterImg = loadImage('assets/images/player_water.png');
+    playerMedecineImg = loadImage('assets/images/player_medecine.png');
     sproutImg = loadImage("assets/images/pet_sprout.gif");
     player2Img = loadImage('assets/images/player2.gif');
     flowerImg = loadImage('assets/images/pet_flower.gif');
     carnivoreImg = loadImage('assets/images/pet_carnivore.gif');
+    pestsImg = loadImage('assets/images/pests.gif');
+    talkBubble1Img = loadImage('assets/images/talk1.png');
 
     //font
     font = loadFont('assets/images/PixelifySans-Regular.ttf');

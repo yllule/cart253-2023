@@ -6,10 +6,11 @@ class Flower {
         this.fed = false;
         this.watered = false;
         this.pesticide = false;
-        //if this is true, the feed and drink "animation" will show
+        //if these are true, the feed, drink, info, medecine and talk "animation" will show
         this.showImageFeed = false;
         this.showImageWater = false;
         this.showImageMedecine = false;
+        this.showImageTalk = false;
         this.showTextFeed = false;
         this.showTextWater = false;
         this.showTextMedecine = false;
@@ -53,12 +54,17 @@ class Flower {
             pop();
         }
 
+        //methods for what happens when the user takes certain actions
         this.actionFeed();
         this.actionWater();
         this.actionMedecine();
+        this.actionTalk();
         this.actionInfoFeed();
         this.actionInfoWater();
         this.actionInfoMedecine();
+
+        //display of the pests
+        this.pestsDisplay();
 
         //screen turns off if player selects off button (off screen asset goes over everything)
         if(this.showOffScreen) {
@@ -233,17 +239,34 @@ actionWater() {
     }
 }
 
+actionTalk() {
+    //start time variable for the talk animation
+    let talkInterval;
+
+    //display the talk animation for one second
+    if (this.showImageTalk) {
+        image(talkBubble1Img, pet.x+55, pet.y-40);
+
+        //check if one second has passed since the talk frame was shown
+        if (!talkInterval) {
+            talkInterval = setInterval(() => {
+                clearInterval(talkInterval);
+                this.showImageTalk = false;
+            }, 1000);
+        }
+    }
+}
+
 actionMedecine() {
-    //start time variable for the feed animation
+    //start time variable for the medecine animation
     let medecineInterval;
 
-    //display the feed animation for one second, makes the player asset not show
+    //display the medecine animation for one second, makes the player asset not show
     if (this.showImageMedecine) {
-        ellipse(200,200,200);
-        // image(playerFeedImg, player.x, player.y);
+        image(playerMedecineImg, player.x, player.y);
         this.displayPlayer = false;
 
-        //check if one second has passed since the feed frame was shown
+        //check if one second has passed since the medecine frame was shown
         if (!medecineInterval) {
             medecineInterval = setInterval(() => {
                 clearInterval(medecineInterval);
@@ -326,7 +349,14 @@ actionInfoMedecine() {
     }
 }
 
-    mousePressed() {
+pestsDisplay(){
+    //when the pet is watered and fed the pests will appear
+    if(this.fed && this.watered) {
+            image(pestsImg, pet.x, pet.y-45);
+    }
+}
+
+mousePressed() {
 
         if(mouseInsideCenterButton()) {
             //select button for on screen options
@@ -343,6 +373,10 @@ actionInfoMedecine() {
                 else if(currentIndex === 4) {
                     this.showImageMedecine = true;
                     this.pesticide = true;
+                }
+
+                else if(currentIndex === 5) {
+                    this.showImageTalk = true;
                 }
 
                 //the info action shows what the pet needs
@@ -368,11 +402,12 @@ actionInfoMedecine() {
         else if (mouseInsideCenterButton() && this.showOffScreen) {
             this.showOffScreen = false;
         }
-    }
+}
 
-    checkEvolution() {
+checkEvolution() {
 
-        if(this.fed && this.watered && this.pesticide) {
+        //the pet needs to be fed, watered and treated before evolving
+        if(this.fed && this.watered && this.pesticide && this.displayPlayer && this.displayPet) {
             //audio for pet evolution
             synth.play(evolveSFX, 0.2, 0, 0.1);
             //change state to carnivore

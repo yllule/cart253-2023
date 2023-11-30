@@ -6,7 +6,7 @@ class Sprout {
         //variables to check if the pet has been fed or watered, which are the conditions needed for it to evolve
         this.fed = false;
         this.watered = false;
-        //if this is true, the feed and drink "animation" will show
+        //if this is true, the feed, drink and info "animation" will show
         this.showImageFeed = false;
         this.showImageWater = false;
         this.showTextFeed = false;
@@ -67,7 +67,6 @@ class Sprout {
             pop();
         }
 
-        //check if the sprout has been watered and fed, which will lead to the next state
         this.checkEvolution();
         
     }
