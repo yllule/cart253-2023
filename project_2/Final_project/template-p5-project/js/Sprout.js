@@ -56,6 +56,7 @@ class Sprout {
             pop();
         }
 
+        //screen turns off if player selects off button (off screen asset goes over everything)
         if(this.showOffScreen) {
             push();
             imageMode(CENTER);
@@ -193,6 +194,7 @@ class Sprout {
         if(mouseInsideCenterButton()) {
             //select button for on screen options
             buttonCenter.size = 50;
+
                 if (currentIndex === 0) {
                     this.showImageFeed = true;
                     this.fed = true;
@@ -213,10 +215,11 @@ class Sprout {
                 }
                 //turn the game off if you press the off option (makes the off screen appear in front of everything)
                 else if (currentIndex === 7) {
-                    this.showOffScreen = true
+                    this.showOffScreen = !this.showOffScreen; // Toggle the state
                 }
-        }
-        if(this.showOffScreen == true) {
+            } 
+        //turn the game back on if you press the center button
+        else if (mouseInsideCenterButton() && this.showOffScreen) {
             this.showOffScreen = false;
         }
     }
