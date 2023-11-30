@@ -227,6 +227,9 @@ class Flower {
     checkEvolution() {
 
         if(this.fed && this.watered && this.pesticide) {
+            //audio for pet evolution
+            synth.play(evolveSFX, 0.2, 0, 0.1);
+            //change state to carnivore
             currentState = new Carnivore;
         }
     }

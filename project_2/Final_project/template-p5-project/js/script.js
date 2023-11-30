@@ -90,6 +90,13 @@ let options = [
 //the action option that is currently targetted
 let currentIndex = 0;
 
+let clickSFX = 'G2'; //clicking on button sfx
+let evolveSFX = 'E6'; //sound when pet evolves
+let synth = new p5.PolySynth();
+
+//variable for the background music
+let bgm;
+
 /**
  * Description of preload
 */
@@ -127,6 +134,9 @@ function preload() {
     //font
     font = loadFont('assets/images/PixelifySans-Regular.ttf');
 
+    //background music
+    bgm = loadSound('assets/sounds/bgm.mp3');
+
 }
 
 
@@ -137,7 +147,6 @@ function setup() {
     createCanvas(windowWidth, windowHeight);
 
     currentState = new Title();
-    textSize(55);
     textAlign(CENTER, CENTER);
     textFont(font);
 
@@ -251,6 +260,7 @@ function mousePressed() {
     if(mouseInsideLeftButton()) {
         //move to select left options on screen
         buttonLeft.size = 50; //button feedback (gets smaller)
+        synth.play(clickSFX, 0.2, 0, 0.1); //button click audio
         //clicking on the button will make you switch to the next option in the array
         currentIndex = currentIndex-1;
         if(currentIndex < 0) {
@@ -260,12 +270,14 @@ function mousePressed() {
 
     if(mouseInsideCenterButton()) {
         //select button for on screen options
+        synth.play(clickSFX, 0.2, 0, 0.1); //button click audio
         buttonCenter.size = 50;
     }
 
     if(mouseInsideRightButton()) {
         //move to select right options on screen
         buttonRight.size = 50;
+        synth.play(clickSFX, 0.2, 0, 0.1); //button click audio
         currentIndex = currentIndex+1;
         if(currentIndex === options.length) {
         currentIndex = 0;
@@ -280,24 +292,9 @@ function mouseReleased() {
     buttonRight.size = 55;
 }
 
-//my next steps are gonna be something like :
-//1- make an array of the options on the screen (feeding,cleaning,etc)
-//2- make clicking the buttons functional with the screen options (clicking left button will move to the left option on screen)
-//the assets for the options are always visible, i'll place them on the screen
-//when an option is "shown" in the array, it will flash, then when its selected it will start a function related to that part of the array
-//3- make sketches of the assets i need and add them to the project
-
-//4- add what actions happen when screen options are selected (ex: feeding makes food appear + pet eats it)
-//5- make pet evolve as you take care of it
-//6- polish and add the narrative + tutorial state and ending state
-
-//i'll need to plan more as in, what actions does the player need to take to make the pet evolve to the next stage?
-//and a list + sketches of all the pet evolution stages
 
 //another note to self (for the narrative)
 //once it becomes clear to the player that the pet you're raising is a monster, would be nice if its like a jumpscare reveal with scary sound. maybe up until that point the game is silent or has calming music that gets interrupted
 //also once the player reaches the "final" stages of the pet's evolution, maybe the toy gets cracked
 //eventually (once the pet reaches final evolution) you can't choose any more options other than the off button since the screen is so cracked
 //once that's done, monster comes out of toy and end:)
-
-//i'm not sure if all this is too ambitious, if it is i may just make this a normal cute tamagotchi simulator and skip the horror narrative haha

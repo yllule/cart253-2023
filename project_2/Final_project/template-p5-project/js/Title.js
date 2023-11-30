@@ -12,8 +12,8 @@ class Title {
 
         //text display
         push();
-        textAlign(CENTER);
         fill(0, 0, 255);
+        textSize(55);
         text(this.titleString, width/2, toy.y-400);
         pop();
 

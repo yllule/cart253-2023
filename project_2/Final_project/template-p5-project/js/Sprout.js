@@ -20,6 +20,12 @@ class Sprout {
     }
 
     draw() {
+
+        //adding bg music
+        if (!bgm.isPlaying()) {
+            bgm.setVolume(0.05);
+            bgm.loop();
+        }
         
         //display of the options on the screen
         this.displayFeed();
@@ -53,6 +59,8 @@ class Sprout {
 
         //screen turns off if player selects off button (off screen asset goes over everything)
         if(this.showOffScreen) {
+            //bgm stops when you turn the toy off
+            bgm.stop();
             push();
             imageMode(CENTER);
             image(screenOffImg, toy.x, toy.y);
@@ -312,6 +320,9 @@ class Sprout {
 
         //if the pet has been fed and watered AND the player and pet are being displayed (ensuring that the feed/water animations are done playing) then the pet will evolve
         if(this.fed === true && this.watered === true && this.displayPlayer && this.displayPet) {
+            //audio for pet evolution
+            synth.play(evolveSFX, 0.2, 0, 0.1);
+            //state changes to flower
             currentState = new Flower;
         }
     }
