@@ -2,13 +2,33 @@ class Flower {
 
     constructor() {
 
+        //variables to check if the pet has been fed or watered or treated, which are the conditions needed for it to evolve
         this.fed = false;
         this.watered = false;
         this.pesticide = false;
+        //if this is true, the feed and drink "animation" will show
+        this.showImageFeed = false;
+        this.showImageWater = false;
+        this.showImageMedecine = false;
+        this.showTextFeed = false;
+        this.showTextWater = false;
+        this.showTextMedecine = false;
+        //these variables will turn off when action animations play
+        this.displayPlayer = true;
+        this.displayPet = true;
+        //if this is true, the screen will appear as off
+        this.showOffScreen = false;
 
     }
 
     draw() {
+
+        //adding bg music
+        if (!bgm.isPlaying()) {
+            bgm.setVolume(0.05);
+            bgm.loop();
+        }
+
         //display of the options on the screen
         this.displayFeed();
         this.displayDrink();
@@ -19,34 +39,34 @@ class Flower {
         this.displayInfo();
         this.displayOff();
 
-        //display player
-        push();
-        image(playerImg, player.x, player.y);
-        pop();
-
-
-        //display pet
-        push();
-        image(flowerImg, pet.x, pet.y-25);
-        pop();
-
-        if(this.showImageFeed) {
-            ellipse(200,200,200);
-            //resets the variable back to false so the feed 'animation' repeats everytime you click on the feed option
-            this.showImageFeed = false;
-        }
-
-        if(this.showImageWater) {
-            ellipse(100,100,100);
-            this.showImageWater = false;
-        }
-
-        if(this.showTextFeed) {
+        //display player, only displays if display player is true
+        if(this.displayPlayer) {
             push();
-            textSize(15);
-            textAlign(CENTER);
-            textFont('Georgia');
-            text('Maybe my pet plant could use some fertilizer...', width/2, height/2-15);
+            image(playerImg, player.x, player.y);
+            pop();
+        }
+
+        //display pet, only displays if display pet is true
+        if(this.displayPet) {
+            push();
+            image(flowerImg, pet.x, pet.y-25);
+            pop();
+        }
+
+        this.actionFeed();
+        this.actionWater();
+        this.actionMedecine();
+        this.actionInfoFeed();
+        this.actionInfoWater();
+        this.actionInfoMedecine();
+
+        //screen turns off if player selects off button (off screen asset goes over everything)
+        if(this.showOffScreen) {
+            //bgm stops when you turn the toy off
+            bgm.stop();
+            push();
+            imageMode(CENTER);
+            image(screenOffImg, toy.x, toy.y);
             pop();
         }
 
@@ -173,54 +193,180 @@ class Flower {
     }
 }
 
+actionFeed() {
+    //start time variable for the feed animation
+    let feedInterval;
+
+    //display the feed animation for one second, makes the player asset not show
+    if (this.showImageFeed) {
+        image(playerFeedImg, player.x, player.y);
+        this.displayPlayer = false;
+
+        //check if one second has passed since the feed frame was shown
+        if (!feedInterval) {
+            feedInterval = setInterval(() => {
+                clearInterval(feedInterval);
+                this.showImageFeed = false;
+                this.displayPlayer = true;
+            }, 1000);
+        }
+    }
+}
+
+actionWater() {
+    //start time interval for the water animation
+    let waterInterval;
+
+    //display the water animation, makes the player asset not show
+    if (this.showImageWater) {
+        image(playerWaterImg, player.x, player.y);
+        this.displayPlayer = false;
+
+        //check if one second has passed since the water frame was shown
+        if (!waterInterval) {
+            waterInterval = setInterval(() => {
+                clearInterval(waterInterval);
+                this.showImageWater = false;
+                this.displayPlayer = true;
+            }, 1000);
+        }
+    }
+}
+
+actionMedecine() {
+    //start time variable for the feed animation
+    let medecineInterval;
+
+    //display the feed animation for one second, makes the player asset not show
+    if (this.showImageMedecine) {
+        ellipse(200,200,200);
+        // image(playerFeedImg, player.x, player.y);
+        this.displayPlayer = false;
+
+        //check if one second has passed since the feed frame was shown
+        if (!medecineInterval) {
+            medecineInterval = setInterval(() => {
+                clearInterval(medecineInterval);
+                this.showImageMedecine = false;
+                this.displayPlayer = true;
+            }, 1000);
+        }
+    }
+}
+
+actionInfoFeed() {
+    //same thing as above but with showing text when you choose the info button and text displays for 2 secs
+    let feedTextInterval;
+
+    if(this.showTextFeed) {
+        push();
+        textSize(14);
+        textAlign(CENTER);
+        text('Maybe my pet could use some fertilizer...', width/2, height/2-15);
+        pop();
+        this.displayPlayer = false;
+        this.displayPet = false;
+
+        if (!feedTextInterval) {
+            feedTextInterval = setInterval(() => {
+                clearInterval(feedTextInterval);
+                this.showTextFeed = false;
+                this.displayPet = true;
+                this.displayPlayer = true;
+            }, 2000);
+        }
+    }
+}
+
+actionInfoWater() {
+    //same thing as above method for water text for info button
+    let waterTextInterval;
+
+    if(this.showTextWater) {
+        push();
+        textSize(14);
+        textAlign(CENTER);
+        text('Maybe my pet could use some water...', width/2, height/2-15);
+        pop();
+        this.displayPlayer = false;
+        this.displayPet = false;
+
+        if(!waterTextInterval) {
+            waterTextInterval = setInterval(() => {
+                clearInterval(waterTextInterval);
+                this.showTextWater = false;
+                this.displayPet = true;
+                this.displayPlayer = true;
+            }, 2000);
+        }
+    }
+}
+
+actionInfoMedecine() {
+    //same thing as above method for medecine text for info button
+    let medecineTextInterval;
+
+    if(this.showTextMedecine) {
+        push();
+        textSize(14);
+        text('Uh oh!', width/2, height/2-20);
+        text('Look like I need to use some pesticide.', width/2, height/2-5);
+        pop();
+        this.displayPlayer = false;
+        this.displayPet = false;
+
+        if(!medecineTextInterval) {
+            medecineTextInterval = setInterval(() => {
+                clearInterval(medecineTextInterval);
+                this.showTextMedecine = false;
+                this.displayPet = true;
+                this.displayPlayer = true;
+            }, 2000);
+        }
+    }
+}
+
     mousePressed() {
 
         if(mouseInsideCenterButton()) {
             //select button for on screen options
             buttonCenter.size = 50;
+
                 if (currentIndex === 0) {
-                    this.actionFeed();
+                    this.showImageFeed = true;
+                    this.fed = true;
                 }
                 else if (currentIndex === 1) {
-                    this.actionDrink();
+                    this.showImageWater = true;
+                    this.watered = true;
                 }
-                else if (currentIndex = 4) {
-                    this.actionMedecine();
+                else if(currentIndex === 4) {
+                    this.showImageMedecine = true;
+                    this.pesticide = true;
                 }
+
+                //the info action shows what the pet needs
                 else if (currentIndex === 6) {
-                    this.actionInfo();
+                    if (!this.fed) {
+                        this.showTextFeed = true;
+                    }
+                    //to prevent both texts from appearing at the same time, the water text shows up only if the pet has been fed, so the feed text is first to show up
+                    if (!this.watered && this.fed) {
+                        this.showTextWater = true;
+                    }
+                    //once the pet is watered and fed, it will attract pests and the info screen will let the player know you need to treat your pet
+                    if (this.fed && this.watered) {
+                        this.showTextMedecine = true;
+                    }
                 }
+                //turn the game off if you press the off option (makes the off screen appear in front of everything)
                 else if (currentIndex === 7) {
-                    currentState = new Title;
+                    this.showOffScreen = !this.showOffScreen; // Toggle the state
                 }
-                if (this.showTextFeed === true) {
-                    this.showTextFeed === false;
-                }
-        }
-    }
-
-    actionFeed() {
-
-        this.showImageFeed = true;
-        this.fed = true;
-    }
-
-    actionDrink() {
-
-        this.showImageWater = true;
-        this.watered = true;
-    }
-
-    actionMedecine() {
-        this.pesticide = true;
-    }
-
-    actionInfo() {
-        if (!this.fed) {
-            this.showTextFeed = true;
-        }
-        if (!this.water) {
-            this.showTextWater = true;
+            } 
+        //turn the game back on if you press the center button
+        else if (mouseInsideCenterButton() && this.showOffScreen) {
+            this.showOffScreen = false;
         }
     }
 

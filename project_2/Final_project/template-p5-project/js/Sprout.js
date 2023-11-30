@@ -301,7 +301,7 @@ class Sprout {
                         this.showTextFeed = true;
                     }
                     //to prevent both texts from appearing at the same time, the water text shows up only if the pet has been fed, so the feed text is first to show up
-                    if (!this.water && this.fed) {
+                    if (!this.watered && this.fed) {
                         this.showTextWater = true;
                     }
                 }

@@ -90,7 +90,7 @@ let options = [
 //the action option that is currently targetted
 let currentIndex = 0;
 
-let clickSFX = 'G2'; //clicking on button sfx
+let clickSFX = 'C2'; //clicking on button sfx
 let evolveSFX = 'E6'; //sound when pet evolves
 let synth = new p5.PolySynth();
 
