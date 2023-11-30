@@ -14,7 +14,7 @@ class Title {
         push();
         textAlign(CENTER);
         fill(0, 0, 255);
-        text(this.titleString, width/2, 200);
+        text(this.titleString, width/2, toy.y-400);
         pop();
 
         //screen starts off closed

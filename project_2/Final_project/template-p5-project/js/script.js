@@ -30,6 +30,8 @@ let noteImg;
 let flowerImg;
 let player2Img;
 let carnivoreImg;
+let playerFeedImg;
+let playerWaterImg;
 
 //variable for the font used (google font)
 let font;
@@ -93,10 +95,13 @@ let currentIndex = 0;
 */
 function preload() {
     
-    grainImg = loadImage("assets/images/grain.png");
+    //toy assets
+    noteImg = loadImage('assets/images/intro_note.png');
     toyImg = loadImage("assets/images/toy.png");
     screenImg = loadImage("assets/images/toy_screen.png");
     screenOffImg = loadImage("assets/images/toy_screen_off.png");
+
+    //option assets
     feedImg = loadImage("assets/images/n_feed.png");
     drinkImg = loadImage("assets/images/n_water.png");
     washImg = loadImage("assets/images/n_wash.png");
@@ -105,14 +110,21 @@ function preload() {
     talkImg = loadImage("assets/images/n_talk.png");
     infoImg = loadImage("assets/images/n_info.png");
     offImg = loadImage("assets/images/n_off.png");
+
+    //texture assets
+    grainImg = loadImage("assets/images/grain.png");
+    grimeImg = loadImage('assets/images/grime.png');
+
+    //player + pet assets
     playerImg = loadImage("assets/images/player1.gif");
+    playerFeedImg = loadImage('assets/images/player_feed.png');
+    playerWaterImg = loadImage('assets/images/player_water.png');
     sproutImg = loadImage("assets/images/pet_sprout.gif");
     player2Img = loadImage('assets/images/player2.gif');
     flowerImg = loadImage('assets/images/pet_flower.gif');
     carnivoreImg = loadImage('assets/images/pet_carnivore.gif');
-    grimeImg = loadImage('assets/images/grime.png');
-    noteImg = loadImage('assets/images/intro_note.png');
 
+    //font
     font = loadFont('assets/images/PixelifySans-Regular.ttf');
 
 }

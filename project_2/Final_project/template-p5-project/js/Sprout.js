@@ -9,6 +9,9 @@ class Sprout {
         this.showImageWater = false;
         this.showTextFeed = false;
         this.showTextWater = false;
+        this.displayPlayer = true;
+        this.displayPet = true;
+        //if this is true, the screen will appear as off
         this.showOffScreen = false;
 
     }
@@ -25,26 +28,52 @@ class Sprout {
         this.displayInfo();
         this.displayOff();
 
-        //display player
+        //display player\
+        if(this.displayPlayer) {
             push();
             image(playerImg, player.x, player.y);
             pop();
-
+        }
 
         //display pet
+        if(this.displayPet) {
             push();
             image(sproutImg, pet.x, pet.y);
             pop();
-
-        if(this.showImageFeed) {
-            ellipse(200,200,200);
-            //resets the variable back to false so the feed 'animation' repeats everytime you click on the feed option
-            this.showImageFeed = false;
         }
 
-        if(this.showImageWater) {
-            ellipse(100,100,100);
-            this.showImageWater = false;
+        //display the feed frame animation, makes the player asset not show
+        if (this.showImageFeed) {
+            image(playerFeedImg, player.x, player.y);
+            this.displayPlayer = false;
+
+        //check if one second has passed since the feed frame was shown
+            if (millis() - this.feedStartTime >= 1000) {
+                this.showImageFeed = false;
+                this.displayPlayer = true;
+            }
+        } 
+        
+        else {
+        //set the start time when image feed is not being shown
+        this.feedStartTime = millis();
+        }
+
+        //display the water animation, makes the player asset not show
+        if (this.showImageWater) {
+            image(playerWaterImg, player.x, player.y);
+            this.displayPlayer = false;
+
+            //check if one second has passed since the water frame was shown
+            if (millis() - this.waterStartTime >= 1000) {
+                this.showImageWater = false;
+                this.displayPlayer = true;
+            }
+        }
+
+        else {
+        //set the start time when image water is not being shown
+            this.waterStartTime = millis();
         }
 
         if(this.showTextFeed) {
@@ -226,7 +255,8 @@ class Sprout {
 
     checkEvolution() {
 
-        if(this.fed === true && this.watered === true) {
+        //if the pet has been fed and watered AND the player and pet are being displayed (ensuring that the feed/water animations are done playing) then the pet will evolve
+        if(this.fed === true && this.watered === true && this.displayPlayer && this.displayPet) {
             currentState = new Flower;
         }
     }
