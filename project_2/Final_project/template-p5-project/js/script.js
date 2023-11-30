@@ -14,6 +14,7 @@ let currentState;
 //variables for the image assets
 let toyImg;
 let screenImg;
+let screenOffImg;
 let feedImg;
 let drinkImg;
 let washImg;
@@ -23,6 +24,8 @@ let talkImg;
 let infoImg;
 let offImg;
 let grainImg;
+let grimeImg;
+let noteImg;
 
 let flowerImg;
 let player2Img;
@@ -90,6 +93,7 @@ function preload() {
     grainImg = loadImage("assets/images/grain.png");
     toyImg = loadImage("assets/images/toy.png");
     screenImg = loadImage("assets/images/toy_screen.png");
+    screenOffImg = loadImage("assets/images/toy_screen_off.png");
     feedImg = loadImage("assets/images/n_feed.png");
     drinkImg = loadImage("assets/images/n_water.png");
     washImg = loadImage("assets/images/n_wash.png");
@@ -103,6 +107,8 @@ function preload() {
     player2Img = loadImage('assets/images/player2.gif');
     flowerImg = loadImage('assets/images/pet_flower.gif');
     carnivoreImg = loadImage('assets/images/pet_carnivore.gif');
+    grimeImg = loadImage('assets/images/grime.png');
+    noteImg = loadImage('assets/images/intro_note.png');
 
 }
 
@@ -161,6 +167,13 @@ function draw() {
     leftButtonDisplay();
     centerButtonDisplay();
     rightButtonDisplay();
+
+    //display the grime over the toy
+    push();
+    imageMode(CENTER);
+    blendMode(DARKEST);
+    image(grimeImg, toy.x, toy.y);
+    pop();
 
     currentState.draw();
 

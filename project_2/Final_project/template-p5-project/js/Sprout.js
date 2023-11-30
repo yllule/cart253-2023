@@ -9,6 +9,7 @@ class Sprout {
         this.showImageWater = false;
         this.showTextFeed = false;
         this.showTextWater = false;
+        this.showOffScreen = false;
 
     }
 
@@ -52,6 +53,13 @@ class Sprout {
             textAlign(CENTER);
             textFont('Georgia');
             text('Maybe my pet plant could use some fertilizer...', width/2, height/2-15);
+            pop();
+        }
+
+        if(this.showOffScreen) {
+            push();
+            imageMode(CENTER);
+            image(screenOffImg, toy.x, toy.y);
             pop();
         }
 
@@ -186,41 +194,30 @@ class Sprout {
             //select button for on screen options
             buttonCenter.size = 50;
                 if (currentIndex === 0) {
-                    this.actionFeed();
+                    this.showImageFeed = true;
+                    this.fed = true;
                 }
                 else if (currentIndex === 1) {
-                    this.actionDrink();
+                    this.showImageWater = true;
+                    this.watered = true;
                 }
+
+                //shows what the pet needs
                 else if (currentIndex === 6) {
-                    this.actionInfo();
+                    if (!this.fed) {
+                        this.showTextFeed = true;
+                    }
+                    if (!this.water) {
+                        this.showTextWater = true;
+                    }
                 }
+                //turn the game off if you press the off option (makes the off screen appear in front of everything)
                 else if (currentIndex === 7) {
-                    currentState = new Title;
-                }
-                if (this.showTextFeed === true) {
-                    this.showTextFeed === false;
+                    this.showOffScreen = true
                 }
         }
-    }
-
-    actionFeed() {
-
-        this.showImageFeed = true;
-        this.fed = true;
-    }
-
-    actionDrink() {
-
-        this.showImageWater = true;
-        this.watered = true;
-    }
-
-    actionInfo() {
-        if (!this.fed) {
-            this.showTextFeed = true;
-        }
-        if (!this.water) {
-            this.showTextWater = true;
+        if(this.showOffScreen == true) {
+            this.showOffScreen = false;
         }
     }
 
