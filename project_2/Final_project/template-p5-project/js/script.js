@@ -31,6 +31,9 @@ let flowerImg;
 let player2Img;
 let carnivoreImg;
 
+//variable for the font used (google font)
+let font;
+
 //variables for the toy in its entirety, without the buttons or the main screen
 let toy = {
     x: 0,
@@ -110,6 +113,8 @@ function preload() {
     grimeImg = loadImage('assets/images/grime.png');
     noteImg = loadImage('assets/images/intro_note.png');
 
+    font = loadFont('assets/images/PixelifySans-Regular.ttf');
+
 }
 
 
@@ -120,9 +125,9 @@ function setup() {
     createCanvas(windowWidth, windowHeight);
 
     currentState = new Title();
-    textSize(50);
+    textSize(55);
     textAlign(CENTER, CENTER);
-    textFont('Georgia');
+    textFont(font);
 
     //setting up the position of the toy on the screen
     toy.x = width/2;
