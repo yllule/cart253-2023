@@ -6,9 +6,11 @@ class Monster {
         this.watered = false;
         this.disciplined = false;
         this.played = false;
+        this.washed = false;
         //if these are true, the feed, drink, info, medecine and talk "animation" will show
         this.showImageFeed = false;
         this.showImageWater = false;
+        this.showImageWash = false;
         this.showImageMedecine = false;
         this.showImagePlay = false;
         this.showImageTalk = false;
@@ -21,6 +23,8 @@ class Monster {
         this.displayPet = true;
         //if this is true, the screen will appear as off
         this.showOffScreen = false;
+
+        this.counter = 0; //variable to count how many times actionFeed() has happened
 
     }
 
@@ -59,6 +63,7 @@ class Monster {
         //methods for what happens when the user takes certain actions
         this.actionFeed();
         this.actionWater();
+        this.actionWash();
         this.actionPlay();
         this.actionMedecine();
         this.actionTalk();
@@ -66,17 +71,7 @@ class Monster {
         this.actionInfoWater();
         this.actionInfoPlay();
         this.actionInfoTalk();
-
-
-        //screen turns off if player selects off button (off screen asset goes over everything)
-        if(this.showOffScreen) {
-            //bgm stops when you turn the toy off
-            bgm.stop();
-            push();
-            imageMode(CENTER);
-            image(screenOffImg, toy.x, toy.y);
-            pop();
-        }
+        this.actionOff();
 
         //check if the sprout has been watered and fed and...medecined.., which will lead to the next state
         this.checkEvolution();
@@ -118,13 +113,12 @@ class Monster {
         displayWash() {
         if (currentIndex === 2) {
             push();
-            blendMode(REMOVE);
+            blendMode(HARD_LIGHT);
             image(washImg, toy.x+5, toy.y-113);
             pop();
         }
         else {
             push();
-            blendMode(SOFT_LIGHT);
             image(washImg, toy.x+5, toy.y-113);
             pop();
         }
@@ -246,6 +240,28 @@ actionWater() {
     }
 }
 
+actionWash() {
+        //start time interval for the wash animation
+        let washInterval;
+
+        //display the wash animation, makes the player asset not show
+        if (this.showImageWash) {
+            ellipse(200,200,200);
+            // image(playerWaterImg, player.x, player.y);
+            this.displayPlayer = false;
+    
+            //check if one second has passed since the wash frame was shown
+            if (!washInterval) {
+                washInterval = setInterval(() => {
+                    clearInterval(washInterval);
+                    this.showImageWash = false;
+                    this.displayPlayer = true;
+                }, 1000);
+            }
+        }
+
+}
+
 actionTalk() {
     //start time variable for the talk animation
     let talkInterval;
@@ -272,7 +288,7 @@ actionPlay() {
     //start time variable for the play animation
     let playInterval;
 
-    //display the medecine animation for one second, makes the player asset not show
+    //display the play animation for one second, makes the player asset not show
     if (this.showImagePlay) {
         image(carnivoreImg, pet.x, pet.y-58)
         image(ballImg, pet.x-25, pet.y-40);
@@ -408,6 +424,18 @@ actionInfoTalk() {
     }
 }
 
+actionOff() {
+    //screen turns off if player selects off button (off screen asset goes over everything)
+        if(this.showOffScreen) {
+            //bgm stops when you turn the toy off
+            bgm.stop();
+            push();
+            imageMode(CENTER);
+            image(screenOffImg, toy.x, toy.y);
+            pop();
+        }
+}
+
 mousePressed() {
 
         if(mouseInsideCenterButton()) {
@@ -417,16 +445,23 @@ mousePressed() {
                 if (currentIndex === 0) {
                     this.showImageFeed = true;
                     this.fed = true;
+                    this.counter = this.counter+1; //keeps track of how many times the pet has been fed
                 }
                 else if (currentIndex === 1) {
                     this.showImageWater = true;
                     this.watered = true;
                 }
 
+                else if(currentIndex === 2) {
+                    this.showImageWash = true;
+                    this.washed = true;
+                }
+
                 else if(currentIndex === 3) {
                     this.showImagePlay = true;
                     this.played = true;
                 }
+
                 else if(currentIndex === 4) {
                     this.showImageMedecine = true;
                 }
@@ -466,8 +501,8 @@ mousePressed() {
 
 checkEvolution() {
 
-        //the pet needs to be fed twice, watered, washed, played with and discipline before evolving
-        if(this.fed && this.watered && this.played && this.disciplined && this.displayPlayer && this.displayPet) {
+        //the pet needs to be fed twice(or more), watered, washed, played with and discipline before evolving
+        if(this.counter >= 2 && this.watered && this.played && this.disciplined && this.washed && this.displayPlayer && this.displayPet) {
             //audio for pet evolution
             synth.play(evolveSFX, 0.2, 0, 0.1);
             //change state to carnivore

@@ -62,19 +62,9 @@ class Flower {
         this.actionInfoFeed();
         this.actionInfoWater();
         this.actionInfoMedecine();
-
         //display of the pests
         this.pestsDisplay();
-
-        //screen turns off if player selects off button (off screen asset goes over everything)
-        if(this.showOffScreen) {
-            //bgm stops when you turn the toy off
-            bgm.stop();
-            push();
-            imageMode(CENTER);
-            image(screenOffImg, toy.x, toy.y);
-            pop();
-        }
+        this.actionOff();
 
         //check if the sprout has been watered and fed and...medecined.., which will lead to the next state
         this.checkEvolution();
@@ -354,6 +344,18 @@ pestsDisplay(){
     if(this.fed && this.watered) {
             image(pestsImg, pet.x, pet.y-45);
     }
+}
+
+actionOff() {
+    //screen turns off if player selects off button (off screen asset goes over everything)
+        if(this.showOffScreen) {
+            //bgm stops when you turn the toy off
+            bgm.stop();
+            push();
+            imageMode(CENTER);
+            image(screenOffImg, toy.x, toy.y);
+            pop();
+        }
 }
 
 mousePressed() {

@@ -66,17 +66,7 @@ class Carnivore {
         this.actionInfoWater();
         this.actionInfoPlay();
         this.actionInfoTalk();
-
-
-        //screen turns off if player selects off button (off screen asset goes over everything)
-        if(this.showOffScreen) {
-            //bgm stops when you turn the toy off
-            bgm.stop();
-            push();
-            imageMode(CENTER);
-            image(screenOffImg, toy.x, toy.y);
-            pop();
-        }
+        this.actionOff();
 
         //check if the sprout has been watered and fed and...medecined.., which will lead to the next state
         this.checkEvolution();
@@ -406,6 +396,18 @@ actionInfoTalk() {
             }, 2000);
         }
     }
+}
+
+actionOff() {
+    //screen turns off if player selects off button (off screen asset goes over everything)
+        if(this.showOffScreen) {
+            //bgm stops when you turn the toy off
+            bgm.stop();
+            push();
+            imageMode(CENTER);
+            image(screenOffImg, toy.x, toy.y);
+            pop();
+        }
 }
 
 mousePressed() {

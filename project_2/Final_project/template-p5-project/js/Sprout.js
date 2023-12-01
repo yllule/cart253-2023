@@ -55,17 +55,8 @@ class Sprout {
         this.actionWater();
         this.actionInfoFeed();
         this.actionInfoWater();
+        this.actionOff();
 
-
-        //screen turns off if player selects off button (off screen asset goes over everything)
-        if(this.showOffScreen) {
-            //bgm stops when you turn the toy off
-            bgm.stop();
-            push();
-            imageMode(CENTER);
-            image(screenOffImg, toy.x, toy.y);
-            pop();
-        }
 
         this.checkEvolution();
         
@@ -276,6 +267,19 @@ class Sprout {
                     this.displayPlayer = true;
                 }, 2000);
             }
+        }
+    }
+
+    actionOff() {
+
+    //screen turns off if player selects off button (off screen asset goes over everything)
+        if(this.showOffScreen) {
+            //bgm stops when you turn the toy off
+            bgm.stop();
+            push();
+            imageMode(CENTER);
+            image(screenOffImg, toy.x, toy.y);
+            pop();
         }
     }
 
