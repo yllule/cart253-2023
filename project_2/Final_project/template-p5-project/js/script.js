@@ -28,15 +28,20 @@ let offImg;
 let grainImg;
 let grimeImg;
 let noteImg;
+let toyShadowImg;
 
 let flowerImg;
 let player2Img;
 let carnivoreImg;
+let carnivoreFeedImg;
 let playerFeedImg;
+let playerFeed2Img;
 let playerWaterImg;
 let playerMedecineImg;
 let pestsImg;
 let talkBubble1Img;
+let talkBubble2Img;
+let ballImg;
 
 //variable for the font used (google font)
 let font;
@@ -126,18 +131,23 @@ function preload() {
     //texture assets
     grainImg = loadImage("assets/images/grain.png");
     grimeImg = loadImage('assets/images/grime.png');
+    toyShadowImg = loadImage('assets/images/toy_shadow.png');
 
     //player + pet assets
     playerImg = loadImage("assets/images/player1.gif");
     playerFeedImg = loadImage('assets/images/player_feed.png');
+    playerFeed2Img = loadImage('assets/images/player_feed2.png');
     playerWaterImg = loadImage('assets/images/player_water.png');
     playerMedecineImg = loadImage('assets/images/player_medecine.png');
     sproutImg = loadImage("assets/images/pet_sprout.gif");
     player2Img = loadImage('assets/images/player2.gif');
     flowerImg = loadImage('assets/images/pet_flower.gif');
     carnivoreImg = loadImage('assets/images/pet_carnivore.gif');
+    carnivoreFeedImg = loadImage('assets/images/pet_carnivore_feed.png');
     pestsImg = loadImage('assets/images/pests.gif');
     talkBubble1Img = loadImage('assets/images/talk1.png');
+    talkBubble2Img = loadImage('assets/images/talk2.png');
+    ballImg = loadImage('assets/images/ball.gif');
 
     //font
     font = loadFont('assets/images/PixelifySans-Regular.ttf');
@@ -184,6 +194,12 @@ function setup() {
 */
 function draw() {
     background(255);
+
+    //display of the toy shadow
+    push();
+    imageMode(CENTER);
+    image(toyShadowImg, toy.x+25, toy.y+25);
+    pop();
 
     //display of the toy
     push();

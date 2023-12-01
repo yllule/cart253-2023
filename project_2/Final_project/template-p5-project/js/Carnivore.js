@@ -206,8 +206,13 @@ class Carnivore {
 
     //display the feed animation for one second, makes the player asset not show
     if (this.showImageFeed) {
-        image(playerFeedImg, player.x, player.y);
+        image(playerFeed2Img, player.x, player.y);
+        push();
+        imageMode(CENTER);
+        image(carnivoreFeedImg, pet.x+25, pet.y+17); //strange values here cause i'm trying to perfectly place the asset
+        pop();
         this.displayPlayer = false;
+        this.displayPet = false;
 
         //check if one second has passed since the feed frame was shown
         if (!feedInterval) {
@@ -215,6 +220,7 @@ class Carnivore {
                 clearInterval(feedInterval);
                 this.showImageFeed = false;
                 this.displayPlayer = true;
+                this.displayPet = true;
             }, 1000);
         }
     }
@@ -246,13 +252,17 @@ actionTalk() {
 
     //display the talk animation for one second
     if (this.showImageTalk) {
-        image(talkBubble1Img, pet.x+55, pet.y-40);
+        image(talkBubble2Img, pet.x+65, pet.y-55);
+        image(carnivoreImg, pet.x, pet.y-58);
+        //i'm putting displaypet as false even though i'm adding the normal carnivore sprite to this animation, just so that the pet only evolves once the animation is done (petdisplay = true)
+        this.displayPet = false;
 
         //check if one second has passed since the talk frame was shown
         if (!talkInterval) {
             talkInterval = setInterval(() => {
                 clearInterval(talkInterval);
                 this.showImageTalk = false;
+                this.displayPet = true;
             }, 1000);
         }
     }
@@ -264,17 +274,18 @@ actionPlay() {
 
     //display the medecine animation for one second, makes the player asset not show
     if (this.showImagePlay) {
-        // image(playerPlayImg, player.x, player.y);
-        ellipse(200,200,200);
-        this.displayPlayer = false;
+        image(carnivoreImg, pet.x, pet.y-58)
+        image(ballImg, pet.x-25, pet.y-40);
+        //i'm putting displaypet as false even though i'm adding the normal carnivore sprite to this animation, just so that the pet only evolves once the animation is done (petdisplay = true)
+        this.displayPet = false;
 
         //check if one second has passed since the medecine frame was shown
         if (!playInterval) {
             playInterval = setInterval(() => {
                 clearInterval(playInterval);
                 this.showImagePlay = false;
-                this.displayPlayer = true;
-            }, 1000);
+                this.displayPet = true;
+            }, 4000);
         }
     }
 
@@ -308,7 +319,7 @@ actionInfoFeed() {
         push();
         textSize(14);
         textAlign(CENTER);
-        text('Maybe my pet looks hungry...', width/2, height/2-15);
+        text('My pet looks hungry...', width/2, height/2-15);
         pop();
         this.displayPlayer = false;
         this.displayPet = false;
@@ -435,7 +446,7 @@ mousePressed() {
                         this.showTextWater = true;
                         console.log('water')
                     }
-                    if (this.watered && this.fed && !this.disciplined && !this.played) {
+                    if (this.watered && this.fed && !this.played) {
                         this.showTextPlay = true;
                     }
                     if (this.watered && this.fed && this.played) {
