@@ -18,6 +18,13 @@ class Death {
         this.showOffScreen = false;
 
         this.counter = 0; //variable to count how many times actionFeed() has happened
+        this.ripBozo = false; //variable that turns true at the end of the animation where the pet eats the player
+
+        this.food = {
+            x : toy.x-129,
+            y: toy.y-65,
+            vy: 3 //speed that the food will fall down from
+        }
 
     }
 
@@ -63,10 +70,8 @@ class Death {
         this.actionInfoFeed();
         this.actionOff();
 
-        this.eaten();
-
-        //check if the sprout has been watered and fed and...medecined.., which will lead to the next state
-        // this.checkEvolution();
+        this.eaten();   //'animation' of the player avatar getting eaten
+        this.sentience(); //the final 'animation' that will play, after it's done, the next state begins
         
     }
 
@@ -191,11 +196,11 @@ class Death {
     let feedInterval;
 
     //display the feed animation for one second, makes the player asset not show
-    if (this.showImageFeed) {
+    if (this.showImageFeed && this.counter < 4) {
         image(playerFeed2Img, player.x, player.y);
         push();
         imageMode(CENTER);
-        image(monsterFeedImg, pet.x+25, pet.y-15); //strange values here cause i'm trying to perfectly place the asset
+        image(deathFeedImg, pet.x+20, pet.y-23); //strange values here cause i'm trying to perfectly place the asset
         pop();
         this.displayPlayer = false;
         this.displayPet = false;
@@ -217,7 +222,7 @@ actionWater() {
     let waterInterval;
 
     //display the water animation, makes the player asset not show
-    if (this.showImageWater) {
+    if (this.showImageWater && this.counter < 4) {
         image(playerWaterImg, player.x, player.y);
         this.displayPlayer = false;
 
@@ -237,7 +242,7 @@ actionWash() {
         let washInterval;
 
         //display the wash animation, makes the player asset not show
-        if (this.showImageWash) {
+        if (this.showImageWash && this.counter < 4) {
             image(playerWashImg, player.x, player.y);
             this.displayPlayer = false;
     
@@ -258,7 +263,7 @@ actionTalk() {
     let talkInterval;
 
     //display the talk animation for one second
-    if (this.showImageTalk) {
+    if (this.showImageTalk && this.counter < 4) {
         image(talkBubble3Img, pet.x+83, pet.y-55);
 
         //check if one second has passed since the talk frame was shown
@@ -276,7 +281,7 @@ actionPlay() {
     let playInterval;
 
     //display the play animation for one second, makes the player asset not show
-    if (this.showImagePlay) {
+    if (this.showImagePlay && this.counter < 4) {
         image(ballImg, pet.x-25, pet.y-40);
 
         //check if one second has passed since the medecine frame was shown
@@ -295,7 +300,7 @@ actionMedecine() {
     let medecineInterval;
 
     //display the medecine animation for one second, makes the player asset not show
-    if (this.showImageMedecine) {
+    if (this.showImageMedecine && this.counter < 4) {
         image(playerMedecineImg, player.x, player.y);
         this.displayPlayer = false;
 
@@ -347,7 +352,7 @@ actionInfoFeed() {
 
 actionOff() {
     //screen turns off if player selects off button (off screen asset goes over everything)
-        if(this.showOffScreen) {
+        if(this.showOffScreen && this.counter < 4) {
             //bgm stops when you turn the toy off
             bgm.stop();
             push();
@@ -358,14 +363,52 @@ actionOff() {
 }
 
 eaten() {
-    if(this.counter === 4) {
+    if(this.deathAnim) {
+        this.displayPet = false; //pet asset doesn't show bcz it gets replaced by animation
+        this.displayPlayer = false; //normal player asset doesn't show bcz they get eaten
         push();
         imageMode(CENTER);
-        image(sentienceGif, pet.x-15, pet.y-25);
+        image(sentienceGif, pet.x-30, pet.y-30);
         pop();
-        //animation
-        //boolean to show anim is done
-        console.log('nom');
+        let animInterval;
+
+        if(!animInterval && this.counter === 4) {
+            animInterval = setInterval(() => {
+                clearInterval(animInterval);
+                this.ripBozo = true;
+                this.deathAnim = false;
+            }, 7000);
+        }
+    }
+}
+
+sentience() {
+    //the final 'animation' that will play, after it's done, the crash state begins
+    if (this.ripBozo) {
+        image(foodImg, this.food.x, this.food.y - 20);
+        push();
+        imageMode(CENTER);
+        image(deathFeed2Img, pet.x-90, pet.y-30);
+        pop();
+
+        //food movement (falls down)
+        this.food.y = this.food.y + this.food.vy;
+
+        //food resets position
+        let reset = height / 2 - 10;
+        if (this.food.y > reset) {
+            this.food.y = toy.y - 65;
+        }
+
+        let anim2Interval;
+
+        //how long the monster will self feed before it switches to the next state
+        if(!anim2Interval) {
+            anim2Interval = setInterval(() => {
+                clearInterval(anim2Interval);
+                currentState = new Crash;
+            }, 1500);
+        }
     }
 }
 
@@ -379,6 +422,9 @@ mousePressed() {
                     this.showImageFeed = true;
                     this.fed = true;
                     this.counter = this.counter+1; //keeps track of how many times the pet has been fed
+                    if(this.counter === 4) {
+                        this.deathAnim = true; //this variable controls whether the player getting eaten animation will play (the eaten method)
+                    }
                 }
                 else if (currentIndex === 1) {
                     this.showImageWater = true;
@@ -416,15 +462,4 @@ mousePressed() {
             this.showOffScreen = false;
         }
 }
-
-// checkEvolution() {
-
-//         //the pet needs to be fed four times before it eats the player
-//         if(this.counter = 4) {
-//             //audio for pet evolution
-//             synth.play(evolveSFX, 0.2, 0, 0.1);
-//             //change state to carnivore
-//             currentState = new Death;
-//         }
-//     }
 }

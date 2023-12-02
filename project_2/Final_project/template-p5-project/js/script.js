@@ -37,6 +37,8 @@ let carnivoreFeedImg;
 let monsterImg;
 let monsterFeedImg;
 let deathImg;
+let deathFeedImg;
+let deathFeed2Img;
 let sentienceGif;
 let playerFeedImg;
 let playerFeed2Img;
@@ -48,6 +50,7 @@ let talkBubble1Img;
 let talkBubble2Img;
 let talkBubble3Img;
 let ballImg;
+let foodImg;
 
 //variable for the font used (google font)
 let font;
@@ -154,12 +157,15 @@ function preload() {
     monsterImg = loadImage('assets/images/pet_monster.gif');
     monsterFeedImg = loadImage('assets/images/pet_monster_feed.png');
     deathImg = loadImage('assets/images/pet_death.gif');
-    sentienceGif = loadImage('assets/images/sentience_anim.gif');
+    deathFeedImg = loadImage('assets/images/pet_death_feed.png');
+    deathFeed2Img = loadImage('assets/images/pet_death_feed2.png');
+    sentienceGif = loadImage('assets/images/sentience_anim2.gif');
     pestsImg = loadImage('assets/images/pests.gif');
     talkBubble1Img = loadImage('assets/images/talk1.png');
     talkBubble2Img = loadImage('assets/images/talk2.png');
     talkBubble3Img = loadImage('assets/images/talk3.png');
     ballImg = loadImage('assets/images/ball.gif');
+    foodImg = loadImage('assets/images/food.png');
 
     //font
     font = loadFont('assets/images/PixelifySans-Regular.ttf');
