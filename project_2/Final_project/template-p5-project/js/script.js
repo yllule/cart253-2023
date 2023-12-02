@@ -36,6 +36,7 @@ let carnivoreImg;
 let carnivoreFeedImg;
 let monsterImg;
 let monsterFeedImg;
+let deathImg;
 let playerFeedImg;
 let playerFeed2Img;
 let playerWaterImg;
@@ -151,6 +152,7 @@ function preload() {
     carnivoreFeedImg = loadImage('assets/images/pet_carnivore_feed.png');
     monsterImg = loadImage('assets/images/pet_monster.gif');
     monsterFeedImg = loadImage('assets/images/pet_monster_feed.png');
+    deathImg = loadImage('assets/images/pet_death.gif');
     pestsImg = loadImage('assets/images/pests.gif');
     talkBubble1Img = loadImage('assets/images/talk1.png');
     talkBubble2Img = loadImage('assets/images/talk2.png');
