@@ -359,6 +359,10 @@ actionOff() {
 
 eaten() {
     if(this.counter === 4) {
+        push();
+        imageMode(CENTER);
+        image(sentienceGif, pet.x-15, pet.y-25);
+        pop();
         //animation
         //boolean to show anim is done
         console.log('nom');
