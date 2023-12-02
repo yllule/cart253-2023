@@ -16,6 +16,7 @@ class Monster {
         this.showImageTalk = false;
         this.showTextFeed = false;
         this.showTextWater = false;
+        this.showTextWash = false;
         this.showTextPlay = false;
         this.showTextTalk = false;
         //these variables will turn off when action animations play
@@ -56,7 +57,7 @@ class Monster {
         //display pet, only displays if display pet is true
         if(this.displayPet) {
             push();
-            image(carnivoreImg, pet.x, pet.y-58);
+            image(monsterImg, pet.x, pet.y-75);
             pop();
         }
 
@@ -69,8 +70,12 @@ class Monster {
         this.actionTalk();
         this.actionInfoFeed();
         this.actionInfoWater();
+        this.actionInfoWash();
         this.actionInfoPlay();
         this.actionInfoTalk();
+        if(!this.washed && this.displayPlayer) {
+            this.pestsDisplay();
+        }
         this.actionOff();
 
         //check if the sprout has been watered and fed and...medecined.., which will lead to the next state
@@ -203,7 +208,7 @@ class Monster {
         image(playerFeed2Img, player.x, player.y);
         push();
         imageMode(CENTER);
-        image(carnivoreFeedImg, pet.x+25, pet.y+17); //strange values here cause i'm trying to perfectly place the asset
+        image(monsterFeedImg, pet.x+25, pet.y-15); //strange values here cause i'm trying to perfectly place the asset
         pop();
         this.displayPlayer = false;
         this.displayPet = false;
@@ -246,8 +251,7 @@ actionWash() {
 
         //display the wash animation, makes the player asset not show
         if (this.showImageWash) {
-            ellipse(200,200,200);
-            // image(playerWaterImg, player.x, player.y);
+            image(playerWashImg, player.x, player.y);
             this.displayPlayer = false;
     
             //check if one second has passed since the wash frame was shown
@@ -268,8 +272,8 @@ actionTalk() {
 
     //display the talk animation for one second
     if (this.showImageTalk) {
-        image(talkBubble2Img, pet.x+65, pet.y-55);
-        image(carnivoreImg, pet.x, pet.y-58);
+        image(talkBubble3Img, pet.x+83, pet.y-55);
+        image(monsterImg, pet.x, pet.y-75);
         //i'm putting displaypet as false even though i'm adding the normal carnivore sprite to this animation, just so that the pet only evolves once the animation is done (petdisplay = true)
         this.displayPet = false;
 
@@ -290,7 +294,7 @@ actionPlay() {
 
     //display the play animation for one second, makes the player asset not show
     if (this.showImagePlay) {
-        image(carnivoreImg, pet.x, pet.y-58)
+        image(monsterImg, pet.x, pet.y-75)
         image(ballImg, pet.x-25, pet.y-40);
         //i'm putting displaypet as false even though i'm adding the normal carnivore sprite to this animation, just so that the pet only evolves once the animation is done (petdisplay = true)
         this.displayPet = false;
@@ -375,6 +379,30 @@ actionInfoWater() {
     }
 }
 
+actionInfoWash() {
+    //same thing as above method for water text for info button
+    let washTextInterval;
+
+    if(this.showTextWash) {
+        push();
+        textSize(14);
+        textAlign(CENTER);
+        text('My pet is stinky!', width/2, height/2-15);
+        pop();
+        this.displayPlayer = false;
+        this.displayPet = false;
+
+        if(!washTextInterval) {
+            washTextInterval = setInterval(() => {
+                clearInterval(washTextInterval);
+                this.showTextWash = false;
+                this.displayPet = true;
+                this.displayPlayer = true;
+            }, 2000);
+        }
+    }
+}
+
 actionInfoPlay() {
     //same thing as above method for play text for info button
     let playTextInterval;
@@ -407,8 +435,8 @@ actionInfoTalk() {
         push();
         textSize(14);
         textAlign(CENTER);
-        text(`That was fun!`, width/2, height/2-20)
-        text(`I should praise my pet for being good.`, width/2, height/2-5);
+        text(`My pet is getting big!.`, width/2, height/2-20)
+        text(`I should discipline it.`, width/2, height/2-5);
         pop();
         this.displayPlayer = false;
         this.displayPet = false;
@@ -421,6 +449,13 @@ actionInfoTalk() {
                 this.displayPlayer = true;
             }, 2000);
         }
+    }
+}
+
+pestsDisplay(){
+    //when the pet is watered and fed and played with the pests will appear (here its like flies flocking to smth stinky yes im reusing this asset cause im lazy)
+    if(this.fed && this.watered && this.played) {
+            image(pestsImg, pet.x+10, pet.y-90);
     }
 }
 
@@ -479,13 +514,18 @@ mousePressed() {
                     //to prevent both texts from appearing at the same time, the water text shows up only if the pet has been fed, so the feed text is first to show up
                     if (!this.watered && this.fed) {
                         this.showTextWater = true;
-                        console.log('water')
                     }
                     if (this.watered && this.fed && !this.played) {
                         this.showTextPlay = true;
                     }
-                    if (this.watered && this.fed && this.played) {
+                    if (this.watered && this.fed && this.played && !this.washed) {
+                        this.showTextWash = true;
+                    }
+                    if (this.watered && this.fed && this.played && !this.disciplined && this.washed) {
                         this.showTextTalk = true;
+                    }
+                    if (this.watered && this.fed && this.played && this.washed && this.disciplined && this.counter < 2) {
+                        this.showTextFeed = true;
                     }
                 }
                 //turn the game off if you press the off option (makes the off screen appear in front of everything)

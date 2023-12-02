@@ -34,13 +34,17 @@ let flowerImg;
 let player2Img;
 let carnivoreImg;
 let carnivoreFeedImg;
+let monsterImg;
+let monsterFeedImg;
 let playerFeedImg;
 let playerFeed2Img;
 let playerWaterImg;
+let playerWashImg;
 let playerMedecineImg;
 let pestsImg;
 let talkBubble1Img;
 let talkBubble2Img;
+let talkBubble3Img;
 let ballImg;
 
 //variable for the font used (google font)
@@ -138,15 +142,19 @@ function preload() {
     playerFeedImg = loadImage('assets/images/player_feed.png');
     playerFeed2Img = loadImage('assets/images/player_feed2.png');
     playerWaterImg = loadImage('assets/images/player_water.png');
+    playerWashImg = loadImage('assets/images/player_wash.png');
     playerMedecineImg = loadImage('assets/images/player_medecine.png');
     sproutImg = loadImage("assets/images/pet_sprout.gif");
     player2Img = loadImage('assets/images/player2.gif');
     flowerImg = loadImage('assets/images/pet_flower.gif');
     carnivoreImg = loadImage('assets/images/pet_carnivore.gif');
     carnivoreFeedImg = loadImage('assets/images/pet_carnivore_feed.png');
+    monsterImg = loadImage('assets/images/pet_monster.gif');
+    monsterFeedImg = loadImage('assets/images/pet_monster_feed.png');
     pestsImg = loadImage('assets/images/pests.gif');
     talkBubble1Img = loadImage('assets/images/talk1.png');
     talkBubble2Img = loadImage('assets/images/talk2.png');
+    talkBubble3Img = loadImage('assets/images/talk3.png');
     ballImg = loadImage('assets/images/ball.gif');
 
     //font
