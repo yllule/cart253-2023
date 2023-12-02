@@ -370,6 +370,11 @@ eaten() {
         imageMode(CENTER);
         image(sentienceGif, pet.x-30, pet.y-30);
         pop();
+        //display the crack only once the player gets eaten
+        push();
+        imageMode(CENTER);
+        image(crackImg, toy.x, toy.y);
+        pop();
         let animInterval;
 
         if(!animInterval && this.counter === 4) {
@@ -400,6 +405,12 @@ sentience() {
             this.food.y = toy.y - 65;
         }
 
+        //display the crack
+        push();
+        imageMode(CENTER);
+        image(crackImg, toy.x, toy.y);
+        pop();
+
         let anim2Interval;
 
         //how long the monster will self feed before it switches to the next state
@@ -407,7 +418,7 @@ sentience() {
             anim2Interval = setInterval(() => {
                 clearInterval(anim2Interval);
                 currentState = new Crash;
-            }, 1500);
+            }, 1000);
         }
     }
 }

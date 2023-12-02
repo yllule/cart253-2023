@@ -15,6 +15,7 @@ let currentState;
 let toyImg;
 let screenImg;
 let screenOffImg;
+let eyeImg;
 
 let feedImg;
 let drinkImg;
@@ -29,6 +30,9 @@ let grainImg;
 let grimeImg;
 let noteImg;
 let toyShadowImg;
+let crackImg;
+let crack2Img;
+let brokenToyImg;
 
 let flowerImg;
 let player2Img;
@@ -40,6 +44,7 @@ let deathImg;
 let deathFeedImg;
 let deathFeed2Img;
 let sentienceGif;
+let petBirthImg;
 let playerFeedImg;
 let playerFeed2Img;
 let playerWaterImg;
@@ -126,6 +131,8 @@ function preload() {
     toyImg = loadImage("assets/images/toy.png");
     screenImg = loadImage("assets/images/toy_screen.png");
     screenOffImg = loadImage("assets/images/toy_screen_off.png");
+    brokenToyImg = loadImage('assets/images/toy_broken.png');
+    eyeImg = loadImage('assets/images/eye_screen.png');
 
     //option assets
     feedImg = loadImage("assets/images/n_feed.png");
@@ -141,6 +148,8 @@ function preload() {
     grainImg = loadImage("assets/images/grain.png");
     grimeImg = loadImage('assets/images/grime.png');
     toyShadowImg = loadImage('assets/images/toy_shadow.png');
+    crackImg = loadImage('assets/images/crack1.png');
+    crack2Img = loadImage('assets/images/crack2.png');
 
     //player + pet assets
     playerImg = loadImage("assets/images/player1.gif");
@@ -160,6 +169,7 @@ function preload() {
     deathFeedImg = loadImage('assets/images/pet_death_feed.png');
     deathFeed2Img = loadImage('assets/images/pet_death_feed2.png');
     sentienceGif = loadImage('assets/images/sentience_anim2.gif');
+    petBirthImg = loadImage('assets/images/monster_scare.png');
     pestsImg = loadImage('assets/images/pests.gif');
     talkBubble1Img = loadImage('assets/images/talk1.png');
     talkBubble2Img = loadImage('assets/images/talk2.png');

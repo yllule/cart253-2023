@@ -34,7 +34,7 @@ class Title {
     mousePressed() {
         //you have to press the center button to start the game
         if(mouseInsideCenterButton()) {
-        currentState = new Death;
+        currentState = new Crash;
         }
     }
 }
