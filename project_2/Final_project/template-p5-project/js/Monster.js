@@ -78,7 +78,7 @@ class Monster {
         }
         this.actionOff();
 
-        //check if the sprout has been watered and fed and...medecined.., which will lead to the next state
+
         this.checkEvolution();
         
     }
@@ -544,7 +544,8 @@ checkEvolution() {
         //the pet needs to be fed twice(or more), watered, washed, played with and discipline before evolving
         if(this.counter >= 2 && this.watered && this.played && this.disciplined && this.washed && this.displayPlayer && this.displayPet) {
             //audio for pet evolution
-            synth.play(evolveSFX, 0.2, 0, 0.1);
+            monsterEvolveSFX.setVolume(0.05);
+            monsterEvolveSFX.play();
             //change state to carnivore
             currentState = new Death;
         }

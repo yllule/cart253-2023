@@ -4,7 +4,7 @@ class Ending {
             //variable for title text
             this.titleString = 'Grow a Pet!'
             this.textString = 'Thanks for playing! Click to restart.'
-            this.creditString = 'Audio by :...';
+            this.creditString = 'Audio by : waveplaySFX, Prof.Mudkip, jeckkech, InspectorJ and Electrobuz on Freesound.org';
     
         }
     

@@ -12,13 +12,8 @@ class Crash {
 
     draw() {
 
-        //adding bg music
-        // if (!bgm.isPlaying()) {
-        //     bgm.setVolume(0.05);
-        //     bgm.loop();
-        // }
-
         bgm.stop();
+        oscillator.stop();
 
         //screen starts off closed
         push();
@@ -54,6 +49,7 @@ class Crash {
         if(!eyeInterval) {
             eyeInterval = setInterval(() => {
                 clearInterval(eyeInterval);
+                scareSFX.play();
                 this.finalScare = true;
                 this.eyed = true;
                 this.showEye = false;
@@ -64,11 +60,11 @@ class Crash {
 
     birth() {
         if(this.finalScare) {
+            monsterEvolveSFX.play();
             background(this.bg);
             this.bg = this.bg-10;
             push();
             imageMode(CENTER);
-            // background(10);
             image(brokenToyImg, toy.x, toy.y);
             image(petBirthImg, toy.x, toy.y-175, this.petSize, this.petSize);
             this.petSize = this.petSize + this.growthRate;
@@ -92,6 +88,8 @@ class Crash {
             //select button for on screen options
             buttonCenter.size = 50;
             this.showEye = true;
+            scareSFX.setVolume(0.08);
+            // scareSFX.play();
             }
     }
 }

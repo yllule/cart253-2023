@@ -8,7 +8,7 @@
 "use strict";
 
 //variable to store the current active state. there will be different states for different parts of the narrative
-//states include : title, intro?, sprout, flower, carnivore, death, monster, crash, crack, end
+//states order : title, sprout, flower, carnivore, monster, death, crash, ending
 let currentState;
 
 //variables for the image assets
@@ -117,9 +117,14 @@ let currentIndex = 0;
 let clickSFX = 'C2'; //clicking on button sfx
 let evolveSFX = 'E6'; //sound when pet evolves
 let synth = new p5.PolySynth();
+let oscillator;
 
 //variable for the background music
 let bgm;
+let monsterEvolveSFX;
+let deathSFX;
+let crackSFX;
+let scareSFX;
 
 /**
  * Description of preload
@@ -182,6 +187,12 @@ function preload() {
 
     //background music
     bgm = loadSound('assets/sounds/bgm.mp3');
+    monsterEvolveSFX = loadSound('assets/sounds/monster_evolve.wav');
+    deathSFX = loadSound('assets/sounds/death.wav');
+    crackSFX = loadSound('assets/sounds/crack.mp3');
+    scareSFX = loadSound('assets/sounds/scare.wav');
+    //creating an oscillator
+    oscillator = new p5.Oscillator(50, 'triangle');
 
 }
 
@@ -343,10 +354,3 @@ function mouseReleased() {
     buttonCenter.size = 55;
     buttonRight.size = 55;
 }
-
-
-//another note to self (for the narrative)
-//once it becomes clear to the player that the pet you're raising is a monster, would be nice if its like a jumpscare reveal with scary sound. maybe up until that point the game is silent or has calming music that gets interrupted
-//also once the player reaches the "final" stages of the pet's evolution, maybe the toy gets cracked
-//eventually (once the pet reaches final evolution) you can't choose any more options other than the off button since the screen is so cracked
-//once that's done, monster comes out of toy and end:)

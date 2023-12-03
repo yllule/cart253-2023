@@ -366,6 +366,10 @@ eaten() {
     if(this.deathAnim) {
         this.displayPet = false; //pet asset doesn't show bcz it gets replaced by animation
         this.displayPlayer = false; //normal player asset doesn't show bcz they get eaten
+        //player getting eaten audio
+        bgm.stop();
+
+        // deathSFX.play();
         push();
         imageMode(CENTER);
         image(sentienceGif, pet.x-30, pet.y-30);
@@ -390,6 +394,9 @@ eaten() {
 sentience() {
     //the final 'animation' that will play, after it's done, the crash state begins
     if (this.ripBozo) {
+        bgm.stop();
+        monsterEvolveSFX.setVolume(0.05);
+        monsterEvolveSFX.play();
         image(foodImg, this.food.x, this.food.y - 20);
         push();
         imageMode(CENTER);
@@ -434,6 +441,9 @@ mousePressed() {
                     this.fed = true;
                     this.counter = this.counter+1; //keeps track of how many times the pet has been fed
                     if(this.counter === 4) {
+                        deathSFX.setVolume(0.1);
+                        deathSFX.play();
+                        oscillator.start();
                         this.deathAnim = true; //this variable controls whether the player getting eaten animation will play (the eaten method)
                     }
                 }

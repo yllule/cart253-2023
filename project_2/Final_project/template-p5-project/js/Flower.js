@@ -66,7 +66,7 @@ class Flower {
         this.pestsDisplay();
         this.actionOff();
 
-        //check if the sprout has been watered and fed and...medecined.., which will lead to the next state
+        //check if the pet has been watered and fed and...medecined.., which will lead to the next state
         this.checkEvolution();
         
     }
