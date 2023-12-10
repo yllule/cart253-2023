@@ -58,11 +58,11 @@ function title() {
     fill(173, 184, 214);
     textAlign(CENTER, CENTER);
     textFont('Georgia');
-    text(`ENGL255 Final Project (illustration is still a work in progress)`, width/2, height/2);
+    text(`ENGL255 Final Project (illustration is still a work in progress sorry)`, width/2, height/2);
     textSize(35);
     text(`Use up and down arrow keys to scroll through the image.`, width/2, height/2+75);
     textSize(25);
-    text(`I hope you enjoy! :)`, width/2, height/2+125);
+    text(`Click to start`, width/2, height/2+125);
     pop();
 }
 
