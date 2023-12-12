@@ -41,7 +41,7 @@ function setup() {
  * Description of draw()
 */
 function draw() {
-    background(32, 51, 103);
+    background(24, 31, 55);
 
     if (state === `title`) {
         title();
@@ -54,15 +54,15 @@ function draw() {
 function title() {
     //title screen
     push();
-    textSize(30);
-    fill(173, 184, 214);
+    textSize(55);
+    fill(75, 142, 152);
     textAlign(CENTER, CENTER);
     textFont('Georgia');
-    text(`ENGL255 Final Project (illustration is still a work in progress sorry)`, width/2, height/2);
+    text(`ENGL255 Final Project`, width/2, height/2);
     textSize(35);
-    text(`Use up and down arrow keys to scroll through the image.`, width/2, height/2+75);
-    textSize(25);
-    text(`Click to start`, width/2, height/2+125);
+    text(`Use up and down arrow keys to scroll through the image`, width/2, height/2+75);
+    textSize(30);
+    text(`Click to start`, width/2, height/2+200);
     pop();
 }
 
